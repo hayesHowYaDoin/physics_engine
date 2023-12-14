@@ -1,4 +1,4 @@
-target_sources(test_cpp_source_template 
+target_sources(test_physics_backend 
     PRIVATE
         test_example.cpp
 )
