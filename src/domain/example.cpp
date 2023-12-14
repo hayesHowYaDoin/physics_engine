@@ -1,5 +1,5 @@
-#include "example/example.hpp"
-#include "example/example_p.hpp"
+#include "domain/example.hpp"
+#include "domain/example_p.hpp"
 
 #include <iostream>
 
