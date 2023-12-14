@@ -1,8 +1,5 @@
 @startuml SpawnParticle
 
-' Set background color
-skinparam backgroundColor #F8F8FF
-
 actor User
 participant "Particle Creator" as Creator
 participant "World Repository" as Repository
