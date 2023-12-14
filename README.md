@@ -1,11 +1,7 @@
-# C++ Library Template
+# Physics Backend
 
-This repository hosts a template to be used as a starting point for creating 
-standard C++ libraries. The layout is inspired by the 
-[Pitchfork Layout (PFL)][1], and uses a Docker Dev Container with VSCode. The 
-included example code provides an example of how to utilize the layout in 
-order to create a split between private and public headers using the 
-[pImpl pattern][2].
+This library is intended to serve as a backend for applications utilizing 
+complex physics equations and collision detection.
 
 ## Prerequisites
 
@@ -18,7 +14,7 @@ in a Dev Container.
 
 1) Clone the repository onto the host computer with the following command:
    ```
-    git clone https://github.com/hayesHowYaDoin/header_template.git
+    git clone https://github.com/hayesHowYaDoin/physics_backend.git
    ```
 2) Open the folder in VSCode. In the Command Palette (Ctrl+Shift+P), execute 
 the command "Dev Containers: Open Folder In Container..."
