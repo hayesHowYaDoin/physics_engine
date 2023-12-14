@@ -26,9 +26,11 @@ else()
     set(CMAKE_CXX_COMPILER g++-13)
 endif()
 
+add_library(cpp_source_template STATIC)
+add_library(template::example ALIAS cpp_source_template)
+
 add_subdirectory(src)
 
-add_library(template::example ALIAS cpp_source_template)
 target_include_directories(cpp_source_template 
     PUBLIC 
         include

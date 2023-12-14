@@ -1,5 +1,5 @@
 
-#include "example/example.hpp"
+#include "domain/example.hpp"
 
 #include <gtest/gtest.h>
 

@@ -2,9 +2,12 @@ find_package(GTest REQUIRED)
 
 enable_testing()
 
-add_executable(test_cpp_source_template
-    example/test_example.cpp
-)
+add_executable(test_cpp_source_template)
+
+add_subdirectory(domain)
+# add_subdirectory(usecases)
+# add_subdirectory(adapters)
+# add_subdirectory(infrastructure)
 
 target_link_libraries(test_cpp_source_template
     PUBLIC
