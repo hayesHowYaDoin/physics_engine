@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.28 FATAL_ERROR)
 set(CMAKE_EXPERIMENTAL_CXX_MODULE_CMAKE_API aa1f7df0-828a-4fcd-9afc-2dc80491aca7)
 
-project(cpp_source_template)
+project(physics_backend VERSION 0.1.0 LANGUAGES CXX)
 
 if(NOT "${CMAKE_GENERATOR}" STREQUAL "Ninja Multi-Config")
     message(WARNING "It's recommended to use -G \"Ninja Multi-Config\" for this project (using: ${CMAKE_GENERATOR}).")
@@ -26,12 +26,11 @@ else()
     set(CMAKE_CXX_COMPILER g++-13)
 endif()
 
-add_library(cpp_source_template STATIC)
-add_library(template::example ALIAS cpp_source_template)
+add_library(physics_backend STATIC)
 
 add_subdirectory(src)
 
-target_include_directories(cpp_source_template 
+target_include_directories(physics_backend 
     PUBLIC 
         include
     PRIVATE

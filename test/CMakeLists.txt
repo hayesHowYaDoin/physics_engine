@@ -2,19 +2,19 @@ find_package(GTest REQUIRED)
 
 enable_testing()
 
-add_executable(test_cpp_source_template)
+add_executable(test_physics_backend)
 
 add_subdirectory(domain)
 # add_subdirectory(usecases)
 # add_subdirectory(adapters)
 # add_subdirectory(infrastructure)
 
-target_link_libraries(test_cpp_source_template
+target_link_libraries(test_physics_backend
     PUBLIC
         GTest::GTest
         GTest::Main
-        template::example
+        physics_backend
 )
 
 include(GoogleTest)
-gtest_discover_tests(test_cpp_source_template)
+gtest_discover_tests(test_physics_backend)
