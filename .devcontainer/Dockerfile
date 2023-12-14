@@ -51,5 +51,10 @@ RUN cmake -DCMAKE_CXX_FLAGS=-std=c++1z   -DCMAKE_BUILD_TYPE=Release -DBUILD_SHAR
 WORKDIR "/"
 RUN rm -rf googletest
 
+# Install Java and Graphviz (PlantUML)
+RUN echo "************************ Java ************************"
+RUN apt-get install -y openjdk-11-jdk
+RUN apt-get install -y graphviz
+
 # Uninstall standard version of GCC
 RUN apt-get remove -y gcc-9 g++-9
