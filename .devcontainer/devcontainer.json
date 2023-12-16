@@ -16,10 +16,11 @@
                 "piotrkosek.vscode-gtest-test-adapter-with-code-lens",
                 "ms-azuretools.vscode-docker",
                 "yzhang.markdown-all-in-one",
+                "jebbs.plantuml",
                 "github.copilot",
                 "github.copilot-chat"
             ]
         }
     }
-    
+
 }

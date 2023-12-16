@@ -1,0 +1,12 @@
+@startuml SpawnParticle
+
+actor User
+participant "Particle Creator" as Creator
+participant "World Repository" as Repository
+
+User -> Creator: sendRequest(size, coordinate, velocity)
+Creator -> Repository: addObject(Particle)
+Repository -> Creator: sendResponse(SuccessStatus)
+Creator -> User: sendResponse(SuccessStatus)
+
+@enduml
