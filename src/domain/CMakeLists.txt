@@ -1,4 +1,4 @@
 target_sources(physics_backend
     PRIVATE
-        example.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/degrees.cpp
 )

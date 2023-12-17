@@ -1,7 +1,4 @@
 {
-    "cmake.configureSettings": {
-        "CMAKE_GENERATOR": "Ninja Multi-Config"
-    },
     "files.associations": {
         "*.tcc": "cpp",
         "*.ixx": "cpp",
