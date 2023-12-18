@@ -51,6 +51,6 @@ TEST(AngleDegreesTest, LiteralOperator)
 {
     using namespace domain::literals;
 
-    domain::AngleDegrees angle { 45.0_degrees };
+    domain::AngleDegrees angle { 45.0_deg };
     EXPECT_FLOAT_EQ(angle(), 45.0f);
 }
