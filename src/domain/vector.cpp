@@ -1,4 +1,4 @@
-#include "domain/math.hpp"
+#include "domain/constants.hpp"
 #include "domain/vector.hpp"
 
 #include <cmath>
