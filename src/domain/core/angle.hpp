@@ -1,7 +1,7 @@
 #ifndef DOMAIN_DEGREES_HPP
 #define DOMAIN_DEGREES_HPP
 
-#include "domain/constants.hpp"
+#include "domain/core/constants.hpp"
 
 #include <compare>
 #include <string>

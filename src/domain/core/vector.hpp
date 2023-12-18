@@ -1,7 +1,7 @@
 #ifndef DOMAIN_VECTOR_HPP
 #define DOMAIN_VECTOR_HPP
 
-#include "domain/angle.hpp"
+#include "domain/core/angle.hpp"
 
 #include <tuple>
 

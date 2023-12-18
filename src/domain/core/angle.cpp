@@ -1,4 +1,4 @@
-#include "domain/angle.hpp"
+#include "domain/core/angle.hpp"
 
 #include <cmath>
 #include <stdexcept>

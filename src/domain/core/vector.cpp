@@ -1,5 +1,5 @@
-#include "domain/constants.hpp"
-#include "domain/vector.hpp"
+#include "domain/core/constants.hpp"
+#include "domain/core/vector.hpp"
 
 #include <cmath>
 
