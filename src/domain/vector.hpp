@@ -1,16 +1,37 @@
-#ifndef VECTOR_HPP
-#define VECTOR_HPP
+#ifndef DOMAIN_VECTOR_HPP
+#define DOMAIN_VECTOR_HPP
 
-#include "domain/degrees.hpp"
-#include "domain/magnitude.hpp"
+#include "domain/angle.hpp"
 
-struct PhysicsVector {
-    Magnitude magnitude;
-    AngleDegrees direction;
+#include <tuple>
 
-    operator +(const PhysicsVector<T>& other) const {
-        return PhysicsVector<T>{magnitude + other.magnitude, direction};
-    }
+namespace domain
+{
+
+class PhysicsVector
+{
+public:
+    PhysicsVector(float magnitude, domain::Angle angle);
+
+    float getMagnitude() const;
+
+    domain::Angle getAngle() const;
+
+    PhysicsVector operator+(const PhysicsVector& other) const;
+
+    PhysicsVector operator-(const PhysicsVector& other) const;
+
+    PhysicsVector operator*(float scalar) const;
+
+    PhysicsVector operator/(float scalar) const;
+    
+    static std::tuple<float, float> getComponents(PhysicsVector const& vector);
+
+private:
+    float m_magnitude;
+    domain::Angle m_angle;
 };
 
-#endif // VECTOR_HPP
+} // namespace domain
+
+#endif // DOMAIN_VECTOR_HPP
