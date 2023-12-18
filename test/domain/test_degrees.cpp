@@ -46,3 +46,11 @@ TEST(AngleDegreesTest, Constrain)
     domain::AngleDegrees angleNegative(-200.0f);
     EXPECT_FLOAT_EQ(angleNegative(), 160.0f);
 }
+
+TEST(AngleDegreesTest, LiteralOperator)
+{
+    using namespace domain::literals;
+
+    domain::AngleDegrees angle { 45.0_degrees };
+    EXPECT_FLOAT_EQ(angle(), 45.0f);
+}

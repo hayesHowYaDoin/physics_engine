@@ -1,6 +1,9 @@
 #ifndef DOMAIN_DEGREES_HPP
 #define DOMAIN_DEGREES_HPP
 
+#include <concepts>
+#include <string>
+
 namespace domain
 {
 
@@ -19,6 +22,11 @@ private:
 
     float const m_value;
 };
+
+namespace literals
+{
+    AngleDegrees operator"" _degrees(long double value);
+}
 
 } // namespace domain
 

@@ -43,4 +43,12 @@ float AngleDegrees::constrain(float value) const
     return value;
 }
 
+namespace literals
+{
+    AngleDegrees operator"" _degrees(long double value)
+    {
+        return AngleDegrees{static_cast<float>(value)};
+    }
+}
+
 } // namespace domain
