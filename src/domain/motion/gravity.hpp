@@ -7,9 +7,9 @@
 namespace domain::motion
 {
 
-PhysicsVector forceGravity(float mass, float gravity)
+Vector2D forceGravity(float mass, float gravity)
 {
-    return PhysicsVector(mass * gravity, Angle::fromDegrees(-90.0f));
+    return Vector2D(mass * gravity, Angle::fromDegrees(-90.0f));
 }
 
 }

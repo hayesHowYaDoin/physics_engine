@@ -9,24 +9,24 @@
 namespace domain
 {
 
-class PhysicsVector
+class Vector2D
 {
 public:
-    PhysicsVector(float magnitude, Angle const& angle);
+    Vector2D(float magnitude, Angle const& angle);
 
     float getMagnitude() const;
 
-    Angle getAngle() const;
+    domain::Angle getAngle() const;
 
-    PhysicsVector operator+(const PhysicsVector& other) const;
+    Vector2D operator+(const Vector2D& other) const;
 
-    PhysicsVector operator-(const PhysicsVector& other) const;
+    Vector2D operator-(const Vector2D& other) const;
 
-    PhysicsVector operator*(float scalar) const;
+    Vector2D operator*(float scalar) const;
 
-    PhysicsVector operator/(float scalar) const;
+    Vector2D operator/(float scalar) const;
     
-    static domain::core::Coordinates getComponents(PhysicsVector const& vector);
+    static domain::Coordinates2D getComponents(Vector2D const& vector);
 
 private:
     float m_magnitude;

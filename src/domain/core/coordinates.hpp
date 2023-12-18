@@ -1,10 +1,10 @@
 #ifndef DOMAIN_CORE_COORDINATES_HPP
 #define DOMAIN_CORE_COORDINATES_HPP
 
-namespace domain::core
+namespace domain
 {
 
-    struct Coordinates
+    struct Coordinates2D
     {
         float x;
         float y;

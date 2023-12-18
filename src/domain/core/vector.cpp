@@ -6,7 +6,7 @@
 namespace domain
 {
 
-PhysicsVector::PhysicsVector(float magnitude, domain::Angle const& angle) :
+Vector2D::Vector2D(float magnitude, domain::Angle const& angle) :
     m_magnitude { magnitude },
     m_angle { std::move(angle) }
 {
@@ -19,17 +19,17 @@ PhysicsVector::PhysicsVector(float magnitude, domain::Angle const& angle) :
     }
 }
 
-float PhysicsVector::getMagnitude() const
+float Vector2D::getMagnitude() const
 {
     return m_magnitude;
 }
 
-domain::Angle PhysicsVector::getAngle() const
+domain::Angle Vector2D::getAngle() const
 {
     return m_angle;
 }
 
-PhysicsVector PhysicsVector::operator+(PhysicsVector const& other) const
+Vector2D Vector2D::operator+(Vector2D const& other) const
 {
     auto [thisX, thisY] { getComponents(*this) };
     auto [otherX, otherY] { getComponents(other) };
@@ -40,10 +40,10 @@ PhysicsVector PhysicsVector::operator+(PhysicsVector const& other) const
     float resultMagnitude { std::sqrt(resultX * resultX + resultY * resultY) };
     domain::Angle resultAngle { Angle::fromRadians(std::atan2(resultY, resultX)) };
 
-    return PhysicsVector(resultMagnitude, std::move(resultAngle));
+    return Vector2D(resultMagnitude, std::move(resultAngle));
 }
 
-PhysicsVector PhysicsVector::operator-(PhysicsVector const& other) const
+Vector2D Vector2D::operator-(Vector2D const& other) const
 {
     auto [thisX, thisY] { getComponents(*this) };
     auto [otherX, otherY] { getComponents(other) };
@@ -54,20 +54,20 @@ PhysicsVector PhysicsVector::operator-(PhysicsVector const& other) const
     float resultMagnitude { std::sqrt(resultX * resultX + resultY * resultY) };
     domain::Angle resultAngle { Angle::fromRadians(std::atan2(resultY, resultX)) };
 
-    return PhysicsVector(resultMagnitude, std::move(resultAngle));
+    return Vector2D(resultMagnitude, std::move(resultAngle));
 }
 
-PhysicsVector PhysicsVector::operator*(float scalar) const
+Vector2D Vector2D::operator*(float scalar) const
 {
-    return PhysicsVector(m_magnitude * scalar, std::move(m_angle));
+    return Vector2D(m_magnitude * scalar, std::move(m_angle));
 }
 
-PhysicsVector PhysicsVector::operator/(float scalar) const
+Vector2D Vector2D::operator/(float scalar) const
 {
-    return PhysicsVector(m_magnitude / scalar, std::move(m_angle));
+    return Vector2D(m_magnitude / scalar, std::move(m_angle));
 }
 
-domain::core::Coordinates PhysicsVector::getComponents(PhysicsVector const& vector)
+domain::Coordinates2D Vector2D::getComponents(Vector2D const& vector)
 {
     using namespace domain::math;
 
