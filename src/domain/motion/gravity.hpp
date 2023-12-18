@@ -4,15 +4,12 @@
 #include "domain/core/vector.hpp"
 
 
-namespace domain
+namespace domain::motion
 {
 
-namespace motion
+PhysicsVector forceGravity(float mass, float gravity)
 {
-    constexpr PhysicsVector forceGravity(float mass, float gravity)
-    {
-        return PhysicsVector(mass * gravity, Angle::fromDegrees(270.0f));
-    }
+    return PhysicsVector(mass * gravity, Angle::fromDegrees(-90.0f));
 }
 
 }

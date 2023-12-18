@@ -2,6 +2,7 @@
 #define DOMAIN_VECTOR_HPP
 
 #include "domain/core/angle.hpp"
+#include "domain/core/coordinates.hpp"
 
 #include <tuple>
 
@@ -11,11 +12,11 @@ namespace domain
 class PhysicsVector
 {
 public:
-    PhysicsVector(float magnitude, domain::Angle const& angle);
+    PhysicsVector(float magnitude, Angle const& angle);
 
     float getMagnitude() const;
 
-    domain::Angle getAngle() const;
+    Angle getAngle() const;
 
     PhysicsVector operator+(const PhysicsVector& other) const;
 
@@ -25,7 +26,7 @@ public:
 
     PhysicsVector operator/(float scalar) const;
     
-    static std::tuple<float, float> getComponents(PhysicsVector const& vector);
+    static domain::core::Coordinates getComponents(PhysicsVector const& vector);
 
 private:
     float m_magnitude;

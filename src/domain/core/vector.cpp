@@ -67,7 +67,7 @@ PhysicsVector PhysicsVector::operator/(float scalar) const
     return PhysicsVector(m_magnitude / scalar, std::move(m_angle));
 }
 
-std::tuple<float, float> PhysicsVector::getComponents(PhysicsVector const& vector)
+domain::core::Coordinates PhysicsVector::getComponents(PhysicsVector const& vector)
 {
     using namespace domain::math;
 
