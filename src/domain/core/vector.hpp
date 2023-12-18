@@ -1,5 +1,5 @@
-#ifndef DOMAIN_VECTOR_HPP
-#define DOMAIN_VECTOR_HPP
+#ifndef DOMAIN_CORE_VECTOR_HPP
+#define DOMAIN_CORE_VECTOR_HPP
 
 #include "domain/core/angle.hpp"
 #include "domain/core/coordinates.hpp"
@@ -16,7 +16,7 @@ public:
 
     float getMagnitude() const;
 
-    domain::Angle getAngle() const;
+    Angle getAngle() const;
 
     Vector2D operator+(const Vector2D& other) const;
 
@@ -26,13 +26,13 @@ public:
 
     Vector2D operator/(float scalar) const;
     
-    static domain::Coordinates2D getComponents(Vector2D const& vector);
+    static Coordinates2D getComponents(Vector2D const& vector);
 
 private:
     float m_magnitude;
-    domain::Angle m_angle;
+    Angle m_angle;
 };
 
 } // namespace domain
 
-#endif // DOMAIN_VECTOR_HPP
+#endif // DOMAIN_CORE_VECTOR_HPP

@@ -6,11 +6,11 @@
 namespace domain
 {
 
-Vector2D::Vector2D(float magnitude, domain::Angle const& angle) :
+Vector2D::Vector2D(float magnitude, Angle const& angle) :
     m_magnitude { magnitude },
     m_angle { std::move(angle) }
 {
-    using namespace domain::literals;
+    using namespace literals;
 
     if(m_magnitude < 0.0f)
     {
@@ -24,7 +24,7 @@ float Vector2D::getMagnitude() const
     return m_magnitude;
 }
 
-domain::Angle Vector2D::getAngle() const
+Angle Vector2D::getAngle() const
 {
     return m_angle;
 }
@@ -38,7 +38,7 @@ Vector2D Vector2D::operator+(Vector2D const& other) const
     float resultY { thisY + otherY };
 
     float resultMagnitude { std::sqrt(resultX * resultX + resultY * resultY) };
-    domain::Angle resultAngle { Angle::fromRadians(std::atan2(resultY, resultX)) };
+    Angle resultAngle { Angle::fromRadians(std::atan2(resultY, resultX)) };
 
     return Vector2D(resultMagnitude, std::move(resultAngle));
 }
@@ -52,7 +52,7 @@ Vector2D Vector2D::operator-(Vector2D const& other) const
     float resultY { thisY - otherY };
 
     float resultMagnitude { std::sqrt(resultX * resultX + resultY * resultY) };
-    domain::Angle resultAngle { Angle::fromRadians(std::atan2(resultY, resultX)) };
+    Angle resultAngle { Angle::fromRadians(std::atan2(resultY, resultX)) };
 
     return Vector2D(resultMagnitude, std::move(resultAngle));
 }
@@ -69,10 +69,8 @@ Vector2D Vector2D::operator/(float scalar) const
 
 domain::Coordinates2D Vector2D::getComponents(Vector2D const& vector)
 {
-    using namespace domain::math;
-
-    float x { vector.getMagnitude() * cos(vector.getAngle()) };
-    float y { vector.getMagnitude() * sin(vector.getAngle()) };
+    float x { vector.getMagnitude() * domain::math::cos(vector.getAngle()) };
+    float y { vector.getMagnitude() * domain::math::sin(vector.getAngle()) };
 
     return { x, y };
 }

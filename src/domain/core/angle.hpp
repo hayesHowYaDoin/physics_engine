@@ -1,5 +1,5 @@
-#ifndef DOMAIN_DEGREES_HPP
-#define DOMAIN_DEGREES_HPP
+#ifndef DOMAIN_CORE_DEGREES_HPP
+#define DOMAIN_CORE_DEGREES_HPP
 
 #include "domain/core/constants.hpp"
 
