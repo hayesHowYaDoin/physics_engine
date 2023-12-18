@@ -2,7 +2,10 @@
 
 #include <gtest/gtest.h>
 
-constexpr float REQUIRED_PRECISION = 0.001f;
+namespace
+{
+    constexpr float REQUIRED_PRECISION = 0.001f;
+}
 
 TEST(AngleTest, FromDegrees)
 {

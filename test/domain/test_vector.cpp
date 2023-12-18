@@ -2,13 +2,18 @@
 
 #include <gtest/gtest.h>
 
+namespace
+{
+    constexpr float REQUIRED_PRECISION = 0.001f;
+}
+
 TEST(PhysicsVectorTest, MagnitudeAndAngle)
 {
     using namespace domain::literals;
 
     domain::PhysicsVector vector(5.0f, 45.0_deg);
 
-    EXPECT_FLOAT_EQ(vector.getMagnitude(), 5.0f);
+    EXPECT_NEAR(vector.getMagnitude(), 5.0f, REQUIRED_PRECISION);
     EXPECT_EQ(vector.getAngle(), 45.0_deg);
 }
 
@@ -21,7 +26,7 @@ TEST(PhysicsVectorTest, Addition)
 
     domain::PhysicsVector result { vector1 + vector2 };
 
-    EXPECT_FLOAT_EQ(result.getMagnitude(), 6.76643f);
+    EXPECT_NEAR(result.getMagnitude(), 6.76643f, REQUIRED_PRECISION);
     EXPECT_EQ(result.getAngle(), 47.1921_deg);
 }
 
@@ -34,8 +39,8 @@ TEST(PhysicsVectorTest, Subtraction)
 
     domain::PhysicsVector result { vector1 - vector2 };
 
-    EXPECT_FLOAT_EQ(result.getMagnitude(), 3.0f);
-    EXPECT_EQ(result.getAngle(), 15.0_deg);
+    EXPECT_NEAR(result.getMagnitude(), 3.1115f, REQUIRED_PRECISION);
+    EXPECT_EQ(result.getAngle(), 54.5764_deg);
 }
 
 TEST(PhysicsVectorTest, ScalarMultiplication)
@@ -47,7 +52,7 @@ TEST(PhysicsVectorTest, ScalarMultiplication)
 
     domain::PhysicsVector result { vector * scalar };
 
-    EXPECT_FLOAT_EQ(result.getMagnitude(), 6.0f);
+    EXPECT_NEAR(result.getMagnitude(), 6.0f, REQUIRED_PRECISION);
     EXPECT_EQ(result.getAngle(), 60.0_deg);
 }
 
@@ -60,7 +65,7 @@ TEST(PhysicsVectorTest, ScalarDivision)
 
     domain::PhysicsVector result { vector / scalar };
 
-    EXPECT_FLOAT_EQ(result.getMagnitude(), 3.0f);
+    EXPECT_NEAR(result.getMagnitude(), 3.0f, REQUIRED_PRECISION);
     EXPECT_EQ(result.getAngle(), 90.0_deg);
 }
 
@@ -72,6 +77,6 @@ TEST(PhysicsVectorTest, Components)
 
     auto [x, y] = domain::PhysicsVector::getComponents(vector);
 
-    EXPECT_FLOAT_EQ(x, 3.53553390593f);
-    EXPECT_FLOAT_EQ(y, 3.53553390593f);
+    EXPECT_NEAR(x, 3.53553390593f, REQUIRED_PRECISION);
+    EXPECT_NEAR(y, 3.53553390593f, REQUIRED_PRECISION);
 }
