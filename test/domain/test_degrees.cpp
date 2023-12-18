@@ -44,5 +44,5 @@ TEST(AngleDegreesTest, Constrain)
     EXPECT_FLOAT_EQ(anglePositive(), -160.0f);
 
     domain::AngleDegrees angleNegative(-200.0f);
-    EXPECT_FLOAT_EQ(anglePositive(), 160.0f);
+    EXPECT_FLOAT_EQ(angleNegative(), 160.0f);
 }
