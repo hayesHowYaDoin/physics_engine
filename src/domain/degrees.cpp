@@ -45,7 +45,7 @@ float AngleDegrees::constrain(float value) const
 
 namespace literals
 {
-    AngleDegrees operator"" _degrees(long double value)
+    AngleDegrees operator"" _deg(long double value)
     {
         return AngleDegrees{static_cast<float>(value)};
     }

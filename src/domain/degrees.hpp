@@ -25,8 +25,10 @@ private:
 
 namespace literals
 {
-    AngleDegrees operator"" _degrees(long double value);
-}
+
+    AngleDegrees operator"" _deg(long double value);
+
+} // namespace literals
 
 } // namespace domain
 
