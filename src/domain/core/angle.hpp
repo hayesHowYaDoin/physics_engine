@@ -50,20 +50,25 @@ private:
     float m_degrees;
 };
 
-constexpr float cos(Angle const& angle)
+namespace math
 {
-    return std::cos(angle.inRadians());
-}
 
-constexpr float sin(Angle const& angle)
-{
-    return std::sin(angle.inRadians());
-}
+    constexpr float cos(Angle const& angle)
+    {
+        return std::cos(angle.inRadians());
+    }
 
-constexpr float tan(Angle const& angle)
-{
-    return std::tan(angle.inRadians());
-}
+    constexpr float sin(Angle const& angle)
+    {
+        return std::sin(angle.inRadians());
+    }
+
+    constexpr float tan(Angle const& angle)
+    {
+        return std::tan(angle.inRadians());
+    }
+
+} // namespace math
 
 namespace literals
 {

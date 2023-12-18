@@ -103,21 +103,21 @@ TEST(AngleTest, RadiansLiteral)
 TEST(AngleTest, Cos)
 {
     domain::Angle angle = domain::Angle::fromDegrees(60.0f);
-    float result = domain::cos(angle);
+    float result = domain::math::cos(angle);
     EXPECT_NEAR(result, 0.5f, REQUIRED_PRECISION);
 }
 
 TEST(AngleTest, Sin)
 {
     domain::Angle angle = domain::Angle::fromDegrees(30.0f);
-    float result = domain::sin(angle);
+    float result = domain::math::sin(angle);
     EXPECT_NEAR(result, 0.5f, REQUIRED_PRECISION);
 }
 
 TEST(AngleTest, Tan)
 {
     domain::Angle angle = domain::Angle::fromDegrees(45.0f);
-    float result = domain::tan(angle);
+    float result = domain::math::tan(angle);
     EXPECT_NEAR(result, 1.0f, REQUIRED_PRECISION);
 }
 

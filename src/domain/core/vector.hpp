@@ -11,7 +11,7 @@ namespace domain
 class PhysicsVector
 {
 public:
-    PhysicsVector(float magnitude, domain::Angle angle);
+    PhysicsVector(float magnitude, domain::Angle const& angle);
 
     float getMagnitude() const;
 

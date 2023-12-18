@@ -6,9 +6,9 @@
 namespace domain
 {
 
-PhysicsVector::PhysicsVector(float magnitude, domain::Angle angle) :
+PhysicsVector::PhysicsVector(float magnitude, domain::Angle const& angle) :
     m_magnitude { magnitude },
-    m_angle { angle }
+    m_angle { std::move(angle) }
 {
     using namespace domain::literals;
 
@@ -40,7 +40,7 @@ PhysicsVector PhysicsVector::operator+(PhysicsVector const& other) const
     float resultMagnitude { std::sqrt(resultX * resultX + resultY * resultY) };
     domain::Angle resultAngle { Angle::fromRadians(std::atan2(resultY, resultX)) };
 
-    return PhysicsVector(resultMagnitude, resultAngle);
+    return PhysicsVector(resultMagnitude, std::move(resultAngle));
 }
 
 PhysicsVector PhysicsVector::operator-(PhysicsVector const& other) const
@@ -54,23 +54,25 @@ PhysicsVector PhysicsVector::operator-(PhysicsVector const& other) const
     float resultMagnitude { std::sqrt(resultX * resultX + resultY * resultY) };
     domain::Angle resultAngle { Angle::fromRadians(std::atan2(resultY, resultX)) };
 
-    return PhysicsVector(resultMagnitude, resultAngle);
+    return PhysicsVector(resultMagnitude, std::move(resultAngle));
 }
 
 PhysicsVector PhysicsVector::operator*(float scalar) const
 {
-    return PhysicsVector(m_magnitude * scalar, m_angle);
+    return PhysicsVector(m_magnitude * scalar, std::move(m_angle));
 }
 
 PhysicsVector PhysicsVector::operator/(float scalar) const
 {
-    return PhysicsVector(m_magnitude / scalar, m_angle);
+    return PhysicsVector(m_magnitude / scalar, std::move(m_angle));
 }
 
 std::tuple<float, float> PhysicsVector::getComponents(PhysicsVector const& vector)
 {
-    float x { vector.getMagnitude() * domain::cos(vector.getAngle()) };
-    float y { vector.getMagnitude() * domain::sin(vector.getAngle()) };
+    using namespace domain::math;
+
+    float x { vector.getMagnitude() * cos(vector.getAngle()) };
+    float y { vector.getMagnitude() * sin(vector.getAngle()) };
 
     return { x, y };
 }
