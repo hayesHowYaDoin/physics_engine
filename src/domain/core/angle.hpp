@@ -2,6 +2,7 @@
 #define DOMAIN_CORE_DEGREES_HPP
 
 #include "domain/core/constants.hpp"
+#include "domain/core/units.hpp"
 
 #include <compare>
 #include <string>
@@ -11,8 +12,8 @@ namespace domain
 
 class Angle {
 public:
-    static Angle fromDegrees(float degrees);
-    static Angle fromRadians(float radians);
+    static Angle fromDegrees(units::Degrees degrees);
+    static Angle fromRadians(units::Radians radians);
 
     constexpr float inDegrees() const
     {
@@ -33,21 +34,21 @@ public:
     bool operator==(const Angle& other) const;
 
 private:
-    Angle(float degrees);
+    Angle(units::Degrees degrees);
 
-    static float constrain(float value);
+    static float constrain(units::Degrees value);
 
-    static constexpr float toRadians(float degrees)
+    static constexpr units::Radians toRadians(units::Degrees degrees)
     {
         return degrees * domain::constants::PI / 180.0f;
     }
 
-    static constexpr float toDegrees(float radians)
+    static constexpr units::Degrees toDegrees(units::Radians radians)
     {
         return radians * 180.0f / domain::constants::PI;
     }
 
-    float m_degrees;
+    units::Degrees m_degrees;
 };
 
 namespace math
