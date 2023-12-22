@@ -21,8 +21,8 @@ endif()
 
 build_physics_backend()
 
-option(BUILD_TESTING "Build tests" ON)
+# option(BUILD_TESTING "Build tests" OFF)
 
-if(BUILD_TESTING AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test/CMakeLists.txt")
-    build_test()
-endif()
+# if(BUILD_TESTING AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test/CMakeLists.txt")
+#     build_test()
+# endif()

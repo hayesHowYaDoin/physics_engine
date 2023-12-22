@@ -11,6 +11,10 @@ function(build_physics_backend)
             ${CMAKE_SOURCE_DIR}/include
         PRIVATE
             ${CMAKE_SOURCE_DIR}/src
-            ${CMAKE_SOURCE_DIR}/libs
-    )    
+    ) 
+
+    target_link_libraries(physics_backend
+        PRIVATE
+            units::units)
+            
 endfunction()

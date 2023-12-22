@@ -1,2 +1,4 @@
-add_subdirectory(core)
-add_subdirectory(motion)
+target_sources(physics_backend 
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/vector.cpp
+)
