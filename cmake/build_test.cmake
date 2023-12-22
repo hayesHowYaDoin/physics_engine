@@ -1,5 +1,4 @@
 function(build_test)
-    # Add your custom logic here
     message("${CMAKE_CURRENT_SOURCE_DIR}: Building tests...")
 
     # Suppress GTest warnings
