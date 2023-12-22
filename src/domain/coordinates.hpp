@@ -6,12 +6,34 @@
 
 namespace domain
 {
+    #include <units.h> // Add this line
 
-    template<LengthUnit Length>
-    struct Coordinates2D
+    class Coordinates2D
     {
-        LengthUnit x;
-        LengthUnit y;
+    public:
+        template<LengthUnit Length>
+        constexpr Coordinates2D(Length x, Length y): 
+            m_x {x},
+            m_y {y}
+        {
+            // Intentionally blank.
+        }
+
+        template<LengthUnit Length>
+        [[nodiscard]] constexpr Length getX() const
+        {
+            return m_x;
+        }
+
+        template<LengthUnit Length>
+        [[nodiscard]] constexpr Length getY() const
+        {
+            return m_y;
+        }
+
+    private:
+        units::meters<double> m_x;
+        units::meters<double> m_y;
     };
 
 } // namespace domain

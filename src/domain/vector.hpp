@@ -19,15 +19,12 @@ namespace domain
             // Intentionally blank.
         }
 
-        template <LengthUnit Coord1Type, LengthUnit Coord2Type>
-        constexpr Vector2D(
-            Coordinates2D<Coord1Type> start, 
-            Coordinates2D<Coord2Type> end) :
-            m_angle {std::atan2(end.y - start.y, end.x - start.x)},
-            m_magnitude {std::hypot(end.y - start.y, end.x - start.x)}
-        {
-            // Intentionally blank.
-        }
+        // constexpr Vector2D(Coordinates2D components) :
+        //     m_angle {units::atan(components.getY() / components.getX())},
+        //     m_magnitude {units::sqrt(units::pow(components.getX(), 2) + units::pow(components.getY(), 2))}
+        // {
+        //     // Intentionally blank.
+        // }
 
         template <AngleUnit AngleType>
         [[nodiscard]] constexpr AngleType getAngle() const
@@ -41,18 +38,18 @@ namespace domain
             return m_magnitude;
         }
 
-        template <LengthUnit CoordType>
-        [[nodiscard]] constexpr Coordinates2D<CoordType> getComponents() const
-        {
-            auto x { m_magnitude * std::cos(m_angle) };
-            auto y { m_magnitude * std::sin(m_angle) };
+        // [[nodiscard]] constexpr Coordinates2D getComponents() const
+        // {
+        //     units::meters<double> x = units::unit_cast<double>(m_magnitude) * units::cos(m_angle);
+        //     units::meters<double> y = m_magnitude * units::sin(m_angle);
 
-            return {x, y};
-        }
+        //     return Coordinates2D(x, y);
+        //     return Coordinates2D()
+        // }
 
     private:
-        AngleUnit m_angle;
-        ForceUnit m_magnitude;
+        units::degrees<double> m_angle;
+        units::newtons<double> m_magnitude;
     };
 
 } // namespace domain
