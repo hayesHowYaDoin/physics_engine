@@ -7,26 +7,17 @@
 namespace domain
 {
 
+struct Vector2D
+{
     template <IsMagnitudeUnit MagnitudeType>
-    class Vector2D
+    class Impl
     {
     public:
-        constexpr Vector2D(MagnitudeType x, MagnitudeType y):
+        constexpr Impl(MagnitudeType x, MagnitudeType y):
             m_x {x},
             m_y {y}
         {
-            // Intentionally blank
-        }
-
-        template <IsAngleUnit AngleType>
-        static Vector2D<MagnitudeType> fromPolar(
-            AngleType angle,
-            MagnitudeType magnitude)
-        {
-            auto x {magnitude * units::cos(units::angle::radians(angle))};
-            auto y {magnitude * units::sin(units::angle::radians(angle))};
-
-            return Vector2D(x, y);
+            // Intentionally blank.
         }
 
         template <IsMagnitudeUnit RetType>
@@ -53,46 +44,74 @@ namespace domain
             return RetType(units::sqrt(m_x * m_x + m_y * m_y));
         }
 
-        template <IsMagnitudeUnit OtherMagnitudeType>
-        [[nodiscard]] constexpr
-        auto operator+(Vector2D<OtherMagnitudeType> const& other) const
-        {
-            constexpr auto x {m_x + other.getX()};
-            constexpr auto y {m_y + other.getY()};
-
-            return Vector2D(x, y);
-        }
-
-        template <IsMagnitudeUnit OtherMagnitudeType>
-        [[nodiscard]] constexpr
-        auto operator-(Vector2D<OtherMagnitudeType> const& other) const
-        {
-            constexpr auto x {m_x - other.getX()};
-            constexpr auto y {m_y - other.getY()};
-
-            return Vector2D(x, y);
-        }
-
-        [[nodiscard]] constexpr auto operator*(long double scalar) const
-        {
-            constexpr auto x {m_x * scalar};
-            constexpr auto y {m_y * scalar};
-
-            return Vector2D(x, y);
-        }
-
-        [[nodiscard]] constexpr auto operator/(long double scalar) const
-        {
-            constexpr auto x {m_x / scalar};
-            constexpr auto y {m_y / scalar};
-
-            return Vector2D(x, y);
-        }
-
     private:
-        MagnitudeType m_x;
-        MagnitudeType m_y;
+        MagnitudeType const m_x;
+        MagnitudeType const m_y;
     };
+
+    template <IsMagnitudeUnit MagnitudeType>
+    static constexpr Impl<MagnitudeType> fromComponents(
+        MagnitudeType x,
+        MagnitudeType y)
+    {
+        return Impl<MagnitudeType> {x, y};
+    }
+
+    template <IsMagnitudeUnit MagnitudeType, IsAngleUnit AngleType>
+    static Impl<MagnitudeType> fromPolar(
+        AngleType angle,
+        MagnitudeType magnitude)
+    {
+        auto x {magnitude * units::cos(units::angle::radians(angle))};
+        auto y {magnitude * units::sin(units::angle::radians(angle))};
+
+        return Impl<MagnitudeType> {x, y};
+    }
+};
+
+template <IsMagnitudeUnit RhsType, IsMagnitudeUnit LhsType>
+[[nodiscard]] constexpr
+auto operator+(
+    Vector2D::Impl<LhsType> const& lhs,
+    Vector2D::Impl<RhsType> const& rhs) noexcept
+{
+    auto x {lhs.template getX<LhsType>() + rhs.template getX<LhsType>()};
+    auto y {lhs.template getY<LhsType>() + rhs.template getY<LhsType>()};
+
+    return Vector2D::Impl(x, y);
+}
+
+template <IsMagnitudeUnit RhsType, IsMagnitudeUnit LhsType>
+[[nodiscard]] constexpr
+auto operator-(
+    Vector2D::Impl<LhsType> const& lhs,
+    Vector2D::Impl<RhsType> const& rhs) noexcept
+{
+    auto x {lhs.template getX<LhsType>() - rhs.template getX<LhsType>()};
+    auto y {lhs.template getY<LhsType>() - rhs.template getY<LhsType>()};
+
+    return Vector2D::Impl(x, y);
+}
+
+template <IsMagnitudeUnit LhsType>
+[[nodiscard]] constexpr 
+auto operator*(Vector2D::Impl<LhsType> const& lhs, long double rhs) noexcept
+{
+    auto x {lhs.template getX<LhsType>() * rhs};
+    auto y {lhs.template getY<LhsType>() * rhs};
+
+    return Vector2D::Impl(x, y);
+}
+
+template <IsMagnitudeUnit LhsType>
+[[nodiscard]] constexpr
+auto operator/(Vector2D::Impl<LhsType> const& lhs, long double rhs) noexcept
+{
+    auto x {lhs.template getX<LhsType>() / rhs};
+    auto y {lhs.template getY<LhsType>() / rhs};
+
+    return Vector2D::Impl(x, y);
+}
 
 } // namespace domain
 

@@ -6,57 +6,102 @@
 
 static constexpr auto REQUIRED_PRECISION {0.000'001f};
 
-TEST(VectorTest, ConstructFromAngleAndMagnitude)
-{
-    using namespace units::literals;
-
-    constexpr auto vector {domain::Vector2D(45.0_deg, 10.0_N)};
-
-    constexpr auto angle {vector.getAngle<units::angle::degrees<float>>()};
-    EXPECT_NEAR(angle.to<float>(), 45.0f, REQUIRED_PRECISION);
-
-    constexpr auto magnitude {vector.getMagnitude<units::force::newtons<float>>()};
-    EXPECT_NEAR(magnitude.to<float>(), 10.0f, REQUIRED_PRECISION);
-
-    constexpr auto components {vector.getComponents<units::force::newtons<float>>()};
-    EXPECT_NEAR(components.x.to<float>(), 7.071'068f, REQUIRED_PRECISION);
-    EXPECT_NEAR(components.y.to<double>(), 7.071'068f, REQUIRED_PRECISION);
-}
-
 TEST(VectorTest, ConstructFromComponents)
 {
     using namespace units::literals;
 
-    constexpr auto vector = domain::Vector2D(10.0_N, 10.0_N);
+    constexpr auto vector {domain::Vector2D::fromComponents(10.0_N, 10.0_N)};
 
-    constexpr auto angle {vector.getAngle<units::angle::degrees<float>>()};
+    auto angle {vector.getAngle<units::angle::degrees<float>>()};
     EXPECT_NEAR(angle.to<float>(), 45.0f, REQUIRED_PRECISION);
 
     constexpr auto magnitude {vector.getMagnitude<units::force::newtons<float>>()};
     EXPECT_NEAR(magnitude.to<float>(), 14.142'136f, REQUIRED_PRECISION);
 
-    constexpr auto components {vector.getComponents<units::force::newtons<float>>()};
-    EXPECT_NEAR(components.x.to<float>(), 10.0f, REQUIRED_PRECISION);
-    EXPECT_NEAR(components.y.to<float>(), 10.0f, REQUIRED_PRECISION);
+    constexpr auto x {vector.getX<units::force::newtons<float>>()};
+    EXPECT_NEAR(x.to<float>(), 10.0f, REQUIRED_PRECISION);
+
+    constexpr auto y {vector.getY<units::force::newtons<float>>()};
+    EXPECT_NEAR(y.to<float>(), 10.0f, REQUIRED_PRECISION);
 }
 
-TEST(VectorTest, CopyConstructor)
+TEST(VectorTest, ConstructFromAngleAndMagnitude)
 {
     using namespace units::literals;
 
-    constexpr auto vector1 {domain::Vector2D(10.0_N, 10.0_N)};
-    constexpr auto vector2 {domain::Vector2D(vector1)};
+    auto vector {domain::Vector2D::fromPolar(45.0_deg, 10.0_N)};
 
-    constexpr auto angle1 {vector1.getAngle<units::angle::radians<float>>()};
-    constexpr auto angle2 {vector2.getAngle<units::angle::radians<float>>()};
-    EXPECT_NEAR(angle1.to<float>(), angle2.to<float>(), REQUIRED_PRECISION);
+    auto angle {vector.getAngle<units::angle::degrees<float>>()};
+    EXPECT_NEAR(angle.to<float>(), 45.0f, REQUIRED_PRECISION);
 
-    constexpr auto magnitude1 {vector1.getMagnitude<units::force::pounds<float>>()};
-    constexpr auto magnitude2 {vector2.getMagnitude<units::force::pounds<float>>()};
-    EXPECT_NEAR(magnitude1.to<float>(), magnitude2.to<float>(), REQUIRED_PRECISION);
+    auto magnitude {vector.getMagnitude<units::force::newtons<float>>()};
+    EXPECT_NEAR(magnitude.to<float>(), 10.0f, REQUIRED_PRECISION);
 
-    constexpr auto components1 {vector1.getComponents<units::force::pounds<float>>()};
-    constexpr auto components2 {vector2.getComponents<units::force::pounds<float>>()};
-    EXPECT_NEAR(components1.x.to<float>(), components2.x.to<float>(), REQUIRED_PRECISION);
-    EXPECT_NEAR(components1.y.to<float>(), components2.y.to<float>(), REQUIRED_PRECISION);
+    auto x {vector.getX<units::force::newtons<float>>()};
+    EXPECT_NEAR(x.to<float>(), 7.071'068f, REQUIRED_PRECISION);
+
+    auto y {vector.getY<units::force::newtons<float>>()};
+    EXPECT_NEAR(y.to<double>(), 7.071'068f, REQUIRED_PRECISION);
+}
+
+TEST(VectorTest, AddVectors)
+{
+    using namespace units::literals;
+
+    constexpr auto vector1 {domain::Vector2D::fromComponents(10.0_N, 10.0_N)};
+    constexpr auto vector2 {domain::Vector2D::fromComponents(10.0_N, 10.0_N)};
+
+    constexpr auto vector3 {vector1 + vector2};
+
+    constexpr auto x {vector3.getX<units::force::newtons<float>>()};
+    EXPECT_NEAR(x.to<float>(), 20.0f, REQUIRED_PRECISION);
+
+    constexpr auto y {vector3.getY<units::force::newtons<float>>()};
+    EXPECT_NEAR(y.to<float>(), 20.0f, REQUIRED_PRECISION);
+}
+
+TEST(VectorTest, SubtractVectors)
+{
+    using namespace units::literals;
+
+    constexpr auto vector1 {domain::Vector2D::fromComponents(20.0_N, 20.0_N)};
+    constexpr auto vector2 {domain::Vector2D::fromComponents(10.0_N, 10.0_N)};
+
+    constexpr auto vector3 {vector1 - vector2};
+
+    constexpr auto x {vector3.getX<units::force::newtons<float>>()};
+    EXPECT_NEAR(x.to<float>(), 10.0f, REQUIRED_PRECISION);
+
+    constexpr auto y {vector3.getY<units::force::newtons<float>>()};
+    EXPECT_NEAR(y.to<float>(), 10.0f, REQUIRED_PRECISION);
+}
+
+TEST(VectorTest, MultiplyVectorByScalar)
+{
+    using namespace units::literals;
+
+    constexpr auto vector1 {domain::Vector2D::fromComponents(10.0_N, 10.0_N)};
+
+    constexpr auto vector2 {vector1 * 2.0f};
+
+    constexpr auto x {vector2.getX<units::force::newtons<float>>()};
+    EXPECT_NEAR(x.to<float>(), 20.0f, REQUIRED_PRECISION);
+
+    constexpr auto y {vector2.getY<units::force::newtons<float>>()};
+    EXPECT_NEAR(y.to<float>(), 20.0f, REQUIRED_PRECISION);
+}
+
+TEST(VectorTest, DivideVectorByScalar)
+{
+    using namespace units::literals;
+
+    constexpr auto vector1 {domain::Vector2D::fromComponents(20.0_N, 20.0_N)};
+
+    constexpr auto vector2 {vector1 / 2.0f};
+
+    constexpr auto x {vector2.getX<units::force::newtons<float>>()};
+    EXPECT_NEAR(x.to<float>(), 10.0f, REQUIRED_PRECISION);
+
+    constexpr auto y {vector2.getY<units::force::newtons<float>>()};
+    EXPECT_NEAR(y.to<float>(), 10.0f, REQUIRED_PRECISION);
 }
