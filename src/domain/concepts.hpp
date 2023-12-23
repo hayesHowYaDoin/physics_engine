@@ -6,41 +6,44 @@
 namespace domain
 {
 
-    template<typename Number>
-    concept NumberType = std::is_arithmetic_v<Number>;
+    template<typename UnitType>
+    concept IsUnit = units::traits::is_unit_v<UnitType>;
 
-    template<typename Units>
-    concept AreaUnit = units::traits::is_area_unit_v<Units>;
+    template<typename UnitType>
+    concept IsNumberType = std::is_arithmetic_v<UnitType>;
 
-    template<typename Units>
-    concept LengthUnit = units::traits::is_length_unit_v<Units>;
+    template<typename UnitType>
+    concept IsAreaUnit = units::traits::is_area_unit_v<UnitType>;
 
-    template<typename Units>
-    concept VolumeUnit = units::traits::is_volume_unit_v<Units>;
+    template<typename UnitType>
+    concept IsLengthUnit = units::traits::is_length_unit_v<UnitType>;
 
-    template<typename Units>
-    concept MassUnit = units::traits::is_mass_unit_v<Units>;
+    template<typename UnitType>
+    concept IsVolumeUnit = units::traits::is_volume_unit_v<UnitType>;
 
-    template<typename Units>
-    concept TimeUnit = units::traits::is_time_unit_v<Units>;
+    template<typename UnitType>
+    concept IsMassUnit = units::traits::is_mass_unit_v<UnitType>;
 
-    template<typename Units>
-    concept VelocityUnit = units::traits::is_velocity_unit_v<Units>;
+    template<typename UnitType>
+    concept IsTimeUnit = units::traits::is_time_unit_v<UnitType>;
 
-    template<typename Units>
-    concept AccelerationUnit = units::traits::is_acceleration_unit_v<Units>;
+    template<typename UnitType>
+    concept IsVelocityUnit = units::traits::is_velocity_unit_v<UnitType>;
 
-    template<typename Units>
-    concept ForceUnit = units::traits::is_force_unit_v<Units>;
+    template<typename UnitType>
+    concept IsAccelerationUnit = units::traits::is_acceleration_unit_v<UnitType>;
 
-    template<typename Units>
-    concept AngleUnit = units::traits::is_angle_unit_v<Units>;
+    template<typename UnitType>
+    concept IsForceUnit = units::traits::is_force_unit_v<UnitType>;
 
-    template<typename Units>
-    concept MagnitudeUnit = units::traits::is_length_unit_v<Units> ||
-                            units::traits::is_force_unit_v<Units> ||
-                            units::traits::is_velocity_unit_v<Units> ||
-                            units::traits::is_acceleration_unit_v<Units>;
+    template<typename UnitType>
+    concept IsAngleUnit = units::traits::is_angle_unit_v<UnitType>;
+
+    template<typename UnitType>
+    concept IsMagnitudeUnit = units::traits::is_length_unit_v<UnitType> ||
+                              units::traits::is_force_unit_v<UnitType> ||
+                              units::traits::is_velocity_unit_v<UnitType> ||
+                              units::traits::is_acceleration_unit_v<UnitType>;
 
 
 } // namespace domain

@@ -2,36 +2,58 @@
 #define DOMAIN_VECTOR_HPP_
 
 #include "domain/concepts.hpp"
-#include "domain/coordinates.hpp"
 #include <units.h>
 
 namespace domain
 {
 
-    template <AngleUnit AngleType, MagnitudeUnit MagnitudeType>
+    template <IsMagnitudeUnit MagnitudeType>
     class Vector2D
     {
-        static constexpr Vector2D fromComponents(Coordinates2D<MagnitudeType> const& components)
+    public:
+        constexpr Vector2D(MagnitudeType x, MagnitudeType y):
+            m_x {x},
+            m_y {y},
+            m_angle {units::atan2(y, x)},
+            m_magnitude {units::sqrt(x * x + y * y)}
         {
-            auto x = components.x;
-            auto y = components.y;
-
-            auto angle = units::atan(y / x);
-            auto magnitude = units::sqrt(x * x + y * y);
-
-            return Vector2D {angle, magnitude};
+            // Intentionally blank
         }
 
-        [[nodiscard]] constexpr Coordinates2D<LengthUnit auto> toComponents() const
+        template <IsAngleUnit AngleType>
+        constexpr Vector2D(AngleType angle, MagnitudeType magnitude):
+            m_x {magnitude * units::cos(units::angle::radians(angle))},
+            m_y {magnitude * units::sin(units::angle::radians(angle))},
+            m_angle {units::angle::radians(angle)},
+            m_magnitude {magnitude}
         {
-            auto x = units::unit_cast<double>(m_magnitude) * units::cos(m_angle);
-            auto y = m_magnitude * units::sin(m_angle);
+            // Intentionally blank
+        }
 
-            return Coordinates2D {x, y};
+        template <IsMagnitudeUnit RetType>
+        [[nodiscard]] constexpr
+        std::pair<RetType, RetType> getComponents() const
+        {
+            return std::make_pair(RetType(m_x), RetType(m_y));
+        }
+
+        template <IsAngleUnit RetType>
+        [[nodiscard]] constexpr RetType getAngle() const
+        {
+            return RetType(m_angle);
+        }
+
+        template <IsMagnitudeUnit RetType>
+        [[nodiscard]] constexpr RetType getMagnitude() const
+        {
+            return RetType(m_magnitude);
         }
 
     private:
-        AngleType m_angle;
+        MagnitudeType m_x;
+        MagnitudeType m_y;
+
+        units::angle::radians<double> m_angle;
         MagnitudeType m_magnitude;
     };
 
