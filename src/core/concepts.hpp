@@ -1,5 +1,5 @@
-#ifndef DOMAIN_CONCEPTS_HPP_
-#define DOMAIN_CONCEPTS_HPP_
+#ifndef CORE_CONCEPTS_HPP_
+#define CORE_CONCEPTS_HPP_
 
 #include <units.h>
 
@@ -48,4 +48,4 @@ namespace domain
 
 } // namespace domain
 
-#endif // DOMAIN_CONCEPTS_HPP_
+#endif // CORE_CONCEPTS_HPP_
