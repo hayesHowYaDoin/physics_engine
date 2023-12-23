@@ -2,6 +2,7 @@
 #define DOMAIN_VECTOR_HPP_
 
 #include "domain/concepts.hpp"
+#include "domain/components.hpp"
 #include <units.h>
 
 namespace domain
@@ -31,10 +32,9 @@ namespace domain
         }
 
         template <IsMagnitudeUnit RetType>
-        [[nodiscard]] constexpr
-        std::pair<RetType, RetType> getComponents() const
+        [[nodiscard]] constexpr Components2D<RetType> getComponents() const
         {
-            return std::make_pair(RetType(m_x), RetType(m_y));
+            return {RetType(m_x), RetType(m_y)};
         }
 
         template <IsAngleUnit RetType>

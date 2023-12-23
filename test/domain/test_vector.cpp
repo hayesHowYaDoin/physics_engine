@@ -18,9 +18,9 @@ TEST(VectorTest, ConstructFromAngleAndMagnitude)
     auto magnitude {vector.getMagnitude<units::force::newtons<float>>()};
     EXPECT_NEAR(magnitude.to<float>(), 10.0f, REQUIRED_PRECISION);
 
-    auto [x, y] = vector.getComponents<units::force::newtons<float>>();
-    EXPECT_NEAR(x.to<float>(), 7.071'068f, REQUIRED_PRECISION);
-    EXPECT_NEAR(y.to<double>(), 7.071'068f, REQUIRED_PRECISION);
+    auto components {vector.getComponents<units::force::newtons<float>>()};
+    EXPECT_NEAR(components.x.to<float>(), 7.071'068f, REQUIRED_PRECISION);
+    EXPECT_NEAR(components.y.to<double>(), 7.071'068f, REQUIRED_PRECISION);
 }
 
 TEST(VectorTest, ConstructFromComponents)
@@ -35,7 +35,7 @@ TEST(VectorTest, ConstructFromComponents)
     auto magnitude {vector.getMagnitude<units::force::newtons<float>>()};
     EXPECT_NEAR(magnitude.to<float>(), 14.142'136f, REQUIRED_PRECISION);
 
-    auto [x, y] = vector.getComponents<units::force::newtons<float>>();
-    EXPECT_NEAR(x.to<float>(), 10.0f, REQUIRED_PRECISION);
-    EXPECT_NEAR(y.to<float>(), 10.0f, REQUIRED_PRECISION);
+    auto components {vector.getComponents<units::force::newtons<float>>()};
+    EXPECT_NEAR(components.x.to<float>(), 10.0f, REQUIRED_PRECISION);
+    EXPECT_NEAR(components.y.to<float>(), 10.0f, REQUIRED_PRECISION);
 }
