@@ -1,7 +1,7 @@
 #ifndef DOMAIN_VECTOR_HPP_
 #define DOMAIN_VECTOR_HPP_
 
-#include "domain/concepts.hpp"
+#include "core/concepts.hpp"
 #include <units.h>
 
 namespace domain
