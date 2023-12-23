@@ -45,8 +45,8 @@ struct Vector2D
         }
 
     private:
-        MagnitudeType const m_x;
-        MagnitudeType const m_y;
+        MagnitudeType m_x;
+        MagnitudeType m_y;
     };
 
     template <IsMagnitudeUnit MagnitudeType>
@@ -62,6 +62,9 @@ struct Vector2D
         AngleType angle,
         MagnitudeType magnitude)
     {
+        if(magnitude.template to<float>() < 0.0f)
+            throw std::invalid_argument {"Magnitude must be positive."};
+
         auto x {magnitude * units::cos(units::angle::radians(angle))};
         auto y {magnitude * units::sin(units::angle::radians(angle))};
 
