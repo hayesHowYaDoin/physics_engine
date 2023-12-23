@@ -51,6 +51,14 @@ TEST(VectorTest, ConstructFromAngleAndNegativeMagnitude)
     EXPECT_THROW(domain::Vector2D::fromPolar(45.0_deg, -10.0_N), std::invalid_argument);
 }
 
+TEST(VectorTest, ConstructFromComponentsYieldsPositiveMagnitude)
+{
+    using namespace units::literals;
+
+    constexpr auto vector {domain::Vector2D::fromComponents(10.0_N, -10.0_N)};
+    EXPECT_GT(vector.getMagnitude<units::force::newtons<float>>().to<float>(), 0.0f);
+}
+
 TEST(VectorTest, MagnitudeTypes)
 {
     using namespace units::literals;
