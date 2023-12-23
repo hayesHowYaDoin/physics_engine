@@ -59,6 +59,42 @@ namespace domain
             return RetType(m_magnitude);
         }
 
+        template <IsMagnitudeUnit OtherMagnitudeType>
+        [[nodiscard]] constexpr
+        auto operator+(Vector2D<OtherMagnitudeType> const& other) const
+        {
+            constexpr auto x {m_components.x + other.m_components.x};
+            constexpr auto y {m_components.y + other.m_components.y};
+
+            return Vector2D(x, y);
+        }
+
+        template <IsMagnitudeUnit OtherMagnitudeType>
+        [[nodiscard]] constexpr
+        auto operator-(Vector2D<OtherMagnitudeType> const& other) const
+        {
+            constexpr auto x {m_components.x - other.m_components.x};
+            constexpr auto y {m_components.y - other.m_components.y};
+
+            return Vector2D(x, y);
+        }
+
+        [[nodiscard]] constexpr auto operator*(long double scalar) const
+        {
+            constexpr auto x {m_components.x * scalar};
+            constexpr auto y {m_components.y * scalar};
+
+            return Vector2D(x, y);
+        }
+
+        [[nodiscard]] constexpr auto operator/(long double scalar) const
+        {
+            constexpr auto x {m_components.x / scalar};
+            constexpr auto y {m_components.y / scalar};
+
+            return Vector2D(x, y);
+        }
+
     private:
         Components2D<MagnitudeType> m_components;
         units::angle::radians<double> m_angle;
