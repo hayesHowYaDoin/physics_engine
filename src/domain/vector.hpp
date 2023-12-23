@@ -12,59 +12,53 @@ namespace domain
     {
     public:
         constexpr Vector2D(MagnitudeType x, MagnitudeType y):
-            m_components {.x {x}, .y {y}},
-            m_angle {units::atan2(y, x)},
-            m_magnitude {units::sqrt(x * x + y * y)}
+            m_x {x},
+            m_y {y}
         {
             // Intentionally blank
         }
 
         template <IsAngleUnit AngleType>
-        constexpr Vector2D(AngleType angle, MagnitudeType magnitude):
-            m_components {
-                .x {magnitude * units::cos(units::angle::radians(angle))},
-                .y {magnitude * units::sin(units::angle::radians(angle))}
-            },
-            m_angle {units::angle::radians(angle)},
-            m_magnitude {magnitude}
+        static Vector2D<MagnitudeType> fromPolar(
+            AngleType angle,
+            MagnitudeType magnitude)
         {
-            // Intentionally blank
+            auto x {magnitude * units::cos(units::angle::radians(angle))};
+            auto y {magnitude * units::sin(units::angle::radians(angle))};
+
+            return Vector2D(x, y);
         }
 
-        template <IsMagnitudeUnit ComponentType>
-        struct Components2D
+        template <IsMagnitudeUnit RetType>
+        [[nodiscard]] constexpr auto getX() const
         {
-            ComponentType const x;
-            ComponentType const y;
-        };
+            return RetType(m_x);
+        }
 
         template <IsMagnitudeUnit RetType>
-        [[nodiscard]] constexpr auto getComponents() const
+        [[nodiscard]] constexpr auto getY() const
         {
-            return Components2D<RetType> {
-                .x {m_components.x},
-                .y {m_components.y}
-            };
+            return RetType(m_y);
         }
 
         template <IsAngleUnit RetType>
-        [[nodiscard]] constexpr auto getAngle() const
+        [[nodiscard]] auto getAngle() const
         {
-            return RetType(m_angle);
+            return RetType(units::atan2(m_x, m_y));
         }
 
         template <IsMagnitudeUnit RetType>
         [[nodiscard]] constexpr auto getMagnitude() const
         {
-            return RetType(m_magnitude);
+            return RetType(units::sqrt(m_x * m_x + m_y * m_y));
         }
 
         template <IsMagnitudeUnit OtherMagnitudeType>
         [[nodiscard]] constexpr
         auto operator+(Vector2D<OtherMagnitudeType> const& other) const
         {
-            constexpr auto x {m_components.x + other.m_components.x};
-            constexpr auto y {m_components.y + other.m_components.y};
+            constexpr auto x {m_x + other.getX()};
+            constexpr auto y {m_y + other.getY()};
 
             return Vector2D(x, y);
         }
@@ -73,32 +67,31 @@ namespace domain
         [[nodiscard]] constexpr
         auto operator-(Vector2D<OtherMagnitudeType> const& other) const
         {
-            constexpr auto x {m_components.x - other.m_components.x};
-            constexpr auto y {m_components.y - other.m_components.y};
+            constexpr auto x {m_x - other.getX()};
+            constexpr auto y {m_y - other.getY()};
 
             return Vector2D(x, y);
         }
 
         [[nodiscard]] constexpr auto operator*(long double scalar) const
         {
-            constexpr auto x {m_components.x * scalar};
-            constexpr auto y {m_components.y * scalar};
+            constexpr auto x {m_x * scalar};
+            constexpr auto y {m_y * scalar};
 
             return Vector2D(x, y);
         }
 
         [[nodiscard]] constexpr auto operator/(long double scalar) const
         {
-            constexpr auto x {m_components.x / scalar};
-            constexpr auto y {m_components.y / scalar};
+            constexpr auto x {m_x / scalar};
+            constexpr auto y {m_y / scalar};
 
             return Vector2D(x, y);
         }
 
     private:
-        Components2D<MagnitudeType> m_components;
-        units::angle::radians<double> m_angle;
-        MagnitudeType m_magnitude;
+        MagnitudeType m_x;
+        MagnitudeType m_y;
     };
 
 } // namespace domain
