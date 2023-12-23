@@ -2,7 +2,6 @@
 #define DOMAIN_VECTOR_HPP_
 
 #include "domain/concepts.hpp"
-#include "domain/components.hpp"
 #include <units.h>
 
 namespace domain
@@ -13,8 +12,7 @@ namespace domain
     {
     public:
         constexpr Vector2D(MagnitudeType x, MagnitudeType y):
-            m_x {x},
-            m_y {y},
+            m_components {.x {x}, .y {y}},
             m_angle {units::atan2(y, x)},
             m_magnitude {units::sqrt(x * x + y * y)}
         {
@@ -23,36 +21,46 @@ namespace domain
 
         template <IsAngleUnit AngleType>
         constexpr Vector2D(AngleType angle, MagnitudeType magnitude):
-            m_x {magnitude * units::cos(units::angle::radians(angle))},
-            m_y {magnitude * units::sin(units::angle::radians(angle))},
+            m_components {
+                .x {magnitude * units::cos(units::angle::radians(angle))},
+                .y {magnitude * units::sin(units::angle::radians(angle))}
+            },
             m_angle {units::angle::radians(angle)},
             m_magnitude {magnitude}
         {
             // Intentionally blank
         }
 
-        template <IsMagnitudeUnit RetType>
-        [[nodiscard]] constexpr Components2D<RetType> getComponents() const
+        template <IsMagnitudeUnit ComponentType>
+        struct Components2D
         {
-            return {RetType(m_x), RetType(m_y)};
+            ComponentType const x;
+            ComponentType const y;
+        };
+
+        template <IsMagnitudeUnit RetType>
+        [[nodiscard]] constexpr auto getComponents() const
+        {
+            return Components2D<RetType> {
+                .x {m_components.x},
+                .y {m_components.y}
+            };
         }
 
         template <IsAngleUnit RetType>
-        [[nodiscard]] constexpr RetType getAngle() const
+        [[nodiscard]] constexpr auto getAngle() const
         {
             return RetType(m_angle);
         }
 
         template <IsMagnitudeUnit RetType>
-        [[nodiscard]] constexpr RetType getMagnitude() const
+        [[nodiscard]] constexpr auto getMagnitude() const
         {
             return RetType(m_magnitude);
         }
 
     private:
-        MagnitudeType m_x;
-        MagnitudeType m_y;
-
+        Components2D<MagnitudeType> m_components;
         units::angle::radians<double> m_angle;
         MagnitudeType m_magnitude;
     };
