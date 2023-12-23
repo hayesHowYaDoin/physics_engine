@@ -44,6 +44,20 @@ struct Vector2D
             return RetType(units::sqrt(m_x * m_x + m_y * m_y));
         }
 
+        template <IsMagnitudeUnit RhsType>
+        [[nodiscard]] constexpr auto dot(Impl<RhsType> const& rhs) const
+        {
+            return (m_x * rhs.template getX<RhsType>() + 
+                    m_y * rhs.template getY<RhsType>());
+        }
+
+        template <IsMagnitudeUnit RhsType>
+        [[nodiscard]] constexpr auto cross(Impl<RhsType> const& rhs) const
+        {
+            return (m_x * rhs.template getY<RhsType>() - 
+                    m_y * rhs.template getX<RhsType>());
+        }
+
     private:
         MagnitudeType m_x;
         MagnitudeType m_y;
