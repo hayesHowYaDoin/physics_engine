@@ -1,4 +1,8 @@
 {
+    "gtest.executables": {
+        "My Tests": "${workspaceFolder}/build"
+    },
+
     "files.associations": {
         "*.tcc": "cpp",
         "*.ixx": "cpp",

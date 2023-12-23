@@ -6,34 +6,23 @@
 
 namespace domain
 {
-    #include <units.h> // Add this line
 
-    class Coordinates2D
+    template <LengthUnit Length>
+    struct Coordinate2D
     {
-    public:
-        template<LengthUnit Length>
-        constexpr Coordinates2D(Length x, Length y): 
-            m_x {x},
-            m_y {y}
+        Length const x;
+        Length const y;
+
+        constexpr Coordinate2D operator+(const Coordinate2D& rhs) const
         {
-            // Intentionally blank.
+            return Coordinate2D {x + rhs.x, y + rhs.y};
         }
 
-        template<LengthUnit Length>
-        [[nodiscard]] constexpr Length getX() const
+        constexpr Coordinate2D operator-(const Coordinate2D& rhs) const
         {
-            return m_x;
+            return Coordinate2D {x - rhs.x, y - rhs.y};
         }
 
-        template<LengthUnit Length>
-        [[nodiscard]] constexpr Length getY() const
-        {
-            return m_y;
-        }
-
-    private:
-        units::meters<double> m_x;
-        units::meters<double> m_y;
     };
 
 } // namespace domain

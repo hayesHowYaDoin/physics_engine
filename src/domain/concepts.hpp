@@ -6,6 +6,9 @@
 namespace domain
 {
 
+    template<typename Number>
+    concept NumberType = std::is_arithmetic_v<Number>;
+
     template<typename Units>
     concept AreaUnit = units::traits::is_area_unit_v<Units>;
 
@@ -32,6 +35,12 @@ namespace domain
 
     template<typename Units>
     concept AngleUnit = units::traits::is_angle_unit_v<Units>;
+
+    template<typename Units>
+    concept MagnitudeUnit = units::traits::is_length_unit_v<Units> ||
+                            units::traits::is_force_unit_v<Units> ||
+                            units::traits::is_velocity_unit_v<Units> ||
+                            units::traits::is_acceleration_unit_v<Units>;
 
 
 } // namespace domain

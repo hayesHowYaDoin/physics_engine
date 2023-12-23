@@ -8,48 +8,31 @@
 namespace domain
 {
 
+    template <AngleUnit AngleType, MagnitudeUnit MagnitudeType>
     class Vector2D
     {
-    public:
-        template <AngleUnit AngleType, ForceUnit MagnitudeType>
-        constexpr Vector2D(AngleType angle, MagnitudeType magnitude) :
-            m_angle {angle},
-            m_magnitude {magnitude}
+        static constexpr Vector2D fromComponents(Coordinates2D<MagnitudeType> const& components)
         {
-            // Intentionally blank.
+            auto x = components.x;
+            auto y = components.y;
+
+            auto angle = units::atan(y / x);
+            auto magnitude = units::sqrt(x * x + y * y);
+
+            return Vector2D {angle, magnitude};
         }
 
-        // constexpr Vector2D(Coordinates2D components) :
-        //     m_angle {units::atan(components.getY() / components.getX())},
-        //     m_magnitude {units::sqrt(units::pow(components.getX(), 2) + units::pow(components.getY(), 2))}
-        // {
-        //     // Intentionally blank.
-        // }
-
-        template <AngleUnit AngleType>
-        [[nodiscard]] constexpr AngleType getAngle() const
+        [[nodiscard]] constexpr Coordinates2D<LengthUnit auto> toComponents() const
         {
-            return m_angle;
+            auto x = units::unit_cast<double>(m_magnitude) * units::cos(m_angle);
+            auto y = m_magnitude * units::sin(m_angle);
+
+            return Coordinates2D {x, y};
         }
-
-        template <ForceUnit ForceType>
-        [[nodiscard]] constexpr ForceType getMagnitude() const
-        {
-            return m_magnitude;
-        }
-
-        // [[nodiscard]] constexpr Coordinates2D getComponents() const
-        // {
-        //     units::meters<double> x = units::unit_cast<double>(m_magnitude) * units::cos(m_angle);
-        //     units::meters<double> y = m_magnitude * units::sin(m_angle);
-
-        //     return Coordinates2D(x, y);
-        //     return Coordinates2D()
-        // }
 
     private:
-        units::degrees<double> m_angle;
-        units::newtons<double> m_magnitude;
+        AngleType m_angle;
+        MagnitudeType m_magnitude;
     };
 
 } // namespace domain

@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-int main()
+int temp_func_for_test()
 {
     using namespace units::literals;
 
