@@ -110,9 +110,9 @@ auto operator-(
     return Vector2D::Impl(x, y);
 }
 
-template <core::IsMagnitudeUnit LhsType>
+template <core::IsMagnitudeUnit LhsType, typename RhsType>
 [[nodiscard]] constexpr 
-auto operator*(Vector2D::Impl<LhsType> const& lhs, long double rhs) noexcept
+auto operator*(Vector2D::Impl<LhsType> const& lhs, RhsType rhs) noexcept
 {
     auto x {lhs.template getX<LhsType>() * rhs};
     auto y {lhs.template getY<LhsType>() * rhs};
@@ -120,9 +120,9 @@ auto operator*(Vector2D::Impl<LhsType> const& lhs, long double rhs) noexcept
     return Vector2D::Impl(x, y);
 }
 
-template <core::IsMagnitudeUnit LhsType>
+template <core::IsMagnitudeUnit LhsType, typename RhsType>
 [[nodiscard]] constexpr
-auto operator/(Vector2D::Impl<LhsType> const& lhs, long double rhs) noexcept
+auto operator/(Vector2D::Impl<LhsType> const& lhs, RhsType rhs) noexcept
 {
     auto x {lhs.template getX<LhsType>() / rhs};
     auto y {lhs.template getY<LhsType>() / rhs};
@@ -138,6 +138,9 @@ using VelocityVector2D = Vector2D::Impl<VelocityType>;
 
 template <core::IsAccelerationUnit AccelerationType>
 using AccelerationVector2D = Vector2D::Impl<AccelerationType>;
+
+template <core::IsForceUnit ForceType>
+using ForceVector2D = Vector2D::Impl<ForceType>;
 
 } // namespace domain
 
