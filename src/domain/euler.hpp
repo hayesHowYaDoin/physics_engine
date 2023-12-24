@@ -7,31 +7,31 @@
 namespace domain::euler
 {
 
-template <core::IsLengthUnit LengthType, core::IsVelocityUnit VelocityType, core::IsTimeUnit TimeType>
+template <core::IsLengthUnit L, core::IsVelocityUnit V, core::IsTimeUnit T>
 [[nodiscard]] constexpr
-PositionVector2D<LengthType> nextPosition(
-    PositionVector2D<LengthType> const& position,
-    VelocityVector2D<VelocityType> const& velocity,
-    TimeType const& dt)
+PositionVector2D<L> nextPosition(
+    PositionVector2D<L> const& position,
+    VelocityVector2D<V> const& velocity,
+    T const& dt) noexcept
 {
     return position + velocity * dt;
 }
 
-template <core::IsVelocityUnit VelocityType, core::IsAccelerationUnit AccelerationType, core::IsTimeUnit TimeType>
+template <core::IsVelocityUnit V, core::IsAccelerationUnit A, core::IsTimeUnit T>
 [[noexcept]] constexpr
-VelocityVector2D<VelocityType> nextVelocity(
-    VelocityVector2D<VelocityType> const& velocity,
-    AccelerationVector2D<AccelerationType> const& acceleration,
-    TimeType const& dt)
+VelocityVector2D<V> nextVelocity(
+    VelocityVector2D<V> const& velocity,
+    AccelerationVector2D<A> const& acceleration,
+    T const& dt) noexcept
 {
     return velocity + acceleration * dt;
 }
 
-template <core::IsAccelerationUnit AccelerationType, core::IsForceUnit ForceType, core::IsMassUnit MassType>
+template <core::IsAccelerationUnit A, core::IsForceUnit F, core::IsMassUnit M>
 [[nodiscard]] constexpr
-AccelerationVector2D<AccelerationType> acceleration(
-    ForceVector2D<ForceType> const& force,
-    MassType const& mass)
+AccelerationVector2D<A> acceleration(
+    ForceVector2D<F> const& force,
+    M const& mass) noexcept
 {
     return force / mass;
 }

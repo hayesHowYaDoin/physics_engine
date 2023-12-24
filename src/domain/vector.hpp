@@ -13,7 +13,7 @@ struct Vector2D
     class Impl
     {
     public:
-        constexpr Impl(MagnitudeType x, MagnitudeType y):
+        constexpr Impl(MagnitudeType x, MagnitudeType y) noexcept:
             m_x {x},
             m_y {y}
         {
@@ -66,7 +66,7 @@ struct Vector2D
     template <core::IsMagnitudeUnit MagnitudeType>
     static constexpr Impl<MagnitudeType> fromComponents(
         MagnitudeType x,
-        MagnitudeType y)
+        MagnitudeType y) noexcept
     {
         return Impl<MagnitudeType> {x, y};
     }
