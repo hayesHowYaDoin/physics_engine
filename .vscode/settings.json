@@ -1,7 +1,8 @@
 {
-    "cmake.configureSettings": {
-        "CMAKE_GENERATOR": "Ninja Multi-Config"
+    "gtest.executables": {
+        "My Tests": "${workspaceFolder}/build"
     },
+
     "files.associations": {
         "*.tcc": "cpp",
         "*.ixx": "cpp",
@@ -67,6 +68,7 @@
         "stop_token": "cpp",
         "streambuf": "cpp",
         "thread": "cpp",
-        "typeinfo": "cpp"
+        "typeinfo": "cpp",
+        "complex": "cpp"
     }
 }
