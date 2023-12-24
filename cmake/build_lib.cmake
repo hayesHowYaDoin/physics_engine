@@ -1,15 +1,13 @@
 function(build_physics_backend)
     message("Building physics_backend...")
 
-    add_library(physics_backend STATIC)
+    add_library(physics_backend INTERFACE)
 
     add_subdirectory(${CMAKE_SOURCE_DIR}/src)
     add_subdirectory(${CMAKE_SOURCE_DIR}/libs)
 
     target_include_directories(physics_backend 
-        PUBLIC 
-            ${CMAKE_SOURCE_DIR}/include
-        PRIVATE
+        INTERFACE
             ${CMAKE_SOURCE_DIR}/src
     )
 
@@ -21,7 +19,7 @@ function(build_physics_backend)
     endif()
 
     target_link_libraries(physics_backend
-        PRIVATE
+        INTERFACE
             units::units)
             
 endfunction()
