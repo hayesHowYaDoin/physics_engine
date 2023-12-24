@@ -64,3 +64,31 @@ TEST(EulerTest, Acceleration)
     constexpr auto y {acceleration.getY<mpssUnits>()};
     EXPECT_NEAR(y.to<float>(), 1.0f, REQUIRED_PRECISION);
 }
+
+TEST(EulerTest, AccelerationMassZero)
+{
+    using namespace domain;
+    using namespace units::literals;
+    using mpssUnits = units::acceleration::meters_per_second_squared<double>;
+
+    constexpr auto force {Vector2D::fromComponents(10.0_N, 10.0_N)};
+    constexpr auto mass {0.0_kg};
+
+    EXPECT_THROW(
+        euler::acceleration<mpssUnits>(force, mass),
+        std::invalid_argument);
+}
+
+TEST(EulerTest, AccelerationMassNegative)
+{
+    using namespace domain;
+    using namespace units::literals;
+    using mpssUnits = units::acceleration::meters_per_second_squared<double>;
+
+    constexpr auto force {Vector2D::fromComponents(10.0_N, 10.0_N)};
+    constexpr auto mass {-10.0_kg};
+
+    EXPECT_THROW(
+        euler::acceleration<mpssUnits>(force, mass),
+        std::invalid_argument);
+}

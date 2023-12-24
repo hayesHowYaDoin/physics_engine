@@ -31,8 +31,11 @@ template <core::IsAccelerationUnit A, core::IsForceUnit F, core::IsMassUnit M>
 [[nodiscard]] constexpr
 AccelerationVector2D<A> acceleration(
     ForceVector2D<F> const& force,
-    M const& mass) noexcept
+    M const& mass)
 {
+    if(mass <= M(0))
+        throw std::invalid_argument("Mass must be greater than zero.");
+    
     return force / mass;
 }
 
