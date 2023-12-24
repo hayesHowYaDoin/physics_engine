@@ -1,5 +1,5 @@
 #include "domain/vector.hpp"
-#include "domain/euler.hpp"
+#include "domain/motion.hpp"
 #include "core/concepts.hpp"
 #include <units.h>
 
@@ -7,7 +7,7 @@
 
 static constexpr auto REQUIRED_PRECISION {0.000'001f};
 
-TEST(EulerTest, NextPosition)
+TEST(MotionTest, NextPosition)
 {
     using namespace domain;
     using namespace units::literals;
@@ -16,7 +16,7 @@ TEST(EulerTest, NextPosition)
     constexpr auto velocity {Vector2D::fromComponents(10.0_mps, 10.0_mps)};
     constexpr auto dt {1.0_s};
 
-    constexpr auto nextPosition {euler::nextPosition(position, velocity, dt)};
+    constexpr auto nextPosition {motion::nextPosition(position, velocity, dt)};
 
     EXPECT_NEAR(
         nextPosition.getX<units::length::meters<float>>().to<float>(),
@@ -29,7 +29,7 @@ TEST(EulerTest, NextPosition)
         REQUIRED_PRECISION);
 }
 
-TEST(EulerTest, NextVelocity)
+TEST(MotionTest, NextVelocity)
 {
     using namespace domain;
     using namespace units::literals;
@@ -39,7 +39,7 @@ TEST(EulerTest, NextVelocity)
     constexpr auto acceleration {Vector2D::fromComponents(10.0_mps_sq, 10.0_mps_sq)};
     constexpr auto dt {1.0_s};
 
-    constexpr auto next {euler::nextVelocity(velocity, acceleration, dt)};
+    constexpr auto next {motion::nextVelocity(velocity, acceleration, dt)};
 
     constexpr auto x {next.getX<meters_per_second<float>>()};
     EXPECT_NEAR(x.to<float>(), 20.0f, REQUIRED_PRECISION);
@@ -48,7 +48,7 @@ TEST(EulerTest, NextVelocity)
     EXPECT_NEAR(y.to<float>(), 20.0f, REQUIRED_PRECISION);
 }
 
-TEST(EulerTest, Acceleration)
+TEST(MotionTest, Acceleration)
 {
     using namespace domain;
     using namespace units::literals;
@@ -57,7 +57,7 @@ TEST(EulerTest, Acceleration)
     constexpr auto force {Vector2D::fromComponents(10.0_N, 10.0_N)};
     constexpr auto mass {10.0_kg};
 
-    constexpr auto acceleration {euler::acceleration<mpssUnits>(force, mass)};
+    constexpr auto acceleration {motion::acceleration<mpssUnits>(force, mass)};
     constexpr auto x {acceleration.getX<mpssUnits>()};
     EXPECT_NEAR(x.to<float>(), 1.0f, REQUIRED_PRECISION);
 
@@ -65,7 +65,7 @@ TEST(EulerTest, Acceleration)
     EXPECT_NEAR(y.to<float>(), 1.0f, REQUIRED_PRECISION);
 }
 
-TEST(EulerTest, AccelerationMassZero)
+TEST(MotionTest, AccelerationMassZero)
 {
     using namespace domain;
     using namespace units::literals;
@@ -75,11 +75,11 @@ TEST(EulerTest, AccelerationMassZero)
     constexpr auto mass {0.0_kg};
 
     EXPECT_THROW(
-        euler::acceleration<mpssUnits>(force, mass),
+        motion::acceleration<mpssUnits>(force, mass),
         std::invalid_argument);
 }
 
-TEST(EulerTest, AccelerationMassNegative)
+TEST(MotionTest, AccelerationMassNegative)
 {
     using namespace domain;
     using namespace units::literals;
@@ -89,6 +89,6 @@ TEST(EulerTest, AccelerationMassNegative)
     constexpr auto mass {-10.0_kg};
 
     EXPECT_THROW(
-        euler::acceleration<mpssUnits>(force, mass),
+        motion::acceleration<mpssUnits>(force, mass),
         std::invalid_argument);
 }

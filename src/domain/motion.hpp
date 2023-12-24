@@ -1,10 +1,10 @@
-#ifndef DOMAIN_EULER_HPP
-#define DOMAIN_EULER_HPP
+#ifndef DOMAIN_MOTION_HPP
+#define DOMAIN_MOTION_HPP
 
 #include "domain/vector.hpp"
 #include "core/concepts.hpp"
 
-namespace domain::euler
+namespace domain::motion
 {
 
 template <core::IsLengthUnit L, core::IsVelocityUnit V, core::IsTimeUnit T>
@@ -39,6 +39,6 @@ AccelerationVector2D<A> acceleration(
     return force / mass;
 }
 
-} // namespace domain::euler
+} // namespace domain::motion
 
-#endif // DOMAIN_EULER_HPP
+#endif // DOMAIN_MOTION_HPP
