@@ -11,31 +11,24 @@
 #include <ranges>
 #include <vector>
 
-namespace usecases
+namespace usecases::euler
 {
 
-template <core::IsForceUnit ForceUnit, core::IsTimeUnit TimeUnit>
+template <core::IsTimeUnit TimeUnit>
 [[nodiscard]] constexpr
 EulerParticle resolveMotion(
     EulerParticle const& particle,
-    std::vector<domain::ForceVector2D<ForceUnit>> const& forces,
     TimeUnit const& timeStep)
 {
-    auto forcesSum {std::accumulate(forces.begin(), forces.end(), ForceUnit {0.0})};
+    using namespace units::literals;
 
-    auto calcAcceleration {[&](auto const& mass) {
-        units::acceleration::meters_per_second_squared<double> domain::motion::acceleration(forcesSum, particle.mass);
-    }};
-    auto calcNextVelocity {[&](const auto& acceleration) {
-        return domain::motion::nextVelocity(particle.velocity, acceleration, timeStep);
-    }};
-    auto calcNextPosition {[&](const auto& nextVelocity) {
-        return domain::motion::nextPosition(particle.position, nextVelocity, timeStep);
-    }};
+    auto forcesSum {std::accumulate(particle.forces.begin(), particle.forces.end(), domain::ForceVector2D {0.0_N, 0.0_N})};
 
-    return particle | std::views::transform(calcAcceleration)
-                    | std::views::transform(calcNextVelocity)
-                    | std::views::transform(calcNextPosition);
+    auto acceleration {domain::motion::acceleration<units::acceleration::meters_per_second_squared<double>>(forcesSum, particle.mass)};
+    auto velocity {domain::motion::nextVelocity(particle.velocity, acceleration, timeStep)};
+    auto position {domain::motion::nextPosition(particle.position, velocity, timeStep)};
+
+    return EulerParticle {position, velocity, particle.mass};
 }
 
 } // namespace usecases::euler

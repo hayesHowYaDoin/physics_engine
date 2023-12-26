@@ -84,6 +84,19 @@ struct Vector2D
 
         return Impl<MagnitudeType> {x, y};
     }
+
+    template <core::IsMagnitudeUnit MagnitudeType>
+    static constexpr bool compare(
+        Impl<MagnitudeType> const& lhs,
+        Impl<MagnitudeType> const& rhs,
+        double epsilon) noexcept
+    {
+        auto xDiff {lhs.template getX<MagnitudeType>() - rhs.template getX<MagnitudeType>()};
+        auto yDiff {lhs.template getY<MagnitudeType>() - rhs.template getY<MagnitudeType>()};
+        MagnitudeType epsilonMagnitude {MagnitudeType(epsilon)};
+
+        return xDiff < epsilonMagnitude && yDiff < epsilonMagnitude;
+    }
 };
 
 template <core::IsMagnitudeUnit RhsType, core::IsMagnitudeUnit LhsType>
