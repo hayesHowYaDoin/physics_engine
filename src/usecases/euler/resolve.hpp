@@ -7,9 +7,6 @@
 #include "core/concepts.hpp"
 
 #include <algorithm>
-#include <numeric>
-#include <ranges>
-#include <vector>
 
 namespace usecases::euler
 {
@@ -33,16 +30,6 @@ EulerParticle resolveMotion(
         .velocity = velocity,
         .mass = particle.mass,
         .forces = particle.forces};
-}
-
-template <core::IsTimeUnit TimeUnit>
-[[nodiscard]] constexpr
-auto step(
-    std::ranges::range auto const& particles,
-    TimeUnit const& timeStep,
-    std::function<EulerParticle(EulerParticle const&)> const& resolveMotion)
-{
-    return particles | std::views::transform(resolveMotion);
 }
 
 } // namespace usecases::euler
