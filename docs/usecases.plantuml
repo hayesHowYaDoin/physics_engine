@@ -7,7 +7,7 @@ usecase "Step Simulation" as UC_Step
 usecase "Update Positions" as UC_Motion
 usecase "Resolve Collision" as UC_Collision
 entity "Particle" as E_Particle
-entity "Verlet Motion" as E_Verlet
+entity "Motion" as E_Motion
 entity "Collision Detection" as E_Detection
 entity "Collision Resolution" as E_Resolution
 
@@ -21,14 +21,12 @@ UC_DestroyParticle --> E_Particle
 UC_Step --> UC_Motion
 UC_Step --> UC_Collision
 
-UC_Motion --> E_Verlet
+UC_Motion --> E_Motion
 UC_Motion --> E_Particle
 
 UC_Collision --> E_Detection
 UC_Collision --> E_Resolution
 UC_Collision --> E_Particle
-
-E_Verlet --> E_Particle
 
 E_Detection --> E_Particle
 
