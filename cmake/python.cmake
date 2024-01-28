@@ -8,9 +8,9 @@ function(build_python)
     
     add_subdirectory(${CMAKE_SOURCE_DIR}/python)
 
-    target_link_libraries(physics_backend_python
-        PRIVATE
-            physics_backend
-    )
+    # target_link_libraries(physics_backend_python
+    #     PRIVATE
+    #         physics_backend
+    # )
 
 endfunction()

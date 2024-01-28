@@ -2,6 +2,11 @@
 requires = [
     "setuptools>=42",
     "wheel",
-    "pybind11~=2.6.1"
+    "ninja",
+    "cmake>=3.12",
 ]
 build-backend = "setuptools.build_meta"
+
+[tool.cibuildwheel]
+# Setuptools bug causes collision between pypy and cpython artifacts
+before-build = "rm -rf {project}/build"
