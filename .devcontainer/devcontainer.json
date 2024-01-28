@@ -13,12 +13,12 @@
                 "ms-vscode.cpptools",
                 "ms-vscode.cmake-tools",
                 "ms-vscode.cpptools-extension-pack",
+                "ms-python.python",
+                "ms-python.vscode-pylance",
                 "piotrkosek.vscode-gtest-test-adapter-with-code-lens",
                 "ms-azuretools.vscode-docker",
                 "yzhang.markdown-all-in-one",
-                "jebbs.plantuml",
-                "github.copilot",
-                "github.copilot-chat"
+                "jebbs.plantuml"
             ]
         }
     }

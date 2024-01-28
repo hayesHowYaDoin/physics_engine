@@ -13,11 +13,11 @@ function(build_test)
     add_subdirectory(${CMAKE_SOURCE_DIR}/test)
     
     target_link_libraries(test_physics_backend
-    PUBLIC
-        GTest::GTest
-        GTest::Main
-    PRIVATE
-        physics_backend
+        PUBLIC
+            GTest::GTest
+            GTest::Main
+        PRIVATE
+            physics_backend
     )
     
     #get_target_property (private_include_dirs physics_backend INCLUDE_DIRECTORIES)

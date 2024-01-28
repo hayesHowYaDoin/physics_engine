@@ -1,5 +1,6 @@
-include(cmake/build_lib.cmake)
-include(cmake/build_test.cmake)
+include(cmake/library.cmake)
+include(cmake/python.cmake)
+include(cmake/test.cmake)
 
 cmake_minimum_required(VERSION 3.28 FATAL_ERROR)
 
@@ -20,6 +21,7 @@ else()
 endif()
 
 build_physics_backend()
+build_python()
 
 option(BUILD_TESTING "Build tests" OFF)
 

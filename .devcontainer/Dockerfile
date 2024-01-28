@@ -53,6 +53,12 @@ RUN cmake -DCMAKE_CXX_FLAGS=-std=c++1z   -DCMAKE_BUILD_TYPE=Release -DBUILD_SHAR
 WORKDIR "/"
 RUN rm -rf googletest
 
+# pybind11
+RUN echo "************************ pybind11 ************************"
+# Install pip
+RUN apt-get install -y python3-pip
+RUN pip install pybind11
+
 # PlantUML Dependencies (Java and Graphviz)
 RUN echo "************************ PlantUML ************************"
 RUN apt-get install -y openjdk-11-jdk
