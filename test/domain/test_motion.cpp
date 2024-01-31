@@ -57,7 +57,7 @@ TEST(MotionTest, Acceleration)
     constexpr auto force {Vector2D::fromComponents(10.0_N, 10.0_N)};
     constexpr auto mass {10.0_kg};
 
-    constexpr auto acceleration {motion::acceleration<mpssUnits>(force, mass)};
+    constexpr auto acceleration {motion::acceleration(force, mass)};
     constexpr auto x {acceleration.getX<mpssUnits>()};
     EXPECT_NEAR(x.to<float>(), 1.0f, REQUIRED_PRECISION);
 
@@ -75,7 +75,7 @@ TEST(MotionTest, AccelerationMassZero)
     constexpr auto mass {0.0_kg};
 
     EXPECT_THROW(
-        motion::acceleration<mpssUnits>(force, mass),
+        motion::acceleration(force, mass),
         std::invalid_argument);
 }
 
@@ -89,6 +89,6 @@ TEST(MotionTest, AccelerationMassNegative)
     constexpr auto mass {-10.0_kg};
 
     EXPECT_THROW(
-        motion::acceleration<mpssUnits>(force, mass),
+        motion::acceleration(force, mass),
         std::invalid_argument);
 }

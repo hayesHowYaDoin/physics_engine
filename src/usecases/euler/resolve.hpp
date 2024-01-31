@@ -21,14 +21,14 @@ EulerParticle resolveMotion(
 
     auto forcesSum {std::accumulate(particle.forces.begin(), particle.forces.end(), domain::ForceVector2D(0.0_N, 0.0_N))};
 
-    auto acceleration {domain::motion::acceleration<units::acceleration::meters_per_second_squared<double>>(forcesSum, particle.mass)};
+    auto acceleration {domain::motion::acceleration(forcesSum, particle.mass)};
     auto velocity {domain::motion::nextVelocity(particle.velocity, acceleration, timeStep)};
     auto position {domain::motion::nextPosition(particle.position, velocity, timeStep)};
 
     return EulerParticle {
+        .mass = particle.mass,
         .position = position,
         .velocity = velocity,
-        .mass = particle.mass,
         .forces = particle.forces};
 }
 

@@ -9,7 +9,7 @@ namespace domain::motion
 
 template <core::IsLengthUnit L, core::IsVelocityUnit V, core::IsTimeUnit T>
 [[nodiscard]] constexpr
-PositionVector2D<L> nextPosition(
+decltype(auto) nextPosition(
     PositionVector2D<L> const& position,
     VelocityVector2D<V> const& velocity,
     T const& dt) noexcept
@@ -19,7 +19,7 @@ PositionVector2D<L> nextPosition(
 
 template <core::IsVelocityUnit V, core::IsAccelerationUnit A, core::IsTimeUnit T>
 [[noexcept]] constexpr
-VelocityVector2D<V> nextVelocity(
+decltype(auto) nextVelocity(
     VelocityVector2D<V> const& velocity,
     AccelerationVector2D<A> const& acceleration,
     T const& dt) noexcept
@@ -27,9 +27,9 @@ VelocityVector2D<V> nextVelocity(
     return velocity + acceleration * dt;
 }
 
-template <core::IsAccelerationUnit A, core::IsForceUnit F, core::IsMassUnit M>
+template <core::IsForceUnit F, core::IsMassUnit M>
 [[nodiscard]] constexpr
-AccelerationVector2D<A> acceleration(
+decltype(auto) acceleration(
     ForceVector2D<F> const& force,
     M const& mass)
 {

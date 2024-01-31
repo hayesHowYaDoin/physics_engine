@@ -11,10 +11,10 @@ TEST(EulerResolve, resolveMotion)
     using namespace units::literals;
 
     usecases::EulerParticle const particle {
-        domain::PositionVector2D(0.0_m, 10.0_m),
-        domain::VelocityVector2D(0.0_mps, 0.0_mps),
-        1.0_kg,
-        {domain::ForceVector2D(0.0_N, domain::constants::G * 1.0_kg)}
+        .mass {1.0_kg},
+        .position {domain::PositionVector2D(0.0_m, 10.0_m)},
+        .velocity {domain::VelocityVector2D(0.0_mps, 0.0_mps)},
+        .forces {domain::ForceVector2D(0.0_N, domain::constants::G * 1.0_kg)}
     };
     auto const forces {std::vector<domain::ForceVector2D<units::force::newtons<double>>> {
         domain::ForceVector2D(0.0_N, domain::constants::G * particle.mass)
