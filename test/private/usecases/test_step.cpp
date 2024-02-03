@@ -16,7 +16,7 @@ TEST(Step, primative)
         return object + 1;
     }};
 
-    auto results {usecases::step<uint16_t>(objects, resolveMotion)};
+    auto results {usecases::step(objects, resolveMotion)};
     EXPECT_TRUE(results.size() == 3);
 
     EXPECT_TRUE(results[0] == 1);

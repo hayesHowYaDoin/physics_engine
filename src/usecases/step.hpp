@@ -10,16 +10,11 @@
 namespace usecases
 {
 
-template <typename ObjectType>
-[[nodiscard]] constexpr
-auto step(
-    std::ranges::range auto const& particles,
-    std::function<ObjectType(ObjectType const&)> resolveMotion)
-{
-    static_assert(std::same_as<ObjectType, std::ranges::range_value_t<decltype(particles)>>);
-    
-    return particles | std::views::transform(resolveMotion);
-}
+    template <std::ranges::range Range, std::invocable<std::ranges::range_value_t<Range>> ResolveFunc>
+    auto step(Range&& particles, ResolveFunc&& resolve)
+    {
+        return std::forward<Range>(particles) | std::views::transform(resolve);
+    }
 
 } // namespace usecases
 
