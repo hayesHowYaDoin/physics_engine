@@ -7,33 +7,33 @@
 namespace domain::motion
 {
 
-template <core::IsLengthUnit L, core::IsVelocityUnit V, core::IsTimeUnit T>
+template <core::IsLengthUnit Length, core::IsVelocityUnit Velocity, core::IsTimeUnit Time>
 [[nodiscard]] constexpr
-decltype(auto) nextPosition(
-    PositionVector2D<L> const& position,
-    VelocityVector2D<V> const& velocity,
-    T const& dt) noexcept
+PositionVector2D<Length> nextPosition(
+    PositionVector2D<Length> const& position,
+    VelocityVector2D<Velocity> const& velocity,
+    Time const& dt) noexcept
 {
     return position + velocity * dt;
 }
 
-template <core::IsVelocityUnit V, core::IsAccelerationUnit A, core::IsTimeUnit T>
+template <core::IsVelocityUnit Velocity, core::IsAccelerationUnit Acceleration, core::IsTimeUnit Time>
 [[noexcept]] constexpr
-decltype(auto) nextVelocity(
-    VelocityVector2D<V> const& velocity,
-    AccelerationVector2D<A> const& acceleration,
-    T const& dt) noexcept
+VelocityVector2D<Velocity> nextVelocity(
+    VelocityVector2D<Velocity> const& velocity,
+    AccelerationVector2D<Acceleration> const& acceleration,
+    Time const& dt) noexcept
 {
     return velocity + acceleration * dt;
 }
 
-template <core::IsForceUnit F, core::IsMassUnit M>
+template <core::IsForceUnit Force, core::IsMassUnit Mass>
 [[nodiscard]] constexpr
-decltype(auto) acceleration(
-    ForceVector2D<F> const& force,
-    M const& mass)
+auto acceleration(
+    ForceVector2D<Force> const& force,
+    Mass const& mass) -> decltype(force / mass)
 {
-    if(mass <= M(0))
+    if(mass <= Mass(0))
         throw std::invalid_argument("Mass must be greater than zero.");
     
     return force / mass;

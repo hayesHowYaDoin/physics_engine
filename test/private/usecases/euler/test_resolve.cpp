@@ -9,17 +9,19 @@ static constexpr auto REQUIRED_PRECISION {0.000'001f};
 TEST(EulerResolve, resolveMotion)
 {
     using namespace units::literals;
+    using Mass = units::mass::kilograms<double>;
+    using Position = units::length::meters<double>;
+    using Velocity = units::velocity::meters_per_second<double>;
+    using Force = units::force::newtons<double>;
+    using Time = units::time::seconds<double>;
 
-    usecases::EulerParticle const particle {
+    usecases::EulerParticle<Mass, Position, Velocity, Force> const particle {
         .mass {1.0_kg},
         .position {domain::PositionVector2D(0.0_m, 10.0_m)},
         .velocity {domain::VelocityVector2D(0.0_mps, 0.0_mps)},
         .forces {domain::ForceVector2D(0.0_N, domain::constants::G * 1.0_kg)}
     };
-    auto const forces {std::vector<domain::ForceVector2D<units::force::newtons<double>>> {
-        domain::ForceVector2D(0.0_N, domain::constants::G * particle.mass)
-    }};
-    auto const timeStep {units::time::seconds<double> {1}};
+    Time const timeStep {1};
 
     auto const result {usecases::euler::resolveMotion(particle, timeStep)};
 

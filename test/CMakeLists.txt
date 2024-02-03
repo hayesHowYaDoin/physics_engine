@@ -1,2 +1,2 @@
-add_subdirectory(domain)
-add_subdirectory(usecases)
+add_subdirectory(public)
+add_subdirectory(private)

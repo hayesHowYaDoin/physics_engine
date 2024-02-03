@@ -11,11 +11,9 @@
 namespace usecases::euler
 {
 
-template <core::IsTimeUnit TimeUnit>
+template <IsEulerParticle Particle, core::IsTimeUnit TimeUnit>
 [[nodiscard]] constexpr
-EulerParticle resolveMotion(
-    EulerParticle const& particle,
-    TimeUnit const& timeStep)
+Particle resolveMotion(Particle const& particle, TimeUnit const& timeStep)
 {
     using namespace units::literals;
 
@@ -25,7 +23,7 @@ EulerParticle resolveMotion(
     auto velocity {domain::motion::nextVelocity(particle.velocity, acceleration, timeStep)};
     auto position {domain::motion::nextPosition(particle.position, velocity, timeStep)};
 
-    return EulerParticle {
+    return Particle {
         .mass = particle.mass,
         .position = position,
         .velocity = velocity,

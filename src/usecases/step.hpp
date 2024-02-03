@@ -3,6 +3,7 @@
 
 #include "core/concepts.hpp"
 
+#include <concepts>
 #include <functional>
 #include <ranges>
 
@@ -15,6 +16,8 @@ auto step(
     std::ranges::range auto const& particles,
     std::function<ObjectType(ObjectType const&)> resolveMotion)
 {
+    static_assert(std::same_as<ObjectType, std::ranges::range_value_t<decltype(particles)>>);
+    
     return particles | std::views::transform(resolveMotion);
 }
 
