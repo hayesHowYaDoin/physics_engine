@@ -1,10 +1,13 @@
+#include <cstdint>
+#include <vector>
+
+#include <units.h>
+#include <gtest/gtest.h>
+
 #include "usecases/euler/resolve.hpp"
 #include "usecases/step.hpp"
 #include "domain/constants.hpp"
 
-#include <cstdint>
-#include <units.h>
-#include <gtest/gtest.h>
 
 static constexpr auto REQUIRED_PRECISION {0.000'001f};
 
@@ -12,7 +15,7 @@ TEST(Step, primative)
 {
     std::vector<uint16_t> objects {0, 1, 2};
 
-    auto resolveMotion {[](uint16_t const& object) -> uint16_t {
+    auto resolveMotion {[](uint16_t object) -> uint16_t {
         return object + 1;
     }};
 
