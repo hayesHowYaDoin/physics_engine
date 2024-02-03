@@ -1,25 +1,30 @@
-// #ifndef EULER_H_
-// #define EULER_H_
+#ifndef PHYSICS_BACKEND_EULER_SI_H_
+#define PHYSICS_BACKEND_EULER_SI_H_
 
-// #include <string>
-// #include <units.h>
+#include <string>
+#include <memory>
 
-// namespace physics_backend::euler::si
-// {
-//     struct EulerParticle;
+#include <units.h>
 
-//     using Mass = units::mass::kilograms<double>;
-//     using Position = units::length::meters<double>;
-//     using Velocity = units::velocity::meters_per_second<double>;
-//     using Force = units::force::newtons<double>;
+namespace physics_backend::euler::si
+{
 
-//     using Particle = EulerParticle<Mass, Position, Velocity, Force>;
+struct Particle
+{
+    Particle(double massKg, double x, double y, double vx, double vy);
+    ~Particle();
 
-//     Particle buildParticle(float mass, float x, float y, float vx, float vy)
-//     {
-//         return Particle(Mass(mass), Position(x), Position(y), Velocity(vx), Velocity(vy));
-//     }
+    double getMass() const;
+    std::pair<double, double> getPosition() const;
+    std::pair<double, double> getVelocity() const;
 
-// } // namespace physics_backend::euler::si
+private:
+    struct Impl;
+    std::unique_ptr<Impl> m_pImpl;
+};
 
-// #endif // EULER_H_
+// Particle step(Particle&& particle, uint32_t seconds);
+
+} // namespace physics_backend::euler::si
+
+#endif // PHYSICS_BACKEND_EULER_SI_H_
