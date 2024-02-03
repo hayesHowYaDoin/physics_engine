@@ -8,7 +8,7 @@
 
 #include <vector>
 
-namespace usecases
+namespace usecases::euler
 {
 
 template<
@@ -27,7 +27,11 @@ struct EulerParticle
 template <typename T>
 struct is_euler_particle : std::false_type {};
 
-template <core::IsMassUnit Mass, core::IsLengthUnit Position, core::IsVelocityUnit Velocity, core::IsForceUnit Force>
+template <
+    core::IsMassUnit Mass,
+    core::IsLengthUnit Position,
+    core::IsVelocityUnit Velocity,
+    core::IsForceUnit Force>
 struct is_euler_particle<EulerParticle<Mass, Position, Velocity, Force>> : std::true_type
 {
     using mass_type = Mass;
@@ -73,6 +77,6 @@ auto buildEulerParticle(
         .forces = forceVectors};
 }
 
-} // namespace usecases
+} // namespace usecases::euler
 
 #endif // USECASES_PARTICLE_HPP_

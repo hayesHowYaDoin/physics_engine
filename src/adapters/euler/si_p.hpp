@@ -13,7 +13,7 @@ using VelocityUnit = units::velocity::meters_per_second<double>;
 using ForceUnit = units::force::newtons<double>;
 using TimeUnit = units::time::seconds<double>;
 
-using ParticleSI = usecases::EulerParticle<MassUnit, PositionUnit, VelocityUnit, ForceUnit>;
+using ParticleSI = usecases::euler::EulerParticle<MassUnit, PositionUnit, VelocityUnit, ForceUnit>;
 
 struct Particle::Impl
 {
@@ -21,7 +21,7 @@ struct Particle::Impl
 };
 
 Particle::Particle(double mass, double x, double y, double vx, double vy) :
-    m_pImpl {std::make_unique<Impl>(usecases::buildEulerParticle<ParticleSI>(mass, {x, y}, {vx, vy}))}
+    m_pImpl {std::make_unique<Impl>(usecases::euler::buildEulerParticle<ParticleSI>(mass, {x, y}, {vx, vy}))}
 {
     // Intentionally left blank.
 }
