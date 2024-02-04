@@ -1,8 +1,7 @@
 #ifndef PHYSICS_BACKEND_DOMAIN_MOTION_HPP
 #define PHYSICS_BACKEND_DOMAIN_MOTION_HPP
 
-#include "physics_backend/units/units.hpp"
-#include "physics_backend/units/vector.hpp"
+#include "physics_backend/units.hpp"
 
 namespace physics::domain
 {

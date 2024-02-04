@@ -1,11 +1,11 @@
 #ifndef PHYSICS_BACKEND_STRATEGY_DETAIL_STEP_HELPER_HPP
 #define PHYSICS_BACKEND_STRATEGY_DETAIL_STEP_HELPER_HPP
 
-#include "physics_backend/units/units.hpp"
-
 #include <concepts>
 #include <functional>
 #include <ranges>
+
+#include "physics_backend/units.hpp"
 
 namespace physics::detail
 {

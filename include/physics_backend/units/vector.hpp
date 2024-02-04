@@ -145,14 +145,27 @@ auto operator/(Vector2D::Impl<LhsType> const& lhs, RhsType rhs) noexcept
 template <IsLengthUnit LengthType>
 using PositionVector2D = Vector2D::Impl<LengthType>;
 
+template <typename T>
+concept IsPositionVector2D = std::is_same_v<T, PositionVector2D<typename T::MagnitudeType>>;
+
 template <IsVelocityUnit VelocityType>
 using VelocityVector2D = Vector2D::Impl<VelocityType>;
+
+template <typename T>
+concept IsVelocityVector2D = std::is_same_v<T, VelocityVector2D<typename T::MagnitudeType>>;
 
 template <IsAccelerationUnit AccelerationType>
 using AccelerationVector2D = Vector2D::Impl<AccelerationType>;
 
+template <typename T>
+concept IsAccelerationVector2D = std::is_same_v<T, AccelerationVector2D<typename T::MagnitudeType>>;
+
 template <IsForceUnit ForceType>
 using ForceVector2D = Vector2D::Impl<ForceType>;
+
+template <typename T>
+concept IsForceVector2D = std::is_same_v<T, ForceVector2D<typename T::MagnitudeType>>;
+
 
 } // namespace physics::units
 
