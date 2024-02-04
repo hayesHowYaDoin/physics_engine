@@ -1,8 +1,9 @@
-#include "usecases/euler/resolve.hpp"
-#include "domain/constants.hpp"
-
 #include <units.h>
 #include <gtest/gtest.h>
+
+#include "physics_backend/units.hpp"
+#include "usecases/euler/resolve.hpp"
+#include "domain/constants.hpp"
 
 static constexpr auto REQUIRED_PRECISION {0.000'001f};
 
@@ -15,7 +16,7 @@ TEST(EulerResolve, resolveMotion)
     using Force = units::force::newtons<double>;
     using Time = units::time::seconds<double>;
 
-    usecases::euler::EulerParticle<Mass, Position, Velocity, Force> const particle {
+    usecases::euler::EulerParticle<physics_backend::SI> const particle {
         .mass {1.0_kg},
         .position {domain::PositionVector2D(0.0_m, 10.0_m)},
         .velocity {domain::VelocityVector2D(0.0_mps, 0.0_mps)},
