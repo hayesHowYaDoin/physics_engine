@@ -1,5 +1,4 @@
 include(cmake/library.cmake)
-include(cmake/python.cmake)
 include(cmake/test.cmake)
 
 cmake_minimum_required(VERSION 3.28 FATAL_ERROR)
@@ -13,7 +12,6 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 option(BUILD_TESTING "Build tests" ON)
 
 build_physics_backend()
-build_python()
 
 if(BUILD_TESTING AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test/CMakeLists.txt")
     build_test()
