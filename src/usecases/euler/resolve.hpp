@@ -12,9 +12,9 @@
 namespace usecases::euler
 {
 
-template <physics_backend::IsUnitSystem Units, core::IsTimeUnit TimeUnit>
+template <physics_backend::IsUnitSystem Units, core::IsTimeUnit Time>
 [[nodiscard]] constexpr
-auto resolveMotion(EulerParticle<Units> const& particle, TimeUnit const& timeStep)
+auto resolveMotion(EulerParticle<Units> const& particle, Time const& timeStep)
 {
     using namespace units::literals;
 

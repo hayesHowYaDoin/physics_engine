@@ -28,8 +28,6 @@ struct EulerParticle
 
 };
 
-
-
 } // namespace usecases::euler
 
 #endif // USECASES_PARTICLE_HPP_

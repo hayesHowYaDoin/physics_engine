@@ -10,19 +10,19 @@
 namespace usecases
 {
 
-template <std::ranges::range Range, typename ResolveFunc>
-auto step(Range&& particles, ResolveFunc&& motion)
+template <std::ranges::range Range, typename... Function>
+auto step(Range&& particles, Function&&... motion)
 {
     using RangeType = std::ranges::range_value_t<Range>;
 
     static_assert(
-        std::invocable<ResolveFunc, RangeType>,
+        (std::invocable<Function, RangeType>, ...),
         "Resolve strategy must take the aggregated particle type.");
     static_assert(
-        std::same_as<std::invoke_result_t<ResolveFunc, RangeType>, RangeType>,
+        (std::same_as<std::invoke_result_t<Function, RangeType>, RangeType>, ...),
         "Resolve strategy must return the aggregated particle type.");
 
-    return std::forward<Range>(particles) | std::views::transform(motion);
+    return (std::forward<Range>(particles) | ... | std::views::transform(motion));
 }
 
 } // namespace usecases
