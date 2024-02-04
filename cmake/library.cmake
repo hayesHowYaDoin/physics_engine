@@ -3,12 +3,11 @@ function(build_physics_backend)
 
     add_library(physics_backend INTERFACE)
 
-    add_subdirectory(${CMAKE_SOURCE_DIR}/src)
-    add_subdirectory(${CMAKE_SOURCE_DIR}/libs)
+    add_subdirectory(${CMAKE_SOURCE_DIR}/libs/units)
 
-    target_include_directories(physics_backend 
+    target_include_directories(physics_backend
         INTERFACE
-            ${CMAKE_SOURCE_DIR}/src
+            ${CMAKE_SOURCE_DIR}/include
     )
 
     # Silence warnings
@@ -21,5 +20,5 @@ function(build_physics_backend)
     target_link_libraries(physics_backend
         INTERFACE
             units::units)
-            
+
 endfunction()

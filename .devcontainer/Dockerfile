@@ -35,6 +35,10 @@ RUN sh /cmake-3.28.0-linux-x86_64.sh --prefix=/opt/cmake --skip-license
 RUN ln -s /opt/cmake/bin/cmake /usr/local/bin/cmake
 RUN cmake --version
 
+# Install Ninja
+RUN echo "************************ Ninja ************************"
+RUN apt-get install -y ninja-build
+
 # Google Benchmark
 RUN echo "************************ Google Benchmark ************************"
 RUN git clone https://github.com/google/benchmark
@@ -52,6 +56,10 @@ WORKDIR "googletest/build"
 RUN cmake -DCMAKE_CXX_FLAGS=-std=c++1z   -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON ../ && cmake --build .  --parallel && cmake --install .
 WORKDIR "/"
 RUN rm -rf googletest
+
+# Python
+RUN echo "************************ Python ************************"
+RUN apt-get install -y python3-pip
 
 # PlantUML Dependencies (Java and Graphviz)
 RUN echo "************************ PlantUML ************************"
