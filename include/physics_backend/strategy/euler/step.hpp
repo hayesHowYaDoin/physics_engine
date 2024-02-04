@@ -18,9 +18,11 @@ auto step(Range&& particle, Time time)
         "Range value type must be a Particle."
     );
 
-    auto motion = [time](auto const& particle){return resolveMotion(particle, time)};
+    auto motion = [time](auto const& particle){ return resolveMotion(particle, time); };
 
     return physics::detail::step_helper(std::forward<Range>(particle), motion);
 }
 
 } // namespace usecases::euler
+
+#endif // PHYSICS_BACKEND_STRATEGY_EULER_STEP_HPP
