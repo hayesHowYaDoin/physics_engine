@@ -1,19 +1,20 @@
 #ifndef USECASES_EULER_RESOLVE_HPP_
 #define USECASES_EULER_RESOLVE_HPP_
 
+#include <algorithm>
+
+#include "physics_backend/units.hpp"
 #include "usecases/euler/particle.hpp"
 #include "domain/motion.hpp"
 #include "domain/vector.hpp"
 #include "core/concepts.hpp"
 
-#include <algorithm>
-
 namespace usecases::euler
 {
 
-template <IsEulerParticle Particle, core::IsTimeUnit TimeUnit>
+template <physics_backend::IsUnitSystem Units, core::IsTimeUnit TimeUnit>
 [[nodiscard]] constexpr
-Particle resolveMotion(Particle const& particle, TimeUnit const& timeStep)
+auto resolveMotion(EulerParticle<Units> const& particle, TimeUnit const& timeStep)
 {
     using namespace units::literals;
 
@@ -23,7 +24,7 @@ Particle resolveMotion(Particle const& particle, TimeUnit const& timeStep)
     auto velocity {domain::motion::nextVelocity(particle.velocity, acceleration, timeStep)};
     auto position {domain::motion::nextPosition(particle.position, velocity, timeStep)};
 
-    return Particle {
+    return EulerParticle<Units> {
         .mass = particle.mass,
         .position = position,
         .velocity = velocity,

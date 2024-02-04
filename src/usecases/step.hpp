@@ -11,7 +11,7 @@ namespace usecases
 {
 
 template <std::ranges::range Range, typename ResolveFunc>
-auto step(Range&& particles, ResolveFunc&& resolve)
+auto step(Range&& particles, ResolveFunc&& motion)
 {
     using RangeType = std::ranges::range_value_t<Range>;
 
@@ -22,7 +22,7 @@ auto step(Range&& particles, ResolveFunc&& resolve)
         std::same_as<std::invoke_result_t<ResolveFunc, RangeType>, RangeType>,
         "Resolve strategy must return the aggregated particle type.");
 
-    return std::forward<Range>(particles) | std::views::transform(resolve);
+    return std::forward<Range>(particles) | std::views::transform(motion);
 }
 
 } // namespace usecases
