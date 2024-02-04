@@ -7,7 +7,7 @@ namespace physics::euler
 {
 
 template<physics::units::IsUnitSystem Units>
-struct EulerParticle
+struct Particle
 {
     using Mass = typename Units::Mass;
     using Position = typename Units::Length;
@@ -22,7 +22,7 @@ struct EulerParticle
 };
 
 template <typename T>
-concept IsEulerParticle = requires(T t)
+concept IsParticle = requires(T t)
 {
     requires physics::units::IsMassUnit<decltype(t.mass)>;
     requires physics::units::IsPositionVector2D<decltype(t.position)>;

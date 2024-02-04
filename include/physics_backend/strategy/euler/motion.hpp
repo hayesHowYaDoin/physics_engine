@@ -10,7 +10,7 @@ namespace physics::euler
 
 template <physics::units::IsUnitSystem Units, physics::units::IsTimeUnit Time>
 [[nodiscard]] constexpr
-auto resolveMotion(EulerParticle<Units> const& particle, Time const& timeStep)
+auto resolveMotion(Particle<Units> const& particle, Time const& timeStep)
 {
     using namespace units::literals;
 
@@ -20,7 +20,7 @@ auto resolveMotion(EulerParticle<Units> const& particle, Time const& timeStep)
     auto velocity {physics::domain::nextVelocity(particle.velocity, acceleration, timeStep)};
     auto position {physics::domain::nextPosition(particle.position, velocity, timeStep)};
 
-    return EulerParticle<Units> {
+    return Particle<Units> {
         .mass = particle.mass,
         .position = position,
         .velocity = velocity,

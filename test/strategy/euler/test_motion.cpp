@@ -15,7 +15,7 @@ TEST(EulerResolve, resolveMotion)
     using Force = physics::units::force::newtons<double>;
     using Time = physics::units::time::seconds<double>;
 
-    physics::euler::EulerParticle<physics::units::SI> const particle {
+    physics::euler::Particle<physics::units::SI> const particle {
         .mass {1.0_kg},
         .position {physics::units::PositionVector2D(0.0_m, 10.0_m)},
         .velocity {physics::units::VelocityVector2D(0.0_mps, 0.0_mps)},

@@ -14,8 +14,8 @@ template<std::ranges::range Range, physics::units::IsTimeUnit Time>
 auto step(Range&& particle, Time time)
 {
     static_assert(
-        physics::euler::IsEulerParticle<std::ranges::range_value_t<Range>>,
-        "Range value type must be a EulerParticle."
+        physics::euler::IsParticle<std::ranges::range_value_t<Range>>,
+        "Range value type must be a Particle."
     );
 
     auto motion = [time](auto const& particle){return resolveMotion(particle, time)};
