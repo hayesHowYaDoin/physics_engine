@@ -8,7 +8,6 @@ function(build_physics_backend)
     target_include_directories(physics_backend
         INTERFACE
             ${CMAKE_SOURCE_DIR}/include
-            ${CMAKE_SOURCE_DIR}/src
     )
 
     # Silence warnings
@@ -21,5 +20,5 @@ function(build_physics_backend)
     target_link_libraries(physics_backend
         INTERFACE
             units::units)
-            
+
 endfunction()
