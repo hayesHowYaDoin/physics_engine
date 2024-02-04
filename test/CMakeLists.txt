@@ -1,2 +1,3 @@
-add_subdirectory(public)
-add_subdirectory(private)
+add_subdirectory(domain)
+add_subdirectory(strategy)
+add_subdirectory(units)

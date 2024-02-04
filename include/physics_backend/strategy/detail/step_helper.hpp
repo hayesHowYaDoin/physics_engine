@@ -1,17 +1,17 @@
-#ifndef USECASES_STEP_HPP_
-#define USECASES_STEP_HPP_
-
-#include "core/concepts.hpp"
+#ifndef PHYSICS_BACKEND_STRATEGY_DETAIL_STEP_HELPER_HPP
+#define PHYSICS_BACKEND_STRATEGY_DETAIL_STEP_HELPER_HPP
 
 #include <concepts>
 #include <functional>
 #include <ranges>
 
-namespace usecases
+#include "physics_backend/units.hpp"
+
+namespace physics::detail
 {
 
 template <std::ranges::range Range, typename... Function>
-auto step(Range&& particles, Function&&... motion)
+auto step_helper(Range&& particles, Function&&... motion)
 {
     using RangeType = std::ranges::range_value_t<Range>;
 
@@ -25,6 +25,6 @@ auto step(Range&& particles, Function&&... motion)
     return (std::forward<Range>(particles) | ... | std::views::transform(motion));
 }
 
-} // namespace usecases
+} // namespace physics::detail
 
-#endif // USECASES_STEP_HPP_
+#endif // PHYSICS_BACKEND_STRATEGY_DETAIL_STEP_HELPER_HPP

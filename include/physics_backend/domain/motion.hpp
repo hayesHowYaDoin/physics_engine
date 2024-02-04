@@ -1,13 +1,14 @@
-#ifndef DOMAIN_MOTION_HPP
-#define DOMAIN_MOTION_HPP
+#ifndef PHYSICS_BACKEND_DOMAIN_MOTION_HPP
+#define PHYSICS_BACKEND_DOMAIN_MOTION_HPP
 
-#include "domain/vector.hpp"
-#include "core/concepts.hpp"
+#include "physics_backend/units.hpp"
 
-namespace domain::motion
+namespace physics::domain
 {
 
-template <core::IsLengthUnit Length, core::IsVelocityUnit Velocity, core::IsTimeUnit Time>
+using namespace physics::units;
+
+template <IsLengthUnit Length, IsVelocityUnit Velocity, IsTimeUnit Time>
 [[nodiscard]] constexpr
 PositionVector2D<Length> nextPosition(
     PositionVector2D<Length> const& position,
@@ -17,7 +18,7 @@ PositionVector2D<Length> nextPosition(
     return position + velocity * dt;
 }
 
-template <core::IsVelocityUnit Velocity, core::IsAccelerationUnit Acceleration, core::IsTimeUnit Time>
+template <IsVelocityUnit Velocity, IsAccelerationUnit Acceleration, IsTimeUnit Time>
 [[noexcept]] constexpr
 VelocityVector2D<Velocity> nextVelocity(
     VelocityVector2D<Velocity> const& velocity,
@@ -27,7 +28,7 @@ VelocityVector2D<Velocity> nextVelocity(
     return velocity + acceleration * dt;
 }
 
-template <core::IsForceUnit Force, core::IsMassUnit Mass>
+template <IsForceUnit Force, IsMassUnit Mass>
 [[nodiscard]] constexpr
 auto acceleration(
     ForceVector2D<Force> const& force,
@@ -39,6 +40,6 @@ auto acceleration(
     return force / mass;
 }
 
-} // namespace domain::motion
+} // namespace physics::domain
 
-#endif // DOMAIN_MOTION_HPP
+#endif // PHYSICS_BACKEND_DOMAIN_MOTION_HPP
