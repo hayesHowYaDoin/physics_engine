@@ -12,7 +12,7 @@ struct Vector2D
     class Impl
     {
     public:
-        constexpr Impl(MagnitudeType x, MagnitudeType y) noexcept:
+        constexpr Impl(MagnitudeType const& x, MagnitudeType const& y) noexcept:
             m_x {x},
             m_y {y}
         {
@@ -44,18 +44,10 @@ struct Vector2D
         }
 
         template <IsMagnitudeUnit RhsType>
-        [[nodiscard]] constexpr auto dot(Impl<RhsType> const& rhs) const
-        {
-            return (m_x * rhs.template getX<RhsType>() + 
-                    m_y * rhs.template getY<RhsType>());
-        }
+        [[nodiscard]] constexpr auto dot(Impl<RhsType> const& rhs) const;
 
         template <IsMagnitudeUnit RhsType>
-        [[nodiscard]] constexpr auto cross(Impl<RhsType> const& rhs) const
-        {
-            return (m_x * rhs.template getY<RhsType>() - 
-                    m_y * rhs.template getX<RhsType>());
-        }
+        [[nodiscard]] constexpr auto cross(Impl<RhsType> const& rhs) const;
 
     private:
         MagnitudeType m_x;
@@ -64,16 +56,16 @@ struct Vector2D
 
     template <IsMagnitudeUnit MagnitudeType>
     static constexpr Impl<MagnitudeType> fromComponents(
-        MagnitudeType x,
-        MagnitudeType y) noexcept
+        MagnitudeType const& x,
+        MagnitudeType const& y) noexcept
     {
         return Impl<MagnitudeType> {x, y};
     }
 
     template <IsMagnitudeUnit MagnitudeType, IsAngleUnit AngleType>
     static Impl<MagnitudeType> fromPolar(
-        AngleType angle,
-        MagnitudeType magnitude)
+        AngleType const& angle,
+        MagnitudeType const& magnitude)
     {
         if(magnitude.template to<float>() < 0.0f)
             throw std::invalid_argument {"Magnitude must be positive."};
@@ -114,7 +106,7 @@ template <IsMagnitudeUnit RhsType, IsMagnitudeUnit LhsType>
 [[nodiscard]] constexpr
 auto operator-(
     Vector2D::Impl<LhsType> const& lhs,
-    Vector2D::Impl<RhsType> const& rhs) noexcept
+    Vector2D::Impl<RhsType> const& rhs)
 {
     auto x {lhs.template getX<LhsType>() - rhs.template getX<LhsType>()};
     auto y {lhs.template getY<LhsType>() - rhs.template getY<LhsType>()};
@@ -124,7 +116,7 @@ auto operator-(
 
 template <IsMagnitudeUnit LhsType, typename RhsType>
 [[nodiscard]] constexpr 
-auto operator*(Vector2D::Impl<LhsType> const& lhs, RhsType rhs) noexcept
+auto operator*(Vector2D::Impl<LhsType> const& lhs, RhsType rhs)
 {
     auto x {lhs.template getX<LhsType>() * rhs};
     auto y {lhs.template getY<LhsType>() * rhs};
@@ -134,12 +126,30 @@ auto operator*(Vector2D::Impl<LhsType> const& lhs, RhsType rhs) noexcept
 
 template <IsMagnitudeUnit LhsType, typename RhsType>
 [[nodiscard]] constexpr
-auto operator/(Vector2D::Impl<LhsType> const& lhs, RhsType rhs) noexcept
+auto operator/(Vector2D::Impl<LhsType> const& lhs, RhsType rhs)
 {
     auto x {lhs.template getX<LhsType>() / rhs};
     auto y {lhs.template getY<LhsType>() / rhs};
 
     return Vector2D::Impl(x, y);
+}
+
+template <IsMagnitudeUnit LhsType>
+template <IsMagnitudeUnit RhsType>
+[[nodiscard]] constexpr
+auto Vector2D::Impl<LhsType>::dot(Vector2D::Impl<RhsType> const& rhs) const
+{
+    return (m_x * rhs.template getX<RhsType>() + 
+            m_y * rhs.template getY<RhsType>());
+}
+
+template <IsMagnitudeUnit LhsType>
+template <IsMagnitudeUnit RhsType>
+[[nodiscard]] constexpr
+auto Vector2D::Impl<LhsType>::cross(Vector2D::Impl<RhsType> const& rhs) const
+{
+    return (m_x * rhs.template getY<RhsType>() - 
+            m_y * rhs.template getX<RhsType>());
 }
 
 template <IsLengthUnit MagnitudeType>
