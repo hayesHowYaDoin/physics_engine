@@ -70,7 +70,7 @@ TEST(MotionTest, AccelerationMassZero)
     constexpr auto mass {0.0_kg};
 
     EXPECT_THROW(
-        physics::domain::acceleration(force, mass),
+        static_cast<void>(physics::domain::acceleration(force, mass)),
         std::invalid_argument);
 }
 
@@ -83,6 +83,6 @@ TEST(MotionTest, AccelerationMassNegative)
     constexpr auto mass {-10.0_kg};
 
     EXPECT_THROW(
-        physics::domain::acceleration(force, mass),
+        static_cast<void>(physics::domain::acceleration(force, mass)),
         std::invalid_argument);
 }
