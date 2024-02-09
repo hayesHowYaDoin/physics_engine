@@ -1,12 +1,27 @@
 #include <gtest/gtest.h>
 
-#include "physics_backend/strategy/euler/particle.hpp"
-#include "physics_backend/strategy/euler/motion.hpp"
+#include "physics_backend/euler.hpp"
 #include "physics_backend/units.hpp"
 
 static constexpr auto REQUIRED_PRECISION {0.000'001f};
 
-TEST(EulerResolve, resolveMotion)
+TEST(Euler, stepIntegrity)
+{
+    using namespace physics::units::literals;
+
+    physics::euler::Particle<physics::units::SI> particle {
+        .mass {1.0_kg},
+        .position {physics::units::PositionVector2D(0.0_m, 10.0_m)},
+        .velocity {physics::units::VelocityVector2D(0.0_mps, 0.0_mps)},
+        .forces {physics::units::ForceVector2D(0.0_N, -9.81_N)}
+    };
+    std::vector<physics::euler::Particle<physics::units::SI>> particles {particle, particle};
+
+    auto const result {physics::euler::step(particles, 1.0_s)};
+    EXPECT_TRUE(result.size() == particles.size()); 
+}
+
+TEST(Euler, resolveMotion)
 {
     using namespace physics::units::literals;
     using Mass = physics::units::mass::kilograms<double>;

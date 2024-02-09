@@ -142,30 +142,41 @@ auto operator/(Vector2D::Impl<LhsType> const& lhs, RhsType rhs) noexcept
     return Vector2D::Impl(x, y);
 }
 
-template <IsLengthUnit LengthType>
-using PositionVector2D = Vector2D::Impl<LengthType>;
+template <IsLengthUnit MagnitudeType>
+using PositionVector2D = Vector2D::Impl<MagnitudeType>;
 
 template <typename T>
-concept IsPositionVector2D = std::is_same_v<T, PositionVector2D<typename T::MagnitudeType>>;
+concept IsPositionVector2D = requires(T t)
+{
+    []<typename X>(PositionVector2D<X>&){}(t);
+};
 
-template <IsVelocityUnit VelocityType>
-using VelocityVector2D = Vector2D::Impl<VelocityType>;
-
-template <typename T>
-concept IsVelocityVector2D = std::is_same_v<T, VelocityVector2D<typename T::MagnitudeType>>;
-
-template <IsAccelerationUnit AccelerationType>
-using AccelerationVector2D = Vector2D::Impl<AccelerationType>;
+template <IsVelocityUnit MagnitudeType>
+using VelocityVector2D = Vector2D::Impl<MagnitudeType>;
 
 template <typename T>
-concept IsAccelerationVector2D = std::is_same_v<T, AccelerationVector2D<typename T::MagnitudeType>>;
+concept IsVelocityVector2D = requires(T t)
+{
+    []<typename X>(VelocityVector2D<X>&){}(t);
+};
 
-template <IsForceUnit ForceType>
-using ForceVector2D = Vector2D::Impl<ForceType>;
+template <IsAccelerationUnit MagnitudeType>
+using AccelerationVector2D = Vector2D::Impl<MagnitudeType>;
 
 template <typename T>
-concept IsForceVector2D = std::is_same_v<T, ForceVector2D<typename T::MagnitudeType>>;
+concept IsAccelerationVector2D = requires(T t)
+{
+    []<typename X>(AccelerationVector2D<X>&){}(t);
+};
 
+template <IsForceUnit MagnitudeType>
+using ForceVector2D = Vector2D::Impl<MagnitudeType>;
+
+template <typename T>
+concept IsForceVector2D = requires(T t)
+{
+    []<typename X>(ForceVector2D<X>&){}(t);
+};
 
 } // namespace physics::units
 
