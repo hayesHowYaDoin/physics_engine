@@ -19,12 +19,12 @@ RUN apt-get install -y \
         systemd-coredump \
         nano
 
-# GCC 13
+# GCC 11
 RUN echo "************************ GCC ************************"
 RUN apt-get install -y software-properties-common
 RUN add-apt-repository -y ppa:ubuntu-toolchain-r/test
 RUN apt-get update
-RUN apt-get install -y gcc-13 g++-13
+RUN apt-get install -y gcc-11 g++-11
 RUN PATH=/bin:$PATH
 
 # CMake 3.28
@@ -63,6 +63,7 @@ RUN apt-get install -y python3-pip
 
 # PlantUML Dependencies (Java and Graphviz)
 RUN echo "************************ PlantUML ************************"
+RUN add-apt-repository ppa:openjdk-r/ppa
 RUN apt-get install -y openjdk-11-jdk
 RUN apt-get install -y graphviz
 

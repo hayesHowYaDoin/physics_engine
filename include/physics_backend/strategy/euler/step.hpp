@@ -4,23 +4,25 @@
 #include <ranges>
 
 #include "physics_backend/units.hpp"
-#include "physics_backend/strategy/detail/step_helper.hpp"
+#include "physics_backend/strategy/detail/fmaps.hpp"
+#include "physics_backend/strategy/euler/motion.hpp"
 #include "physics_backend/strategy/euler/particle.hpp"
 
-namespace usecases::euler
+namespace physics::euler
 {
 
-template<std::ranges::range Range, physics::units::IsTimeUnit Time>
-auto step(Range&& particle, Time time)
+template<
+    template <typename...> class Container,
+    physics::euler::IsParticle Particle,
+    physics::units::IsTimeUnit Time>
+auto step(Container<Particle> const& particles, Time time)
 {
-    static_assert(
-        physics::euler::IsParticle<std::ranges::range_value_t<Range>>,
-        "Range value type must be a Particle."
-    );
+    auto motion = [time](auto const& particle){ return resolveMotion(particle, time); };
 
-    auto motion = [time](auto const& particle){return resolveMotion(particle, time)};
-
-    return physics::detail::step_helper(std::forward<Range>(particle), motion);
+    auto updatedParticles {physics::detail::fmaps(particles, motion)};
+    return Container<Particle>(updatedParticles.begin(), updatedParticles.end());
 }
 
-} // namespace usecases::euler
+} // namespace physics::euler
+
+#endif // PHYSICS_BACKEND_STRATEGY_EULER_STEP_HPP
