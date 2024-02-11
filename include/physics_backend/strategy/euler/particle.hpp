@@ -1,6 +1,8 @@
 #ifndef PHYSICS_BACKEND_STRATEGY_EULER_PARTICLE_HPP
 #define PHYSICS_BACKEND_STRATEGY_EULER_PARTICLE_HPP
 
+#include <any>
+
 #include "physics_backend/units.hpp"
 
 namespace physics::euler
@@ -18,6 +20,8 @@ struct Particle
     physics::units::PositionVector2D<Position> const position;
     physics::units::VelocityVector2D<Velocity> const velocity;
     std::vector<physics::units::ForceVector2D<Force>> const forces;
+
+    std::any metadata = nullptr;
 };
 
 template <typename T>

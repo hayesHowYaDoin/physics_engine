@@ -8,23 +8,25 @@
 namespace physics::euler
 {
 
-template <physics::units::IsUnitSystem Units, physics::units::IsTimeUnit Time>
+template <physics::euler::IsParticle Particle, physics::units::IsTimeUnit Time>
 [[nodiscard]] constexpr
-auto resolveMotion(Particle<Units> const& particle, Time const& timeStep)
+auto resolveMotion(Particle const& particle, Time const& timeStep)
 {
-    using namespace units::literals;
-
-    auto forcesSum {std::accumulate(particle.forces.begin(), particle.forces.end(), domain::ForceVector2D(0.0_N, 0.0_N))};
+    using Force = typename Particle::Force;
+    
+    auto zeroForce {domain::Vector2D::fromComponents(Force(0.0), Force(0.0))};
+    auto forcesSum {std::accumulate(particle.forces.begin(), particle.forces.end(), zeroForce)};
 
     auto acceleration {physics::domain::acceleration(forcesSum, particle.mass)};
     auto velocity {physics::domain::nextVelocity(particle.velocity, acceleration, timeStep)};
     auto position {physics::domain::nextPosition(particle.position, velocity, timeStep)};
 
-    return Particle<Units> {
+    return Particle {
         .mass = particle.mass,
         .position = position,
         .velocity = velocity,
-        .forces = particle.forces};
+        .forces = particle.forces,
+        .metadata = particle.metadata};
 }
 
 } // namespace physics::euler

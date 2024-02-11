@@ -10,17 +10,26 @@ TEST(Euler, stepIntegrity)
     using namespace physics::units;
     using namespace physics::units::literals;
 
+    struct Metadata
+    {
+        std::string name;
+    };
+
     physics::euler::Particle<SI> particle {
         .mass {1.0_kg},
         .position {PositionVector2D(0.0_m, 10.0_m)},
         .velocity {VelocityVector2D(0.0_mps, 0.0_mps)},
-        .forces {ForceVector2D(0.0_N, -9.81_N)}
+        .forces {ForceVector2D(0.0_N, -9.81_N)},
+        .metadata {Metadata{.name = "metadataString"}}
     };
     std::vector<physics::euler::Particle<SI>> const particles {particle, particle};
     auto const updatedParticles {physics::euler::step(particles, 1.0_s)};
 
     EXPECT_TRUE((std::is_same<decltype(particles), decltype(updatedParticles)>::value));
     EXPECT_TRUE(particles.size() == updatedParticles.size());
+
+    auto data {std::any_cast<Metadata>(updatedParticles.at(0).metadata)};
+    EXPECT_TRUE(data.name == "metadataString");
 }
 
 TEST(Euler, resolveMotion)
