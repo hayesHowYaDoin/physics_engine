@@ -3,7 +3,7 @@ include(cmake/test.cmake)
 
 cmake_minimum_required(VERSION 3.26 FATAL_ERROR)
 
-project(physics_backend VERSION 0.1.0 LANGUAGES CXX)
+project(physics_backend VERSION 0.1.1 LANGUAGES CXX)
 
 set(MAIN_PROJECT OFF)
 if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)

@@ -7,18 +7,20 @@ static constexpr auto REQUIRED_PRECISION {0.000'001f};
 
 TEST(Euler, stepIntegrity)
 {
+    using namespace physics::units;
     using namespace physics::units::literals;
 
-    physics::euler::Particle<physics::units::SI> particle {
+    physics::euler::Particle<SI> particle {
         .mass {1.0_kg},
-        .position {physics::units::PositionVector2D(0.0_m, 10.0_m)},
-        .velocity {physics::units::VelocityVector2D(0.0_mps, 0.0_mps)},
-        .forces {physics::units::ForceVector2D(0.0_N, -9.81_N)}
+        .position {PositionVector2D(0.0_m, 10.0_m)},
+        .velocity {VelocityVector2D(0.0_mps, 0.0_mps)},
+        .forces {ForceVector2D(0.0_N, -9.81_N)}
     };
-    std::vector<physics::euler::Particle<physics::units::SI>> particles {particle, particle};
+    std::vector<physics::euler::Particle<SI>> const particles {particle, particle};
+    auto const updatedParticles {physics::euler::step(particles, 1.0_s)};
 
-    auto const result {physics::euler::step(particles, 1.0_s)};
-    EXPECT_TRUE(result.size() == particles.size()); 
+    EXPECT_TRUE((std::is_same<decltype(particles), decltype(updatedParticles)>::value));
+    EXPECT_TRUE(particles.size() == updatedParticles.size());
 }
 
 TEST(Euler, resolveMotion)
