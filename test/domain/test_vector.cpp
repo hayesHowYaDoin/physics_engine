@@ -1,8 +1,7 @@
-#include "physics_backend/domain/vector.hpp"
-
 #include <gtest/gtest.h>
 
-static constexpr auto REQUIRED_PRECISION {0.000'001f};
+#include "physics_backend/domain/vector.hpp"
+#include "common/precision.hpp"
 
 TEST(VectorTest, ConstructFromComponents)
 {
@@ -11,16 +10,16 @@ TEST(VectorTest, ConstructFromComponents)
     constexpr auto vector {physics::domain::Vector2D::fromComponents(10.0_N, 10.0_N)};
 
     auto angle {vector.getAngle<physics::units::angle::degrees<float>>()};
-    EXPECT_NEAR(angle.to<float>(), 45.0f, REQUIRED_PRECISION);
+    EXPECT_NEAR(angle.to<float>(), 45.0f, physics::test::REQUIRED_PRECISION);
 
     constexpr auto mag {vector.getMagnitude<physics::units::force::newtons<float>>()};
-    EXPECT_NEAR(mag.to<float>(), 14.142'136f, REQUIRED_PRECISION);
+    EXPECT_NEAR(mag.to<float>(), 14.142'136f, physics::test::REQUIRED_PRECISION);
 
     constexpr auto x {vector.getX<physics::units::force::newtons<float>>()};
-    EXPECT_NEAR(x.to<float>(), 10.0f, REQUIRED_PRECISION);
+    EXPECT_NEAR(x.to<float>(), 10.0f, physics::test::REQUIRED_PRECISION);
 
     constexpr auto y {vector.getY<physics::units::force::newtons<float>>()};
-    EXPECT_NEAR(y.to<float>(), 10.0f, REQUIRED_PRECISION);
+    EXPECT_NEAR(y.to<float>(), 10.0f, physics::test::REQUIRED_PRECISION);
 }
 
 TEST(VectorTest, ConstructFromAngleAndMagnitude)
@@ -30,16 +29,16 @@ TEST(VectorTest, ConstructFromAngleAndMagnitude)
     auto vector {physics::domain::Vector2D::fromPolar(45.0_deg, 10.0_m)};
 
     auto angle {vector.getAngle<physics::units::angle::degrees<float>>()};
-    EXPECT_NEAR(angle.to<float>(), 45.0f, REQUIRED_PRECISION);
+    EXPECT_NEAR(angle.to<float>(), 45.0f, physics::test::REQUIRED_PRECISION);
 
     auto magnitude {vector.getMagnitude<physics::units::length::meters<float>>()};
-    EXPECT_NEAR(magnitude.to<float>(), 10.0f, REQUIRED_PRECISION);
+    EXPECT_NEAR(magnitude.to<float>(), 10.0f, physics::test::REQUIRED_PRECISION);
 
     auto x {vector.getX<physics::units::length::meters<float>>()};
-    EXPECT_NEAR(x.to<float>(), 7.071'068f, REQUIRED_PRECISION);
+    EXPECT_NEAR(x.to<float>(), 7.071'068f, physics::test::REQUIRED_PRECISION);
 
     auto y {vector.getY<physics::units::length::meters<float>>()};
-    EXPECT_NEAR(y.to<double>(), 7.071'068f, REQUIRED_PRECISION);
+    EXPECT_NEAR(y.to<double>(), 7.071'068f, physics::test::REQUIRED_PRECISION);
 }
 
 TEST(VectorTest, ConstructFromAngleAndNegativeMagnitude)
@@ -89,10 +88,10 @@ TEST(VectorTest, AddVectors)
     constexpr auto vector3 {vector1 + vector2};
 
     constexpr auto x {vector3.getX<physics::units::force::newtons<float>>()};
-    EXPECT_NEAR(x.to<float>(), 20.0f, REQUIRED_PRECISION);
+    EXPECT_NEAR(x.to<float>(), 20.0f, physics::test::REQUIRED_PRECISION);
 
     constexpr auto y {vector3.getY<physics::units::force::newtons<float>>()};
-    EXPECT_NEAR(y.to<float>(), 20.0f, REQUIRED_PRECISION);
+    EXPECT_NEAR(y.to<float>(), 20.0f, physics::test::REQUIRED_PRECISION);
 }
 
 TEST(VectorTest, SubtractVectors)
@@ -105,10 +104,10 @@ TEST(VectorTest, SubtractVectors)
     constexpr auto vector3 {vector1 - vector2};
 
     constexpr auto x {vector3.getX<physics::units::force::newtons<float>>()};
-    EXPECT_NEAR(x.to<float>(), 10.0f, REQUIRED_PRECISION);
+    EXPECT_NEAR(x.to<float>(), 10.0f, physics::test::REQUIRED_PRECISION);
 
     constexpr auto y {vector3.getY<physics::units::force::newtons<float>>()};
-    EXPECT_NEAR(y.to<float>(), 10.0f, REQUIRED_PRECISION);
+    EXPECT_NEAR(y.to<float>(), 10.0f, physics::test::REQUIRED_PRECISION);
 }
 
 TEST(VectorTest, MultiplyVectorByScalar)
@@ -120,10 +119,10 @@ TEST(VectorTest, MultiplyVectorByScalar)
     constexpr auto vector2 {vector1 * 2.0f};
 
     constexpr auto x {vector2.getX<physics::units::force::newtons<float>>()};
-    EXPECT_NEAR(x.to<float>(), 20.0f, REQUIRED_PRECISION);
+    EXPECT_NEAR(x.to<float>(), 20.0f, physics::test::REQUIRED_PRECISION);
 
     constexpr auto y {vector2.getY<physics::units::force::newtons<float>>()};
-    EXPECT_NEAR(y.to<float>(), 20.0f, REQUIRED_PRECISION);
+    EXPECT_NEAR(y.to<float>(), 20.0f, physics::test::REQUIRED_PRECISION);
 }
 
 TEST(VectorTest, DivideVectorByScalar)
@@ -135,10 +134,10 @@ TEST(VectorTest, DivideVectorByScalar)
     constexpr auto vector2 {vector1 / 2.0f};
 
     constexpr auto x {vector2.getX<physics::units::force::newtons<float>>()};
-    EXPECT_NEAR(x.to<float>(), 10.0f, REQUIRED_PRECISION);
+    EXPECT_NEAR(x.to<float>(), 10.0f, physics::test::REQUIRED_PRECISION);
 
     constexpr auto y {vector2.getY<units::force::newtons<float>>()};
-    EXPECT_NEAR(y.to<float>(), 10.0f, REQUIRED_PRECISION);
+    EXPECT_NEAR(y.to<float>(), 10.0f, physics::test::REQUIRED_PRECISION);
 }
 
 TEST(VectorTest, DotProduct)
@@ -149,7 +148,7 @@ TEST(VectorTest, DotProduct)
     constexpr auto vector2 {physics::domain::Vector2D::fromComponents(10.0_N, 10.0_N)};
 
     constexpr auto dotProduct {vector1.dot(vector2)};
-    EXPECT_NEAR(dotProduct.to<float>(), 200.0f, REQUIRED_PRECISION);
+    EXPECT_NEAR(dotProduct.to<float>(), 200.0f, physics::test::REQUIRED_PRECISION);
 }
 
 TEST(VectorTest, CrossProduct)
@@ -160,5 +159,5 @@ TEST(VectorTest, CrossProduct)
     constexpr auto vector2 {physics::domain::Vector2D::fromComponents(10.0_N, 10.0_N)};
 
     constexpr auto crossProduct {vector1.cross(vector2)};
-    EXPECT_NEAR(crossProduct.to<float>(), 0.0f, REQUIRED_PRECISION);
+    EXPECT_NEAR(crossProduct.to<float>(), 0.0f, physics::test::REQUIRED_PRECISION);
 }

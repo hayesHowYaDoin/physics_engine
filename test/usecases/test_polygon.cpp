@@ -2,10 +2,9 @@
 
 #include "physics_backend/domain/vector.hpp"
 #include "physics_backend/usecases/polygon.hpp"
+#include "common/precision.hpp"
 
 #include <iostream>
-
-static constexpr auto REQUIRED_PRECISION {0.000'001f};
 
 TEST(PolygonTest, LessThanThreeVertices)
 {
@@ -43,7 +42,7 @@ TEST(PolygonTest, VerticesIntegrity)
         auto vertexIter {std::find_if(returnedVertices.begin(), returnedVertices.end(), 
             [&vertex](auto const& returnedVertex)
             {
-                return physics::domain::Vector2D::compare(returnedVertex, vertex, REQUIRED_PRECISION);
+                return physics::domain::Vector2D::compare(returnedVertex, vertex, physics::test::REQUIRED_PRECISION);
             }
         )};
 
@@ -66,6 +65,11 @@ TEST(PolygonTest, EdgesIntegrity)
     physics::usecases::Polygon2D<Length> polygon {vertices};
     std::vector<physics::usecases::Edge2D<Length>> returnedEdges {polygon.getEdges()};
 
+    for(auto const& edge : returnedEdges)
+    {
+        std::cout << edge.first.getX<Length>() << " " << edge.first.getY<Length>() << " -> " << edge.second.getX<Length>() << " " << edge.second.getY<Length>() << std::endl;
+    }
+
     ASSERT_EQ(returnedEdges.size(), vertices.size());
 
     for(auto vertex {vertices.begin()}; vertex != vertices.end(); ++vertex)
@@ -77,8 +81,8 @@ TEST(PolygonTest, EdgesIntegrity)
         auto edgeIter {std::find_if(returnedEdges.begin(), returnedEdges.end(), 
             [&vertex, &nextVertex](auto const& returnedEdge)
             {
-                return physics::domain::Vector2D::compare(returnedEdge.first, *vertex, REQUIRED_PRECISION) &&
-                       physics::domain::Vector2D::compare(returnedEdge.second, *nextVertex, REQUIRED_PRECISION);
+                return physics::domain::Vector2D::compare(returnedEdge.first, *vertex, physics::test::REQUIRED_PRECISION) &&
+                       physics::domain::Vector2D::compare(returnedEdge.second, *nextVertex, physics::test::REQUIRED_PRECISION);
             })};
 
         ASSERT_TRUE(edgeIter != returnedEdges.end());
@@ -102,9 +106,9 @@ TEST(PolygonTest, Boundaries)
     auto xBoundaries {polygon.getXBoundaries()};
     auto yBoundaries {polygon.getYBoundaries()};
 
-    ASSERT_NEAR(xBoundaries.lower.to<float>(), -1.0f, REQUIRED_PRECISION);
-    ASSERT_NEAR(xBoundaries.upper.to<float>(), 2.5f, REQUIRED_PRECISION);
-    ASSERT_NEAR(yBoundaries.lower.to<float>(), -2.0f, REQUIRED_PRECISION);
-    ASSERT_NEAR(yBoundaries.upper.to<float>(), 1.0f, REQUIRED_PRECISION);
+    ASSERT_NEAR(xBoundaries.lower.to<float>(), -1.0f, physics::test::REQUIRED_PRECISION);
+    ASSERT_NEAR(xBoundaries.upper.to<float>(), 2.5f, physics::test::REQUIRED_PRECISION);
+    ASSERT_NEAR(yBoundaries.lower.to<float>(), -2.0f, physics::test::REQUIRED_PRECISION);
+    ASSERT_NEAR(yBoundaries.upper.to<float>(), 1.0f, physics::test::REQUIRED_PRECISION);
 
 }
