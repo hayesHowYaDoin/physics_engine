@@ -11,14 +11,14 @@ namespace physics::domain
 
 template <units::IsLengthUnit Length>
 [[nodiscard]] constexpr
-Length distance(Vector2D<Length> const& a, Vector2D<Length> const& b)
+Length distance(PositionVector2D<Length> const& a, PositionVector2D<Length> const& b)
 {
     return std::hypot(a.x - b.x, a.y - b.y);
 }
 
 template <units::IsLengthUnit Length>
 [[nodiscard]] constexpr
-double slope(Vector2D<Length> const& a, Vector2D<Length> const& b)
+double slope(PositionVector2D<Length> const& a, PositionVector2D<Length> const& b)
 {
     return (b.y - a.y) / (b.x - a.x);
 }

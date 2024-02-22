@@ -2,10 +2,9 @@
 
 #include "physics_backend/domain/vector.hpp"
 #include "physics_backend/usecases/polygon.hpp"
+#include "common/precision.hpp"
 
 #include <iostream>
-
-static constexpr auto REQUIRED_PRECISION {0.000'001f};
 
 TEST(PolygonTest, LessThanThreeVertices)
 {
@@ -43,7 +42,7 @@ TEST(PolygonTest, VerticesIntegrity)
         auto vertexIter {std::find_if(returnedVertices.begin(), returnedVertices.end(), 
             [&vertex](auto const& returnedVertex)
             {
-                return physics::domain::Vector2D::compare(returnedVertex, vertex, REQUIRED_PRECISION);
+                return physics::domain::Vector2D::compare(returnedVertex, vertex, physics::test::REQUIRED_PRECISION);
             }
         )};
 
@@ -77,8 +76,8 @@ TEST(PolygonTest, EdgesIntegrity)
         auto edgeIter {std::find_if(returnedEdges.begin(), returnedEdges.end(), 
             [&vertex, &nextVertex](auto const& returnedEdge)
             {
-                return physics::domain::Vector2D::compare(returnedEdge.first, *vertex, REQUIRED_PRECISION) &&
-                       physics::domain::Vector2D::compare(returnedEdge.second, *nextVertex, REQUIRED_PRECISION);
+                return physics::domain::Vector2D::compare(returnedEdge.first, *vertex, physics::test::REQUIRED_PRECISION) &&
+                       physics::domain::Vector2D::compare(returnedEdge.second, *nextVertex, physics::test::REQUIRED_PRECISION);
             })};
 
         ASSERT_TRUE(edgeIter != returnedEdges.end());
@@ -102,9 +101,12 @@ TEST(PolygonTest, Boundaries)
     auto xBoundaries {polygon.getXBoundaries()};
     auto yBoundaries {polygon.getYBoundaries()};
 
-    ASSERT_NEAR(xBoundaries.lower.to<float>(), -1.0f, REQUIRED_PRECISION);
-    ASSERT_NEAR(xBoundaries.upper.to<float>(), 2.5f, REQUIRED_PRECISION);
-    ASSERT_NEAR(yBoundaries.lower.to<float>(), -2.0f, REQUIRED_PRECISION);
-    ASSERT_NEAR(yBoundaries.upper.to<float>(), 1.0f, REQUIRED_PRECISION);
+    std::cout << xBoundaries.lower << ", " << xBoundaries.upper << std::endl;
+    std::cout << yBoundaries.lower << ", " << yBoundaries.upper << std::endl;
+
+    ASSERT_NEAR(xBoundaries.lower.to<float>(), -1.0f, physics::test::REQUIRED_PRECISION);
+    ASSERT_NEAR(xBoundaries.upper.to<float>(), 2.5f, physics::test::REQUIRED_PRECISION);
+    ASSERT_NEAR(yBoundaries.lower.to<float>(), -2.0f, physics::test::REQUIRED_PRECISION);
+    ASSERT_NEAR(yBoundaries.upper.to<float>(), 1.0f, physics::test::REQUIRED_PRECISION);
 
 }

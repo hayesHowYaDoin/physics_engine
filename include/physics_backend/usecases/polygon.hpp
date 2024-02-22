@@ -22,9 +22,12 @@ public:
                                         std::to_string(m_vertices.size()) + " provided).");
         }
 
+        m_xBoundaries = {m_vertices.front().template getX<Length>(), m_vertices.front().template getX<Length>()};
+        m_yBoundaries = {m_vertices.front().template getY<Length>(), m_vertices.front().template getY<Length>()};
+
         m_edges.reserve(m_vertices.size());
-        
         m_edges.push_back({m_vertices.back(), m_vertices.front()});
+
         for(auto vertex {m_vertices.begin()+1}; vertex != m_vertices.end(); ++vertex)
         {
             m_xBoundaries.lower = std::min(m_xBoundaries.lower, vertex->template getX<Length>());

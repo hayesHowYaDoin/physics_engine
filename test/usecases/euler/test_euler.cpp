@@ -3,8 +3,7 @@
 #include "physics_backend/euler.hpp"
 #include "physics_backend/units.hpp"
 #include "physics_backend/domain/vector.hpp"
-
-static constexpr auto REQUIRED_PRECISION {0.000'001f};
+#include "common/precision.hpp"
 
 TEST(Euler, StepIntegrity)
 {
@@ -55,10 +54,10 @@ TEST(Euler, ResolveMotion)
     EXPECT_TRUE(physics::domain::Vector2D::compare(
         result.position,
         physics::domain::PositionVector2D(0.0_m, 0.19_m),
-        REQUIRED_PRECISION));
+        physics::test::REQUIRED_PRECISION));
     EXPECT_TRUE(physics::domain::Vector2D::compare(
         result.velocity,
         physics::domain::VelocityVector2D(0.0_mps, -9.81_mps),
-        REQUIRED_PRECISION));
-    EXPECT_NEAR(result.mass.to<float>(), 1.0f, REQUIRED_PRECISION);
+        physics::test::REQUIRED_PRECISION));
+    EXPECT_NEAR(result.mass.to<float>(), 1.0f, physics::test::REQUIRED_PRECISION);
 }

@@ -1,8 +1,7 @@
 #include <gtest/gtest.h>
 
 #include "physics_backend/domain/motion.hpp"
-
-static constexpr auto REQUIRED_PRECISION {0.000'001f};
+#include "common/precision.hpp"
 
 TEST(MotionTest, NextPosition)
 {
@@ -18,12 +17,12 @@ TEST(MotionTest, NextPosition)
     EXPECT_NEAR(
         nextPosition.getX<length::meters<float>>().to<float>(),
         20.0f,
-        REQUIRED_PRECISION);
+        physics::test::REQUIRED_PRECISION);
 
     EXPECT_NEAR(
         nextPosition.getY<length::meters<float>>().to<float>(),
         20.0f,
-        REQUIRED_PRECISION);
+        physics::test::REQUIRED_PRECISION);
 }
 
 TEST(MotionTest, NextVelocity)
@@ -38,10 +37,10 @@ TEST(MotionTest, NextVelocity)
     constexpr auto next {physics::domain::nextVelocity(velocity, acceleration, dt)};
 
     constexpr auto x {next.getX<meters_per_second<float>>()};
-    EXPECT_NEAR(x.to<float>(), 20.0f, REQUIRED_PRECISION);
+    EXPECT_NEAR(x.to<float>(), 20.0f, physics::test::REQUIRED_PRECISION);
 
     constexpr auto y {next.getY<meters_per_second<float>>()};
-    EXPECT_NEAR(y.to<float>(), 20.0f, REQUIRED_PRECISION);
+    EXPECT_NEAR(y.to<float>(), 20.0f, physics::test::REQUIRED_PRECISION);
 }
 
 TEST(MotionTest, Acceleration)
@@ -55,10 +54,10 @@ TEST(MotionTest, Acceleration)
 
     constexpr auto acceleration {physics::domain::acceleration(force, mass)};
     constexpr auto x {acceleration.getX<Acceleration>()};
-    EXPECT_NEAR(x.to<float>(), 1.0f, REQUIRED_PRECISION);
+    EXPECT_NEAR(x.to<float>(), 1.0f, physics::test::REQUIRED_PRECISION);
 
     constexpr auto y {acceleration.getY<Acceleration>()};
-    EXPECT_NEAR(y.to<float>(), 1.0f, REQUIRED_PRECISION);
+    EXPECT_NEAR(y.to<float>(), 1.0f, physics::test::REQUIRED_PRECISION);
 }
 
 TEST(MotionTest, AccelerationMassZero)
