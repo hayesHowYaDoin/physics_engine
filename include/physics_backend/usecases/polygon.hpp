@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "physics_backend/units.hpp"
+#include "physics_backend/usecases/edge.hpp"
 
 namespace physics::usecases
 {
@@ -11,14 +12,9 @@ namespace physics::usecases
 template <physics::units::IsLengthUnit Length>
 class Polygon2D
 {
-    struct Boundaries
-    {
-        Length lower;
-        Length upper;
-    };
-
-    Polygon2D(std::vector<physics::domain::Vector2D<Length>> vertices): 
-        vertices(std::move(vertices))
+public:
+    Polygon2D(std::vector<physics::domain::PositionVector2D<Length>> vertices): 
+        m_vertices {std::move(vertices)}
     {
         if(m_vertices.size() < 3)
         {
@@ -31,41 +27,47 @@ class Polygon2D
         m_edges.push_back({m_vertices.back(), m_vertices.front()});
         for(auto vertex {m_vertices.begin()+1}; vertex != m_vertices.end(); ++vertex)
         {
-            m_xBoundaries.lower = std::min(m_xBoundaries.lower, vertex.getX());
-            m_xBoundaries.upper = std::max(m_xBoundaries.upper, vertex.getX());
+            m_xBoundaries.lower = std::min(m_xBoundaries.lower, vertex->template getX<Length>());
+            m_xBoundaries.upper = std::max(m_xBoundaries.upper, vertex->template getX<Length>());
 
-            m_yBoundaries.lower = std::min(m_yBoundaries.lower, vertex.getY());
-            m_yBoundaries.upper = std::max(m_yBoundaries.upper, vertex.getY());
+            m_yBoundaries.lower = std::min(m_yBoundaries.lower, vertex->template getY<Length>());
+            m_yBoundaries.upper = std::max(m_yBoundaries.upper, vertex->template getY<Length>());
 
             m_edges.push_back({*(vertex-1), *vertex});
         }
     }
 
-    [[nodiscard]] std::vector<physics::domain::Edge2D<Length>> getVertices() const
+    [[nodiscard]] std::vector<physics::domain::PositionVector2D<Length>> getVertices() const
     {
         return m_vertices;
     }
 
-    [[nodiscard]] std::vector<physics::domain::Edge2D<Length>> getEdges() const
+    [[nodiscard]] std::vector<physics::usecases::Edge2D<Length>> getEdges() const
     {
         return m_edges;
     }
 
-    [[nodiscard]] std::pair getXBoundaries() const
+    struct Boundaries
+    {
+        Length lower;
+        Length upper;
+    };
+
+    [[nodiscard]] Boundaries getXBoundaries() const
     {
         return m_xBoundaries;
     }
 
-    [[nodiscard]] std::pair getYBoundaries() const
+    [[nodiscard]] Boundaries getYBoundaries() const
     {
         return m_yBoundaries;
     }
 
 private:
-    std::vector<physics::domain::Vector2D<Length>> m_vertices;
-    std::vector<physics::domain::Edge2D<Length>> m_edges;
-    std::pair<Length, Length> m_xBoundaries;
-    std::pair<Length, Length> m_yBoundaries;
+    std::vector<physics::domain::PositionVector2D<Length>> m_vertices;
+    std::vector<physics::usecases::Edge2D<Length>> m_edges;
+    Boundaries m_xBoundaries;
+    Boundaries m_yBoundaries;
 };
 
 }

@@ -6,7 +6,7 @@
 
 static constexpr auto REQUIRED_PRECISION {0.000'001f};
 
-TEST(Euler, stepIntegrity)
+TEST(Euler, StepIntegrity)
 {
     using namespace physics::units;
     using namespace physics::units::literals;
@@ -33,7 +33,7 @@ TEST(Euler, stepIntegrity)
     EXPECT_TRUE(data.name == "metadataString");
 }
 
-TEST(Euler, resolveMotion)
+TEST(Euler, ResolveMotion)
 {
     using namespace physics::units::literals;
     using Mass = physics::units::mass::kilograms<double>;
