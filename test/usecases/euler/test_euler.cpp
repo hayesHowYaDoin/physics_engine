@@ -2,6 +2,7 @@
 
 #include "physics_backend/euler.hpp"
 #include "physics_backend/units.hpp"
+#include "physics_backend/domain/vector.hpp"
 
 static constexpr auto REQUIRED_PRECISION {0.000'001f};
 
@@ -17,9 +18,9 @@ TEST(Euler, stepIntegrity)
 
     physics::euler::Particle<SI> particle {
         .mass {1.0_kg},
-        .position {PositionVector2D(0.0_m, 10.0_m)},
-        .velocity {VelocityVector2D(0.0_mps, 0.0_mps)},
-        .forces {ForceVector2D(0.0_N, -9.81_N)},
+        .position {physics::domain::PositionVector2D(0.0_m, 10.0_m)},
+        .velocity {physics::domain::VelocityVector2D(0.0_mps, 0.0_mps)},
+        .forces {physics::domain::ForceVector2D(0.0_N, -9.81_N)},
         .metadata {Metadata{.name = "metadataString"}}
     };
     std::vector<physics::euler::Particle<SI>> const particles {particle, particle};
@@ -43,21 +44,21 @@ TEST(Euler, resolveMotion)
 
     physics::euler::Particle<physics::units::SI> const particle {
         .mass {1.0_kg},
-        .position {physics::units::PositionVector2D(0.0_m, 10.0_m)},
-        .velocity {physics::units::VelocityVector2D(0.0_mps, 0.0_mps)},
-        .forces {physics::units::ForceVector2D(0.0_N, -9.81_N)}
+        .position {physics::domain::PositionVector2D(0.0_m, 10.0_m)},
+        .velocity {physics::domain::VelocityVector2D(0.0_mps, 0.0_mps)},
+        .forces {physics::domain::ForceVector2D(0.0_N, -9.81_N)}
     };
     Time const timeStep {1};
 
     auto const result {physics::euler::resolveMotion(particle, timeStep)};
 
-    EXPECT_TRUE(physics::units::Vector2D::compare(
+    EXPECT_TRUE(physics::domain::Vector2D::compare(
         result.position,
-        physics::units::PositionVector2D(0.0_m, 0.19_m),
+        physics::domain::PositionVector2D(0.0_m, 0.19_m),
         REQUIRED_PRECISION));
-    EXPECT_TRUE(physics::units::Vector2D::compare(
+    EXPECT_TRUE(physics::domain::Vector2D::compare(
         result.velocity,
-        physics::units::VelocityVector2D(0.0_mps, -9.81_mps),
+        physics::domain::VelocityVector2D(0.0_mps, -9.81_mps),
         REQUIRED_PRECISION));
     EXPECT_NEAR(result.mass.to<float>(), 1.0f, REQUIRED_PRECISION);
 }

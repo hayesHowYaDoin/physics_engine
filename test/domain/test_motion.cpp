@@ -9,8 +9,8 @@ TEST(MotionTest, NextPosition)
     using namespace physics::units;
     using namespace physics::units::literals;
 
-    constexpr auto position {Vector2D::fromComponents(10.0_m, 10.0_m)};
-    constexpr auto velocity {Vector2D::fromComponents(10.0_mps, 10.0_mps)};
+    constexpr auto position {physics::domain::Vector2D::fromComponents(10.0_m, 10.0_m)};
+    constexpr auto velocity {physics::domain::Vector2D::fromComponents(10.0_mps, 10.0_mps)};
     constexpr auto dt {1.0_s};
 
     constexpr auto nextPosition {physics::domain::nextPosition(position, velocity, dt)};
@@ -31,8 +31,8 @@ TEST(MotionTest, NextVelocity)
     using namespace physics::units;
     using namespace physics::units::literals;
 
-    constexpr auto velocity {Vector2D::fromComponents(10.0_mps, 10.0_mps)};
-    constexpr auto acceleration {Vector2D::fromComponents(10.0_mps_sq, 10.0_mps_sq)};
+    constexpr auto velocity {physics::domain::Vector2D::fromComponents(10.0_mps, 10.0_mps)};
+    constexpr auto acceleration {physics::domain::Vector2D::fromComponents(10.0_mps_sq, 10.0_mps_sq)};
     constexpr auto dt {1.0_s};
 
     constexpr auto next {physics::domain::nextVelocity(velocity, acceleration, dt)};
@@ -50,7 +50,7 @@ TEST(MotionTest, Acceleration)
     using namespace physics::units::literals;
     using Acceleration = acceleration::meters_per_second_squared<double>;
 
-    constexpr auto force {Vector2D::fromComponents(10.0_N, 10.0_N)};
+    constexpr auto force {physics::domain::Vector2D::fromComponents(10.0_N, 10.0_N)};
     constexpr auto mass {10.0_kg};
 
     constexpr auto acceleration {physics::domain::acceleration(force, mass)};
@@ -66,7 +66,7 @@ TEST(MotionTest, AccelerationMassZero)
     using namespace physics::units;
     using namespace physics::units::literals;
 
-    constexpr auto force {Vector2D::fromComponents(10.0_N, 10.0_N)};
+    constexpr auto force {physics::domain::Vector2D::fromComponents(10.0_N, 10.0_N)};
     constexpr auto mass {0.0_kg};
 
     EXPECT_THROW(
@@ -79,7 +79,7 @@ TEST(MotionTest, AccelerationMassNegative)
     using namespace physics::units;
     using namespace physics::units::literals;
 
-    constexpr auto force {Vector2D::fromComponents(10.0_N, 10.0_N)};
+    constexpr auto force {physics::domain::Vector2D::fromComponents(10.0_N, 10.0_N)};
     constexpr auto mass {-10.0_kg};
 
     EXPECT_THROW(

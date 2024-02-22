@@ -3,12 +3,12 @@
 
 #include "physics_backend/units/units.hpp"
 
-namespace physics::units
+namespace physics::domain
 {
 
 struct Vector2D
 {
-    template <IsMagnitudeUnit MagnitudeType>
+    template <physics::units::IsMagnitudeUnit MagnitudeType>
     class Impl
     {
     public:
@@ -19,34 +19,34 @@ struct Vector2D
             // Intentionally blank.
         }
 
-        template <IsMagnitudeUnit RetType>
+        template <physics::units::IsMagnitudeUnit RetType>
         [[nodiscard]] constexpr auto getX() const
         {
             return RetType(m_x);
         }
 
-        template <IsMagnitudeUnit RetType>
+        template <physics::units::IsMagnitudeUnit RetType>
         [[nodiscard]] constexpr auto getY() const
         {
             return RetType(m_y);
         }
 
-        template <IsAngleUnit RetType>
+        template <physics::units::IsAngleUnit RetType>
         [[nodiscard]] auto getAngle() const
         {
             return RetType(atan2(m_x, m_y));
         }
 
-        template <IsMagnitudeUnit RetType>
+        template <physics::units::IsMagnitudeUnit RetType>
         [[nodiscard]] constexpr auto getMagnitude() const
         {
             return RetType(sqrt(m_x * m_x + m_y * m_y));
         }
 
-        template <IsMagnitudeUnit RhsType>
+        template <physics::units::IsMagnitudeUnit RhsType>
         [[nodiscard]] constexpr auto dot(Impl<RhsType> const& rhs) const;
 
-        template <IsMagnitudeUnit RhsType>
+        template <physics::units::IsMagnitudeUnit RhsType>
         [[nodiscard]] constexpr auto cross(Impl<RhsType> const& rhs) const;
 
     private:
@@ -54,7 +54,7 @@ struct Vector2D
         MagnitudeType m_y;
     };
 
-    template <IsMagnitudeUnit MagnitudeType>
+    template <physics::units::IsMagnitudeUnit MagnitudeType>
     static constexpr Impl<MagnitudeType> fromComponents(
         MagnitudeType const& x,
         MagnitudeType const& y) noexcept
@@ -62,7 +62,7 @@ struct Vector2D
         return Impl<MagnitudeType> {x, y};
     }
 
-    template <IsMagnitudeUnit MagnitudeType, IsAngleUnit AngleType>
+    template <physics::units::IsMagnitudeUnit MagnitudeType, physics::units::IsAngleUnit AngleType>
     static Impl<MagnitudeType> fromPolar(
         AngleType const& angle,
         MagnitudeType const& magnitude)
@@ -70,13 +70,13 @@ struct Vector2D
         if(magnitude.template to<float>() < 0.0f)
             throw std::invalid_argument {"Magnitude must be positive."};
 
-        auto x {magnitude * cos(angle::radians(angle))};
-        auto y {magnitude * sin(angle::radians(angle))};
+        auto x {magnitude * cos(physics::units::angle::radians(angle))};
+        auto y {magnitude * sin(physics::units::angle::radians(angle))};
 
         return Impl<MagnitudeType> {x, y};
     }
 
-    template <IsMagnitudeUnit MagnitudeType>
+    template <physics::units::IsMagnitudeUnit MagnitudeType>
     static constexpr bool compare(
         Impl<MagnitudeType> const& lhs,
         Impl<MagnitudeType> const& rhs,
@@ -90,7 +90,7 @@ struct Vector2D
     }
 };
 
-template <IsMagnitudeUnit RhsType, IsMagnitudeUnit LhsType>
+template <physics::units::IsMagnitudeUnit RhsType, physics::units::IsMagnitudeUnit LhsType>
 [[nodiscard]] constexpr
 auto operator+(
     Vector2D::Impl<LhsType> const& lhs,
@@ -102,7 +102,7 @@ auto operator+(
     return Vector2D::Impl(x, y);
 }
 
-template <IsMagnitudeUnit RhsType, IsMagnitudeUnit LhsType>
+template <physics::units::IsMagnitudeUnit RhsType, physics::units::IsMagnitudeUnit LhsType>
 [[nodiscard]] constexpr
 auto operator-(
     Vector2D::Impl<LhsType> const& lhs,
@@ -114,7 +114,7 @@ auto operator-(
     return Vector2D::Impl(x, y);
 }
 
-template <IsMagnitudeUnit LhsType, typename RhsType>
+template <physics::units::IsMagnitudeUnit LhsType, typename RhsType>
 [[nodiscard]] constexpr 
 auto operator*(Vector2D::Impl<LhsType> const& lhs, RhsType rhs)
 {
@@ -124,7 +124,7 @@ auto operator*(Vector2D::Impl<LhsType> const& lhs, RhsType rhs)
     return Vector2D::Impl(x, y);
 }
 
-template <IsMagnitudeUnit LhsType, typename RhsType>
+template <physics::units::IsMagnitudeUnit LhsType, typename RhsType>
 [[nodiscard]] constexpr
 auto operator/(Vector2D::Impl<LhsType> const& lhs, RhsType rhs)
 {
@@ -134,8 +134,8 @@ auto operator/(Vector2D::Impl<LhsType> const& lhs, RhsType rhs)
     return Vector2D::Impl(x, y);
 }
 
-template <IsMagnitudeUnit LhsType>
-template <IsMagnitudeUnit RhsType>
+template <physics::units::IsMagnitudeUnit LhsType>
+template <physics::units::IsMagnitudeUnit RhsType>
 [[nodiscard]] constexpr
 auto Vector2D::Impl<LhsType>::dot(Vector2D::Impl<RhsType> const& rhs) const
 {
@@ -143,8 +143,8 @@ auto Vector2D::Impl<LhsType>::dot(Vector2D::Impl<RhsType> const& rhs) const
             m_y * rhs.template getY<RhsType>());
 }
 
-template <IsMagnitudeUnit LhsType>
-template <IsMagnitudeUnit RhsType>
+template <physics::units::IsMagnitudeUnit LhsType>
+template <physics::units::IsMagnitudeUnit RhsType>
 [[nodiscard]] constexpr
 auto Vector2D::Impl<LhsType>::cross(Vector2D::Impl<RhsType> const& rhs) const
 {
@@ -152,7 +152,7 @@ auto Vector2D::Impl<LhsType>::cross(Vector2D::Impl<RhsType> const& rhs) const
             m_y * rhs.template getX<RhsType>());
 }
 
-template <IsLengthUnit MagnitudeType>
+template <physics::units::IsLengthUnit MagnitudeType>
 using PositionVector2D = Vector2D::Impl<MagnitudeType>;
 
 template <typename T>
@@ -161,7 +161,7 @@ concept IsPositionVector2D = requires(T t)
     []<typename X>(PositionVector2D<X>&){}(t);
 };
 
-template <IsVelocityUnit MagnitudeType>
+template <physics::units::IsVelocityUnit MagnitudeType>
 using VelocityVector2D = Vector2D::Impl<MagnitudeType>;
 
 template <typename T>
@@ -170,7 +170,7 @@ concept IsVelocityVector2D = requires(T t)
     []<typename X>(VelocityVector2D<X>&){}(t);
 };
 
-template <IsAccelerationUnit MagnitudeType>
+template <physics::units::IsAccelerationUnit MagnitudeType>
 using AccelerationVector2D = Vector2D::Impl<MagnitudeType>;
 
 template <typename T>
@@ -179,7 +179,7 @@ concept IsAccelerationVector2D = requires(T t)
     []<typename X>(AccelerationVector2D<X>&){}(t);
 };
 
-template <IsForceUnit MagnitudeType>
+template <physics::units::IsForceUnit MagnitudeType>
 using ForceVector2D = Vector2D::Impl<MagnitudeType>;
 
 template <typename T>

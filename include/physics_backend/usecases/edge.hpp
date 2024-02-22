@@ -3,11 +3,11 @@
 
 #include "physics_backend/units.hpp"
 
-namespace physics::domain
+namespace physics::usecases
 {
 
     template <physics::units::IsLengthUnit Length>
-    using Edge2D = std::pair<physics::units::Vector2D<Length>, physics::units::Vector2D<Length>>;
+    using Edge2D = std::pair<physics::domain::Vector2D<Length>, physics::domain::Vector2D<Length>>;
 
 } // namespace physics::domain
 

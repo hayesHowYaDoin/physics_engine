@@ -1,8 +1,8 @@
-#ifndef PHYSICS_BACKEND_STRATEGY_EULER_MOTION_HPP
-#define PHYSICS_BACKEND_STRATEGY_EULER_MOTION_HPP
+#ifndef PHYSICS_BACKEND_USECASES_EULER_MOTION_HPP
+#define PHYSICS_BACKEND_USECASES_EULER_MOTION_HPP
 
 #include "physics_backend/domain/motion.hpp"
-#include "physics_backend/strategy/euler/particle.hpp"
+#include "physics_backend/USECASES/euler/particle.hpp"
 #include "physics_backend/units.hpp"
 
 namespace physics::euler
@@ -31,4 +31,4 @@ auto resolveMotion(Particle const& particle, Time const& timeStep)
 
 } // namespace physics::euler
 
-#endif // PHYSICS_BACKEND_STRATEGY_EULER_MOTION_HPP
+#endif // PHYSICS_BACKEND_USECASES_EULER_MOTION_HPP

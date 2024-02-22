@@ -1,12 +1,12 @@
-#ifndef PHYSICS_BACKEND_STRATEGY_EULER_STEP_HPP
-#define PHYSICS_BACKEND_STRATEGY_EULER_STEP_HPP
+#ifndef PHYSICS_BACKEND_USECASES_EULER_STEP_HPP
+#define PHYSICS_BACKEND_USECASES_EULER_STEP_HPP
 
 #include <ranges>
 
 #include "physics_backend/units.hpp"
-#include "physics_backend/strategy/detail/fmaps.hpp"
-#include "physics_backend/strategy/euler/motion.hpp"
-#include "physics_backend/strategy/euler/particle.hpp"
+#include "physics_backend/usecases/detail/fmaps.hpp"
+#include "physics_backend/usecases/euler/motion.hpp"
+#include "physics_backend/usecases/euler/particle.hpp"
 
 namespace physics::euler
 {
@@ -25,4 +25,4 @@ auto step(Container<Particle> const& particles, Time time)
 
 } // namespace physics::euler
 
-#endif // PHYSICS_BACKEND_STRATEGY_EULER_STEP_HPP
+#endif // PHYSICS_BACKEND_USECASES_EULER_STEP_HPP

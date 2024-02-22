@@ -1,4 +1,4 @@
-#include "physics_backend/units/vector.hpp"
+#include "physics_backend/domain/vector.hpp"
 
 #include <gtest/gtest.h>
 
@@ -8,7 +8,7 @@ TEST(VectorTest, ConstructFromComponents)
 {
     using namespace physics::units::literals;
 
-    constexpr auto vector {physics::units::Vector2D::fromComponents(10.0_N, 10.0_N)};
+    constexpr auto vector {physics::domain::Vector2D::fromComponents(10.0_N, 10.0_N)};
 
     auto angle {vector.getAngle<physics::units::angle::degrees<float>>()};
     EXPECT_NEAR(angle.to<float>(), 45.0f, REQUIRED_PRECISION);
@@ -27,7 +27,7 @@ TEST(VectorTest, ConstructFromAngleAndMagnitude)
 {
     using namespace physics::units::literals;
 
-    auto vector {physics::units::Vector2D::fromPolar(45.0_deg, 10.0_m)};
+    auto vector {physics::domain::Vector2D::fromPolar(45.0_deg, 10.0_m)};
 
     auto angle {vector.getAngle<physics::units::angle::degrees<float>>()};
     EXPECT_NEAR(angle.to<float>(), 45.0f, REQUIRED_PRECISION);
@@ -47,7 +47,7 @@ TEST(VectorTest, ConstructFromAngleAndNegativeMagnitude)
     using namespace physics::units::literals;
 
     EXPECT_THROW(
-        physics::units::Vector2D::fromPolar(45.0_deg, -10.0_N),
+        physics::domain::Vector2D::fromPolar(45.0_deg, -10.0_N),
         std::invalid_argument);
 }
 
@@ -55,7 +55,7 @@ TEST(VectorTest, ConstructFromComponentsYieldsPositiveMagnitude)
 {
     using namespace units::literals;
 
-    constexpr auto vector {physics::units::Vector2D::fromComponents(10.0_N, -10.0_N)};
+    constexpr auto vector {physics::domain::Vector2D::fromComponents(10.0_N, -10.0_N)};
 
     EXPECT_GT(
         vector.getMagnitude<physics::units::force::newtons<float>>().to<float>(),
@@ -67,24 +67,24 @@ TEST(VectorTest, MagnitudeTypes)
     using namespace physics::units::literals;
 
     constexpr auto newtons {
-        physics::units::Vector2D::fromComponents(10.0_N, 10.0_N)};
+        physics::domain::Vector2D::fromComponents(10.0_N, 10.0_N)};
 
     constexpr auto meters {
-        physics::units::Vector2D::fromComponents(10.0_m, 10.0_m)};
+        physics::domain::Vector2D::fromComponents(10.0_m, 10.0_m)};
 
     constexpr auto metersPerSecond {
-        physics::units::Vector2D::fromComponents(10.0_mps, 10.0_mps)};
+        physics::domain::Vector2D::fromComponents(10.0_mps, 10.0_mps)};
 
     constexpr auto metersPerSecondPerSecond {
-        physics::units::Vector2D::fromComponents(10.0_mps_sq, 10.0_mps_sq)};
+        physics::domain::Vector2D::fromComponents(10.0_mps_sq, 10.0_mps_sq)};
 }
 
 TEST(VectorTest, AddVectors)
 {
     using namespace physics::units::literals;
 
-    constexpr auto vector1 {physics::units::Vector2D::fromComponents(10.0_N, 10.0_N)};
-    constexpr auto vector2 {physics::units::Vector2D::fromComponents(10.0_N, 10.0_N)};
+    constexpr auto vector1 {physics::domain::Vector2D::fromComponents(10.0_N, 10.0_N)};
+    constexpr auto vector2 {physics::domain::Vector2D::fromComponents(10.0_N, 10.0_N)};
 
     constexpr auto vector3 {vector1 + vector2};
 
@@ -99,8 +99,8 @@ TEST(VectorTest, SubtractVectors)
 {
     using namespace units::literals;
 
-    constexpr auto vector1 {physics::units::Vector2D::fromComponents(20.0_N, 20.0_N)};
-    constexpr auto vector2 {physics::units::Vector2D::fromComponents(10.0_N, 10.0_N)};
+    constexpr auto vector1 {physics::domain::Vector2D::fromComponents(20.0_N, 20.0_N)};
+    constexpr auto vector2 {physics::domain::Vector2D::fromComponents(10.0_N, 10.0_N)};
 
     constexpr auto vector3 {vector1 - vector2};
 
@@ -115,7 +115,7 @@ TEST(VectorTest, MultiplyVectorByScalar)
 {
     using namespace physics::units::literals;
 
-    constexpr auto vector1 {physics::units::Vector2D::fromComponents(10.0_N, 10.0_N)};
+    constexpr auto vector1 {physics::domain::Vector2D::fromComponents(10.0_N, 10.0_N)};
 
     constexpr auto vector2 {vector1 * 2.0f};
 
@@ -130,7 +130,7 @@ TEST(VectorTest, DivideVectorByScalar)
 {
     using namespace physics::units::literals;
 
-    constexpr auto vector1 {physics::units::Vector2D::fromComponents(20.0_N, 20.0_N)};
+    constexpr auto vector1 {physics::domain::Vector2D::fromComponents(20.0_N, 20.0_N)};
 
     constexpr auto vector2 {vector1 / 2.0f};
 
@@ -145,8 +145,8 @@ TEST(VectorTest, DotProduct)
 {
     using namespace physics::units::literals;
 
-    constexpr auto vector1 {physics::units::Vector2D::fromComponents(10.0_N, 10.0_N)};
-    constexpr auto vector2 {physics::units::Vector2D::fromComponents(10.0_N, 10.0_N)};
+    constexpr auto vector1 {physics::domain::Vector2D::fromComponents(10.0_N, 10.0_N)};
+    constexpr auto vector2 {physics::domain::Vector2D::fromComponents(10.0_N, 10.0_N)};
 
     constexpr auto dotProduct {vector1.dot(vector2)};
     EXPECT_NEAR(dotProduct.to<float>(), 200.0f, REQUIRED_PRECISION);
@@ -156,8 +156,8 @@ TEST(VectorTest, CrossProduct)
 {
     using namespace physics::units::literals;
 
-    constexpr auto vector1 {physics::units::Vector2D::fromComponents(10.0_N, 10.0_N)};
-    constexpr auto vector2 {physics::units::Vector2D::fromComponents(10.0_N, 10.0_N)};
+    constexpr auto vector1 {physics::domain::Vector2D::fromComponents(10.0_N, 10.0_N)};
+    constexpr auto vector2 {physics::domain::Vector2D::fromComponents(10.0_N, 10.0_N)};
 
     constexpr auto crossProduct {vector1.cross(vector2)};
     EXPECT_NEAR(crossProduct.to<float>(), 0.0f, REQUIRED_PRECISION);
