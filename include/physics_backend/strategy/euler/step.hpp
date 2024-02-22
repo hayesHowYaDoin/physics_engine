@@ -18,7 +18,7 @@ template<
 auto step(Container<Particle> const& particles, Time time)
 {
     auto motion = [time](auto const& particle){ return resolveMotion(particle, time); };
-
+    
     auto updatedParticles {physics::detail::fmaps(particles, motion)};
     return Container<Particle>(updatedParticles.begin(), updatedParticles.end());
 }

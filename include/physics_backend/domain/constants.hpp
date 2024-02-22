@@ -6,8 +6,7 @@
 namespace physics::domain
 {
 
-[[nodiscard]] constexpr
-auto const G {units::acceleration::meters_per_second_squared<double> {-9.81}};
+constexpr auto const G {units::acceleration::meters_per_second_squared<double> {-9.81}};
 
 } // namespace physics::domain
 
