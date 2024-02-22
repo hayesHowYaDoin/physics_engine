@@ -84,3 +84,27 @@ TEST(PolygonTest, EdgesIntegrity)
         ASSERT_TRUE(edgeIter != returnedEdges.end());
     }
 }
+
+TEST(PolygonTest, Boundaries)
+{
+    using namespace physics::units::literals;
+    using Length = physics::units::SI::Length;
+
+    std::vector<physics::domain::PositionVector2D<Length>> vertices {
+        physics::domain::PositionVector2D(-1.0_m, 0.0_m),
+        physics::domain::PositionVector2D(1.0_m, -2.0_m),
+        physics::domain::PositionVector2D(2.5_m, 1.0_m),
+        physics::domain::PositionVector2D(0.0_m, 1.0_m)
+    };
+
+    physics::usecases::Polygon2D<Length> polygon {vertices};
+
+    auto xBoundaries {polygon.getXBoundaries()};
+    auto yBoundaries {polygon.getYBoundaries()};
+
+    ASSERT_NEAR(xBoundaries.lower.to<float>(), -1.0f, REQUIRED_PRECISION);
+    ASSERT_NEAR(xBoundaries.upper.to<float>(), 2.5f, REQUIRED_PRECISION);
+    ASSERT_NEAR(yBoundaries.lower.to<float>(), -2.0f, REQUIRED_PRECISION);
+    ASSERT_NEAR(yBoundaries.upper.to<float>(), 1.0f, REQUIRED_PRECISION);
+
+}
