@@ -47,13 +47,7 @@ std::optional<Length> findEdgeXAtY(
     auto b {y1 - m * x1};
     auto x {(y - b) / m};
 
-    std::cout << x << " vs. " << x1 << " -> " << x2 << std::endl;
-
-    auto retVal {x >= x1 && x < x2 ? std::make_optional(x) : std::nullopt};
-
-    std::cout << retVal.value_or(Length(-1)) << std::endl;
-
-    return retVal;
+    return x >= x1 && x < x2 ? std::make_optional(x) : std::nullopt;
 }
 
 } // namespace physics::usecases

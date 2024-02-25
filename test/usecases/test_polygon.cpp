@@ -4,8 +4,6 @@
 #include "physics_backend/usecases/polygon.hpp"
 #include "common/precision.hpp"
 
-#include <iostream>
-
 TEST(PolygonTest, LessThanThreeVertices)
 {
     using namespace physics::units::literals;
@@ -64,11 +62,6 @@ TEST(PolygonTest, EdgesIntegrity)
 
     physics::usecases::Polygon2D<Length> polygon {vertices};
     std::vector<physics::usecases::Edge2D<Length>> returnedEdges {polygon.getEdges()};
-
-    for(auto const& edge : returnedEdges)
-    {
-        std::cout << edge.first.getX<Length>() << " " << edge.first.getY<Length>() << " -> " << edge.second.getX<Length>() << " " << edge.second.getY<Length>() << std::endl;
-    }
 
     ASSERT_EQ(returnedEdges.size(), vertices.size());
 
