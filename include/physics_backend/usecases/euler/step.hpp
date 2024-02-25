@@ -13,14 +13,14 @@ namespace physics::euler
 
 template<
     template <typename...> class Container,
-    physics::euler::IsParticle Particle,
+    physics::units::IsUnitSystem Units,
     physics::units::IsTimeUnit Time>
-auto step(Container<Particle> const& particles, Time time)
+auto step(Container<Particle<Units>> const& particles, Time time)
 {
     auto motion = [time](auto const& particle){ return resolveMotion(particle, time); };
-    
     auto updatedParticles {physics::detail::fmaps(particles, motion)};
-    return Container<Particle>(updatedParticles.begin(), updatedParticles.end());
+
+    return Container<Particle<Units>>(updatedParticles.begin(), updatedParticles.end());
 }
 
 } // namespace physics::euler
