@@ -2,10 +2,10 @@
 
 #include "common/precision.hpp"
 #include "physics_backend/units.hpp"
-#include "physics_backend/usecases/collision.hpp"
+#include "physics_backend/usecases/detail/ray_casting.hpp"
 #include "physics_backend/usecases/polygon.hpp"
 
-TEST(CollisionTest, PointInsidePolygon)
+TEST(PointInPolygonTest, PointInsidePolygon)
 {
     /*
         +-----+
@@ -28,10 +28,10 @@ TEST(CollisionTest, PointInsidePolygon)
         }
     };
 
-    ASSERT_TRUE(physics::usecases::pointWithinPolygon(point, polygon));
+    ASSERT_TRUE(physics::detail::pointWithinPolygon(point, polygon));
 }
 
-TEST(CollisionTest, PointOutsidePolygon)
+TEST(PointInPolygonTest, PointOutsidePolygon)
 {
     /*
                    *
@@ -55,10 +55,10 @@ TEST(CollisionTest, PointOutsidePolygon)
         }
     };
 
-    ASSERT_FALSE(physics::usecases::pointWithinPolygon(point, polygon));
+    ASSERT_FALSE(physics::detail::pointWithinPolygon(point, polygon));
 }
 
-TEST(CollisionTest, InLineWithCorners)
+TEST(PointInPolygonTest, InLineWithCorners)
 {
     /*
             ^
@@ -82,10 +82,10 @@ TEST(CollisionTest, InLineWithCorners)
         }
     };
 
-    ASSERT_TRUE(physics::usecases::pointWithinPolygon(point, polygon));
+    ASSERT_TRUE(physics::detail::pointWithinPolygon(point, polygon));
 }
 
-TEST(CollisionTest, PointOnCorners)
+TEST(PointInPolygonTest, PointOnCorners)
 {
     /*
         *---*
@@ -110,13 +110,13 @@ TEST(CollisionTest, PointOnCorners)
         }
     };
 
-    ASSERT_FALSE(physics::usecases::pointWithinPolygon(upperRight, polygon));
-    ASSERT_TRUE(physics::usecases::pointWithinPolygon(lowerRight, polygon));
-    ASSERT_FALSE(physics::usecases::pointWithinPolygon(lowerLeft, polygon));
-    ASSERT_FALSE(physics::usecases::pointWithinPolygon(upperLeft, polygon));
+    ASSERT_FALSE(physics::detail::pointWithinPolygon(upperRight, polygon));
+    ASSERT_TRUE(physics::detail::pointWithinPolygon(lowerRight, polygon));
+    ASSERT_FALSE(physics::detail::pointWithinPolygon(lowerLeft, polygon));
+    ASSERT_FALSE(physics::detail::pointWithinPolygon(upperLeft, polygon));
 }
 
-TEST(CollisionTest, ConcavePolygonUpper)
+TEST(PointInPolygonTest, ConcavePolygonUpper)
 {
     /*
         +       +---+
@@ -143,12 +143,12 @@ TEST(CollisionTest, ConcavePolygonUpper)
         }
     };
 
-    // ASSERT_TRUE(physics::usecases::pointWithinPolygon(point1, polygon));
-    ASSERT_TRUE(physics::usecases::pointWithinPolygon(point2, polygon));
-    ASSERT_FALSE(physics::usecases::pointWithinPolygon(point3, polygon));
+    ASSERT_TRUE(physics::detail::pointWithinPolygon(point1, polygon));
+    ASSERT_TRUE(physics::detail::pointWithinPolygon(point2, polygon));
+    ASSERT_FALSE(physics::detail::pointWithinPolygon(point3, polygon));
 }
 
-TEST(CollisionTest, ConcavePolygonLower)
+TEST(PointInPolygonTest, ConcavePolygonLower)
 {
     /*
         +-----------+
@@ -175,19 +175,39 @@ TEST(CollisionTest, ConcavePolygonLower)
         }
     };
 
-    ASSERT_TRUE(physics::usecases::pointWithinPolygon(point1, polygon));
-    ASSERT_TRUE(physics::usecases::pointWithinPolygon(point2, polygon));
-    ASSERT_FALSE(physics::usecases::pointWithinPolygon(point3, polygon));
+    ASSERT_TRUE(physics::detail::pointWithinPolygon(point1, polygon));
+    ASSERT_TRUE(physics::detail::pointWithinPolygon(point2, polygon));
+    ASSERT_FALSE(physics::detail::pointWithinPolygon(point3, polygon));
 }
 
-TEST(CollisionTest, PointOnEdges)
+TEST(PointInPolygonTest, PointOnEdges)
 {
     /*
-        +-----+
-        |     *
+        +--*--+
+        *     *
         |     |
         +--*--+
     */
 
-   // TODO: Implement this test
+    using namespace physics::units::literals;
+    using Length = physics::units::SI::Length;
+
+    physics::domain::PositionVector2D<Length> point1 {0_m, -1_m};
+    physics::domain::PositionVector2D<Length> point2 {1_m, 0.5_m};
+    physics::domain::PositionVector2D<Length> point3 {0_m, 1_m};
+    physics::domain::PositionVector2D<Length> point4 {-1_m, 0.5_m};
+    physics::usecases::Polygon2D<Length> polygon
+    {
+        {
+            {-1_m, -1_m},
+            {-1_m, 1_m},
+            {1_m, 1_m},
+            {1_m, -1_m}
+        }
+    };
+
+    ASSERT_TRUE(physics::detail::pointWithinPolygon(point1, polygon));
+    ASSERT_TRUE(physics::detail::pointWithinPolygon(point2, polygon));
+    ASSERT_FALSE(physics::detail::pointWithinPolygon(point3, polygon));
+    ASSERT_FALSE(physics::detail::pointWithinPolygon(point4, polygon));
 }
