@@ -1,9 +1,9 @@
 #include <gtest/gtest.h>
 
+#include "common/precision.hpp"
 #include "physics_backend/euler.hpp"
 #include "physics_backend/units.hpp"
 #include "physics_backend/domain/vector.hpp"
-#include "common/precision.hpp"
 
 TEST(Euler, StepIntegrity)
 {
@@ -23,7 +23,16 @@ TEST(Euler, StepIntegrity)
         .metadata {Metadata{.name = "metadataString"}}
     };
     std::vector<physics::euler::Particle<SI>> const particles {particle, particle};
-    auto const updatedParticles {physics::euler::step(particles, 1.0_s)};
+
+    physics::usecases::Polygon2D<SI::Length> constraint {
+        {
+            physics::domain::PositionVector2D(0.0_m, 0.0_m),
+            physics::domain::PositionVector2D(0.0_m, 10.0_m),
+            physics::domain::PositionVector2D(10.0_m, 10.0_m),
+            physics::domain::PositionVector2D(10.0_m, 0.0_m)
+        }
+    };
+    auto const updatedParticles {physics::euler::step(particles, constraint, 1.0_s)};
 
     EXPECT_TRUE((std::is_same<decltype(particles), decltype(updatedParticles)>::value));
     EXPECT_TRUE(particles.size() == updatedParticles.size());

@@ -13,16 +13,29 @@ template<physics::units::IsUnitSystem Units>
 struct Particle
 {
     using Mass = typename Units::Mass;
-    using Position = typename Units::Length;
+    using Length = typename Units::Length;
     using Velocity = typename Units::Velocity;
     using Force = typename Units::Force;
 
     Mass mass;
-    physics::domain::PositionVector2D<Position> position;
+    Length radius;
+    physics::domain::PositionVector2D<Length> position;
     physics::domain::VelocityVector2D<Velocity> velocity;
     std::vector<physics::domain::ForceVector2D<Force>> forces;
 
     std::any metadata = nullptr;
+
+    template <physics::units::IsLengthUnit CastLength>
+    physics::domain::PositionVector2D<CastLength> getCenter() const
+    {
+        return position.template cast<CastLength>();
+    }
+
+    template <physics::units::IsLengthUnit CastLength>
+    CastLength getRadius() const
+    {
+        return radius.template cast<CastLength>();
+    }
 };
 
 } // namespace physics::euler
