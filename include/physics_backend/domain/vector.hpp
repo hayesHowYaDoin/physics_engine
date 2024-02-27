@@ -52,7 +52,9 @@ struct Vector2D
 
         auto getElements() const
         {
-            return std::make_tuple(physics::detail::Element{"x", m_x}, physics::detail::Element{"y", m_y});
+            return std::make_tuple(
+                physics::detail::Element{"x", m_x},
+                physics::detail::Element{"y", m_y});
         }
 
     private:
