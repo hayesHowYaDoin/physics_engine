@@ -1,6 +1,7 @@
 #ifndef PHYSICS_BACKEND_UNITS_VECTOR_HPP
 #define PHYSICS_BACKEND_UNITS_VECTOR_HPP
 
+#include "physics_backend/detail/mixins.hpp"
 #include "physics_backend/units/units.hpp"
 
 namespace physics::domain
@@ -9,7 +10,7 @@ namespace physics::domain
 struct Vector2D
 {
     template <physics::units::IsMagnitudeUnit MagnitudeType>
-    class Impl
+    class Impl : public physics::detail::ReprMixin<Impl<MagnitudeType>>
     {
     public:
         constexpr Impl(MagnitudeType const& x, MagnitudeType const& y) noexcept:
@@ -49,6 +50,11 @@ struct Vector2D
         template <physics::units::IsMagnitudeUnit RhsType>
         [[nodiscard]] constexpr auto cross(Impl<RhsType> const& rhs) const;
 
+        std::tuple<MagnitudeType, MagnitudeType> getElements() const
+        {
+            return std::make_tuple(m_x, m_y);
+        }
+
     private:
         MagnitudeType m_x;
         MagnitudeType m_y;
@@ -82,8 +88,8 @@ struct Vector2D
         Impl<MagnitudeType> const& rhs,
         double epsilon) noexcept
     {
-        auto xDiff {lhs.template getX<MagnitudeType>() - rhs.template getX<MagnitudeType>()};
-        auto yDiff {lhs.template getY<MagnitudeType>() - rhs.template getY<MagnitudeType>()};
+        auto xDiff {physics::units::fabs(lhs.template getX<MagnitudeType>() - rhs.template getX<MagnitudeType>())};
+        auto yDiff {physics::units::fabs(lhs.template getY<MagnitudeType>() - rhs.template getY<MagnitudeType>())};
         MagnitudeType epsilonMagnitude {MagnitudeType(epsilon)};
 
         return xDiff < epsilonMagnitude && yDiff < epsilonMagnitude;
