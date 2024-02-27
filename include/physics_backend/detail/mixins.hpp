@@ -8,6 +8,9 @@
 namespace physics::detail
 {
 
+template <typename T>
+using Element = std::pair<std::string, T>;
+
 template <class Derived>
 class ReprMixin {
 public:
@@ -20,10 +23,10 @@ public:
         (
             [&stream](auto const&... tupleArgs)
             {
-                stream << '[';
+                stream << "< ";
                 std::size_t n{0};
-                ((stream << tupleArgs << (++n != sizeof...(tupleArgs) ? ", " : "")), ...);
-                stream << ']';
+                ((stream << tupleArgs.first << ": " << tupleArgs.second << (++n != sizeof...(tupleArgs) ? ", " : "")), ...);
+                stream << " >";
             }, pDerived->getElements()
         );
 

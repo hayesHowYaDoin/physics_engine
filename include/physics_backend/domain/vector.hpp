@@ -50,9 +50,9 @@ struct Vector2D
         template <physics::units::IsMagnitudeUnit RhsType>
         [[nodiscard]] constexpr auto cross(Impl<RhsType> const& rhs) const;
 
-        std::tuple<MagnitudeType, MagnitudeType> getElements() const
+        auto getElements() const
         {
-            return std::make_tuple(m_x, m_y);
+            return std::make_tuple(physics::detail::Element{"x", m_x}, physics::detail::Element{"y", m_y});
         }
 
     private:

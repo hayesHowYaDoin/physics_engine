@@ -33,8 +33,6 @@ TEST(ConstrainTest, OutOfBounds)
     std::cout << "Updated particle position: " << updatedParticle.position.repr() << std::endl;
     std::cout << "Expected position: " << expectedPosition.repr() << std::endl;
 
-    std::cout << physics::domain::Vector2D::compare(updatedParticle.position, expectedPosition, physics::test::REQUIRED_PRECISION) << std::endl;
-
     EXPECT_TRUE(physics::domain::Vector2D::compare(updatedParticle.position, expectedPosition, physics::test::REQUIRED_PRECISION));
 }
 
