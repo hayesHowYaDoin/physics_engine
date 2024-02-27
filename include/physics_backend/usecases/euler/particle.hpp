@@ -22,19 +22,16 @@ struct Particle
     physics::domain::PositionVector2D<Length> position;
     physics::domain::VelocityVector2D<Velocity> velocity;
     std::vector<physics::domain::ForceVector2D<Force>> forces;
-
     std::any metadata = nullptr;
 
-    template <physics::units::IsLengthUnit CastLength>
-    physics::domain::PositionVector2D<CastLength> getCenter() const
+    physics::domain::PositionVector2D<Length> getCenter() const
     {
-        return position.template cast<CastLength>();
+        return position;
     }
 
-    template <physics::units::IsLengthUnit CastLength>
-    CastLength getRadius() const
+    Length getRadius() const
     {
-        return radius.template cast<CastLength>();
+        return radius;
     }
 };
 

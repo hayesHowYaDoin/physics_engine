@@ -10,50 +10,39 @@
 namespace 
 {
 
-template <typename T>
-concept IsCircular = requires(T t)
+// TODO: Reapply concepts and constraints to templates
+// template <typename T>
+// concept IsCircular = requires(T t)
+// {
+//     {t.getRadius()};
+//     {t.getCenter()};
+// };
+
+template <typename Length>
+physics::domain::PositionVector2D<Length> findClosestPoint(
+    physics::domain::PositionVector2D<Length> const& point,
+    physics::usecases::Edge2D<Length> const& edge)
 {
-    {t.getRadius()};
-    {t.getCenter()};
-};
+    auto edgeFirstX {edge.first.template getX<Length>()};
+    auto edgeFirstY {edge.first.template getY<Length>()};
 
-template <physics::units::IsLengthUnit Length>
-Length distanceToEdge(physics::domain::PositionVector2D<Length> const& point, physics::usecases::Edge2D<Length> const& edge)
-{
-    auto const& [a, b] {edge};
-    auto const& [x, y] {point};
+    auto edgeSecondX {edge.second.template getX<Length>()};
+    auto edgeSecondY {edge.second.template getY<Length>()};
 
-    auto const dx {b.x - a.x};
-    auto const dy {b.y - a.y};
+    auto pointX {point.template getX<Length>()};
+    auto pointY {point.template getY<Length>()};
 
-    auto const u {((x - a.x) * dx + (y - a.y) * dy) / (dx * dx + dy * dy)};
+    auto dx {edgeSecondX - edgeFirstX};
+    auto dy {edgeSecondY - edgeFirstY};
+
+    auto u {((pointX - edgeFirstX) * dx + (pointY - edgeFirstY) * dy) / (dx * dx + dy * dy)};
 
     if(u < 0)
-        return physics::domain::distance(point, a);
-    if(u > 1)
-        return physics::domain::distance(point, b);
+        edge.first;
+    else if(u > 1)
+        edge.second;
 
-    auto const intersection {physics::domain::PositionVector2D<Length>{a.x + u * dx, a.y + u * dy}};
-    return physics::domain::distance(point, intersection);
-}
-
-template <IsCircular Object, physics::units::IsUnitSystem Units>
-bool isInBounds(Object const& object, physics::usecases::Polygon2D<Units> const& constraint)
-{
-    auto objectCenter {object.template getCenter<typename Units::Length>()};
-
-    if(!physics::detail::pointWithinPolygon(objectCenter, constraint))
-        return false;
-
-    for(auto const& edge : constraint.getEdges())
-    {
-        auto distance {distanceToEdge(objectCenter, edge)};
-
-        if(distance < object.template getRadius<typename Units::Length>())
-            return false;
-    }
-
-    return true;
+    return physics::domain::PositionVector2D<Length>{edgeFirstX + u * dx, edgeFirstY + u * dy};
 }
 
 } // namespace
@@ -61,13 +50,28 @@ bool isInBounds(Object const& object, physics::usecases::Polygon2D<Units> const&
 namespace physics::usecases
 {
 
-template<typename Object, physics::units::IsUnitSystem Units>
-auto resolveConstraint(Object const& object, physics::usecases::Polygon2D<Units> const& constraint)
+template <typename Object, typename Units>
+Object resolveConstraint(Object const& object, physics::usecases::Polygon2D<typename Units::Length> const& constraint)
 {
-    if(isInBounds(object, constraint))
-        return object;
+    using Angle = physics::units::angle::radians<double>;
 
-    return applyConstraint(object, constraint);
+    auto updatedObject {object};
+    auto center {object.template getCenter()};
+    auto radius {object.template getRadius()};
+
+    for(auto const& edge : constraint.getEdges())
+    {
+        auto normal {findClosestPoint(center, edge) - center};
+        auto distance {normal.template getMagnitude<typename Units::Length>()};
+
+        if(distance < radius)
+        {
+            auto correction {physics::domain::Vector2D::fromPolar(normal.template getAngle<Angle>(), radius - distance)};
+            updatedObject.position = updatedObject.position + correction;
+        }
+    }
+
+    return updatedObject;
 }
 
 } // namespace physics::usecases

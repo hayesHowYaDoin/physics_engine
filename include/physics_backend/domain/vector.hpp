@@ -70,8 +70,8 @@ struct Vector2D
         if(magnitude.template to<float>() < 0.0f)
             throw std::invalid_argument {"Magnitude must be positive."};
 
-        auto x {magnitude * cos(physics::units::angle::radians(angle))};
-        auto y {magnitude * sin(physics::units::angle::radians(angle))};
+        auto x {magnitude * cos(physics::units::angle::radians<double>(angle))};
+        auto y {magnitude * sin(physics::units::angle::radians<double>(angle))};
 
         return Impl<MagnitudeType> {x, y};
     }
