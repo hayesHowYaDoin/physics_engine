@@ -20,7 +20,7 @@ template<
 auto step(Container<Particle<Units>> const& particles, physics::usecases::Polygon2D<typename Units::Length> const& constraint, Time time)
 {
     auto motion = [&time](auto const& particle){ return resolveMotion(particle, time); };
-    auto constrain = [&constraint](auto const& particle){ return resolveConstraint<Particle<Units>, Units>(particle, constraint); };
+    auto constrain = [&constraint](auto const& particle){ return resolveConstraint(particle, constraint); };
 
     auto updatedParticles {physics::detail::fmaps(particles, motion, constrain)};
 

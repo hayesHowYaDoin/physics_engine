@@ -50,8 +50,8 @@ physics::domain::PositionVector2D<Length> findClosestPoint(
 namespace physics::usecases
 {
 
-template <typename Object, typename Units>
-Object resolveConstraint(Object const& object, physics::usecases::Polygon2D<typename Units::Length> const& constraint)
+template <typename Object, typename Length>
+Object resolveConstraint(Object const& object, physics::usecases::Polygon2D<Length> const& constraint)
 {
     using Angle = physics::units::angle::radians<double>;
 
@@ -62,7 +62,7 @@ Object resolveConstraint(Object const& object, physics::usecases::Polygon2D<type
     for(auto const& edge : constraint.getEdges())
     {
         auto normal {findClosestPoint(center, edge) - center};
-        auto distance {normal.template getMagnitude<typename Units::Length>()};
+        auto distance {normal.template getMagnitude<Length>()};
 
         if(distance < radius)
         {
