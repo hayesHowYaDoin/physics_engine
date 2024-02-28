@@ -8,15 +8,14 @@
 namespace 
 {
 
-// TODO: Reapply concepts and constraints to templates
-// template <typename T>
-// concept IsCircular = requires(T t)
-// {
-//     {t.getRadius()};
-//     {t.getCenter()};
-// };
+template <typename T>
+concept IsCircular = requires(T t)
+{
+    {t.getRadius()};
+    {t.getCenter()};
+};
 
-template <typename Length>
+template <physics::units::IsLengthUnit Length>
 physics::domain::PositionVector2D<Length> findClosestPoint(
     physics::domain::PositionVector2D<Length> const& point,
     physics::usecases::Edge2D<Length> const& edge)
@@ -48,7 +47,7 @@ physics::domain::PositionVector2D<Length> findClosestPoint(
 namespace physics::usecases
 {
 
-template <typename Object, typename Length>
+template <IsCircular Object, physics::units::IsLengthUnit Length>
 Object resolveConstraint(Object const& object, physics::usecases::Polygon2D<Length> const& constraint)
 {
     using Angle = physics::units::angle::radians<double>;

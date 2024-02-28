@@ -30,9 +30,6 @@ TEST(ConstrainTest, CenterInPeekingOut)
     auto updatedParticle {physics::usecases::resolveConstraint(particle, constraint)};
     auto expectedPosition {physics::domain::PositionVector2D(0.25_m, 0.25_m)};
 
-    std::cout << "Updated particle position: " << updatedParticle.position.repr() << std::endl;
-    std::cout << "Expected position: " << expectedPosition.repr() << std::endl;
-
     EXPECT_TRUE(physics::domain::Vector2D::compare(updatedParticle.position, expectedPosition, physics::test::REQUIRED_PRECISION));
 }
 
@@ -62,9 +59,6 @@ TEST(ConstrainTest, Tunneling)
 
     // auto updatedParticle {physics::usecases::resolveConstraint(particle, constraint)};
     // auto expectedPosition {physics::domain::PositionVector2D(0.5_m, 0.5_m)};
-
-    // std::cout << "Updated particle position: " << updatedParticle.position.repr() << std::endl;
-    // std::cout << "Expected position: " << expectedPosition.repr() << std::endl;
 
     // EXPECT_TRUE(physics::domain::Vector2D::compare(updatedParticle.position, expectedPosition, physics::test::REQUIRED_PRECISION));
 }
