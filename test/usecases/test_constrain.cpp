@@ -22,7 +22,7 @@ TEST(ConstrainTest, CenterInPeekingOut)
     physics::euler::Particle<physics::units::SI> particle {
         .mass {1.0_kg},
         .radius {0.25_m},
-        .position {physics::domain::PositionVector2D(0.0_m, 0.1_m)},
+        .position {physics::domain::PositionVector2D(0.1_m, 0.05_m)},
         .velocity {physics::domain::VelocityVector2D(0.0_mps, 0.0_mps)},
         .forces {physics::domain::ForceVector2D(0.0_N, -9.81_N)}
     };

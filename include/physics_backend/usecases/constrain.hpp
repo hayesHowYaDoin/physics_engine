@@ -1,8 +1,6 @@
 #ifndef PHYSICS_BACKEND_USECASES_EULER_CONSTRAIN_HPP
 #define PHYSICS_BACKEND_USECASES_EULER_CONSTRAIN_HPP
 
-#include <cmath>
-
 #include "physics_backend/usecases/detail/ray_casting.hpp"
 #include "physics_backend/usecases/edge.hpp"
 #include "physics_backend/usecases/polygon.hpp"
@@ -61,7 +59,7 @@ Object resolveConstraint(Object const& object, physics::usecases::Polygon2D<Leng
 
     for(auto const& edge : constraint.getEdges())
     {
-        auto normal {findClosestPoint(center, edge) - center};
+        auto normal {center - findClosestPoint(center, edge)};
         auto distance {normal.template getMagnitude<Length>()};
 
         if(distance < radius)

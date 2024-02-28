@@ -35,7 +35,7 @@ struct Vector2D
         template <physics::units::IsAngleUnit RetType>
         [[nodiscard]] auto getAngle() const
         {
-            return RetType(atan2(m_x, m_y));
+            return RetType(atan2(m_y, m_x));
         }
 
         template <physics::units::IsMagnitudeUnit RetType>

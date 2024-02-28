@@ -3,6 +3,7 @@
 
 #include <vector>
 
+#include "physics_backend/detail/mixins.hpp"
 #include "physics_backend/units.hpp"
 #include "physics_backend/usecases/edge.hpp"
 
@@ -10,7 +11,7 @@ namespace physics::usecases
 {
 
 template <physics::units::IsLengthUnit Length>
-class Polygon2D
+class Polygon2D : public physics::detail::ReprMixin<Polygon2D<Length>>
 {
 public:
     Polygon2D(std::vector<physics::domain::PositionVector2D<Length>> vertices): 
@@ -72,6 +73,12 @@ public:
         auto yCenter {m_yBoundaries.lower + (m_yBoundaries.upper - m_yBoundaries.lower) / 2};
 
         return {xCenter, yCenter};
+    }
+
+    auto getElements() const
+    {
+        return std::make_tuple(
+            physics::detail::Element{"vertices", m_vertices});
     }
 
 private:

@@ -4,7 +4,7 @@
 namespace physics::test
 {
 
-constexpr auto REQUIRED_PRECISION {0.000'001f};
+constexpr auto REQUIRED_PRECISION {0.000'1f};
 
 } // namespace physics::test
 

@@ -7,19 +7,19 @@ TEST(VectorTest, ConstructFromComponents)
 {
     using namespace physics::units::literals;
 
-    constexpr auto vector {physics::domain::Vector2D::fromComponents(10.0_N, 10.0_N)};
+    constexpr auto vector {physics::domain::Vector2D::fromComponents(3.0_N, 1.0_N)};
 
     auto angle {vector.getAngle<physics::units::angle::degrees<float>>()};
-    EXPECT_NEAR(angle.to<float>(), 45.0f, physics::test::REQUIRED_PRECISION);
+    EXPECT_NEAR(angle.to<float>(), 18.434'95f, physics::test::REQUIRED_PRECISION);
 
     constexpr auto mag {vector.getMagnitude<physics::units::force::newtons<float>>()};
-    EXPECT_NEAR(mag.to<float>(), 14.142'136f, physics::test::REQUIRED_PRECISION);
+    EXPECT_NEAR(mag.to<float>(), 3.162'28f, physics::test::REQUIRED_PRECISION);
 
     constexpr auto x {vector.getX<physics::units::force::newtons<float>>()};
-    EXPECT_NEAR(x.to<float>(), 10.0f, physics::test::REQUIRED_PRECISION);
+    EXPECT_NEAR(x.to<float>(), 3.0f, physics::test::REQUIRED_PRECISION);
 
     constexpr auto y {vector.getY<physics::units::force::newtons<float>>()};
-    EXPECT_NEAR(y.to<float>(), 10.0f, physics::test::REQUIRED_PRECISION);
+    EXPECT_NEAR(y.to<float>(), 1.0f, physics::test::REQUIRED_PRECISION);
 }
 
 TEST(VectorTest, ConstructFromAngleAndMagnitude)
