@@ -1,6 +1,7 @@
 #ifndef PHYSICS_BACKEND_USECASES_EULER_CONSTRAIN_HPP
 #define PHYSICS_BACKEND_USECASES_EULER_CONSTRAIN_HPP
 
+#include "physics_backend/domain/geometry.hpp"
 #include "physics_backend/usecases/detail/ray_casting.hpp"
 #include "physics_backend/usecases/edge.hpp"
 #include "physics_backend/usecases/polygon.hpp"
@@ -63,8 +64,12 @@ Object resolveConstraint(Object const& object, physics::usecases::Polygon2D<Leng
 
         if(distance < radius)
         {
-            auto correction {physics::domain::Vector2D::fromPolar(normal.template getAngle<Angle>(), radius - distance)};
+            auto normalAngle {normal.template getAngle<Angle>()};
+
+            auto correction {physics::domain::Vector2D::fromPolar(normalAngle, radius - distance)};
             updatedObject.position = updatedObject.position + correction;
+
+            updatedObject.velocity = physics::domain::reflect(updatedObject.velocity, normalAngle);
         }
     }
 

@@ -196,6 +196,6 @@ concept IsForceVector2D = requires(T t)
     []<typename X>(ForceVector2D<X>&){}(t);
 };
 
-} // namespace physics::units
+} // namespace physics::domain
 
 #endif // PHYSICS_BACKEND_UNITS_VECTOR_HPP
