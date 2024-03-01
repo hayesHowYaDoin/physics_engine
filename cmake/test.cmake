@@ -11,6 +11,11 @@ function(build_test)
     add_executable(test_physics_backend)
 
     add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/test)
+
+    target_include_directories(test_physics_backend
+        PRIVATE
+            ${CMAKE_CURRENT_SOURCE_DIR}/test
+    )
     
     target_link_libraries(test_physics_backend
         PUBLIC
