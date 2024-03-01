@@ -17,6 +17,7 @@ TEST(Euler, StepIntegrity)
 
     physics::euler::Particle<SI> particle {
         .mass {1.0_kg},
+        .radius {1.0_m},
         .position {physics::domain::PositionVector2D(0.0_m, 10.0_m)},
         .velocity {physics::domain::VelocityVector2D(0.0_mps, 0.0_mps)},
         .forces {physics::domain::ForceVector2D(0.0_N, -9.81_N)},
@@ -52,6 +53,7 @@ TEST(Euler, ResolveMotion)
 
     physics::euler::Particle<physics::units::SI> const particle {
         .mass {1.0_kg},
+        .radius {1.0_m},
         .position {physics::domain::PositionVector2D(0.0_m, 10.0_m)},
         .velocity {physics::domain::VelocityVector2D(0.0_mps, 0.0_mps)},
         .forces {physics::domain::ForceVector2D(0.0_N, -9.81_N)}

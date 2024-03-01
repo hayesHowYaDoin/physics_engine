@@ -23,6 +23,7 @@ auto resolveMotion(Particle<Units> const& particle, Time const& timeStep)
 
     return Particle<Units> {
         .mass = particle.mass,
+        .radius = particle.radius,
         .position = position,
         .velocity = velocity,
         .forces = particle.forces,
