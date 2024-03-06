@@ -11,9 +11,9 @@ namespace physics::detail
 {
 
 template <std::ranges::range Range, typename... Function>
-auto fmaps(Range&& object, Function&&... func)
+auto fmaps(Range&& objects, Function&&... func)
 {
-    return (std::forward<Range>(object) | ... | std::views::transform(func));
+    return (std::forward<Range>(objects) | ... | std::views::transform(func));
 }
 
 } // namespace physics::detail

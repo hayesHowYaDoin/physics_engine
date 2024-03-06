@@ -59,7 +59,6 @@ TEST(ConstrainTest, SingleEdgeReflection)
     auto updatedParticle {physics::usecases::resolveConstraint(particle, constraint)};
 
     auto expectedVelocity {physics::domain::Vector2D::fromComponents(1.0_mps, 1.0_mps)};
-    std::cout << updatedParticle.velocity.repr() << std::endl;
     EXPECT_TRUE(physics::domain::Vector2D::compare(updatedParticle.velocity, expectedVelocity, physics::test::REQUIRED_PRECISION));
 }
 
@@ -91,7 +90,6 @@ TEST(ConstrainTest, InBounds)
     EXPECT_TRUE(physics::domain::Vector2D::compare(updatedParticle.position, expectedPosition, physics::test::REQUIRED_PRECISION));
 
     auto expectedVelocity {physics::domain::Vector2D::fromComponents(1.0_mps, -1.0_mps)};
-    std::cout << updatedParticle.velocity.repr() << std::endl;
     EXPECT_TRUE(physics::domain::Vector2D::compare(updatedParticle.velocity, expectedVelocity, physics::test::REQUIRED_PRECISION));
 }
 

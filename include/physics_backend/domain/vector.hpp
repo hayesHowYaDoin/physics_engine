@@ -160,6 +160,12 @@ auto Vector2D::Impl<LhsType>::cross(Vector2D::Impl<RhsType> const& rhs) const
             m_y * rhs.template getX<RhsType>());
 }
 
+template <typename T>
+concept IsVector2D = requires(T t)
+{
+    []<typename X>(Vector2D::Impl<X>&){}(t);
+};
+
 template <physics::units::IsLengthUnit MagnitudeType>
 using PositionVector2D = Vector2D::Impl<MagnitudeType>;
 

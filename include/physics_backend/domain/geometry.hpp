@@ -31,6 +31,14 @@ auto reflect(VelocityVector2D<Velocity> const& velocity, Angle const& normalAngl
     return Vector2D::fromPolar(angleOfReflected, velocity.template getMagnitude<Velocity>());
 }
 
+template <IsVector2D Vector>
+[[nodiscard]] constexpr
+auto normalize(Vector const& vector)
+{
+    auto magnitude {vector.getMagnitude()};
+    return Vector2D::fromComponents(vector.getX() / magnitude, vector.getY() / magnitude);
+}
+
 } // namespace physics::domain
 
 #endif // PHYSICS_BACKEND_DOMAIN_GEOMETRY_HPP
