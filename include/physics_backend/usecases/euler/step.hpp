@@ -28,13 +28,14 @@ auto step(
     auto constrain = [&constraint](auto const& particle){ return physics::usecases::resolveConstraint(particle, constraint); };
 
     auto updatedParticles {physics::detail::fmaps(particles, motion, constrain)};
+    auto rewrappedParticles {Container<Particle<Units>>(updatedParticles.begin(), updatedParticles.end())};
 
     for(size_t step {0}; step < substeps; ++step)
     {
-        updatedParticles = physics::usecases::resolveCollisions(updatedParticles);
+        physics::usecases::resolveCollisions(rewrappedParticles);
     }
 
-    return Container<Particle<Units>>(updatedParticles.begin(), updatedParticles.end());
+    return rewrappedParticles;
 }
 
 } // namespace physics::euler

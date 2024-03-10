@@ -4,6 +4,7 @@
 #include "physics_backend/units.hpp"
 #include "physics_backend/domain/geometry.hpp"
 #include "physics_backend/usecases/objects.hpp"
+#include "physics_backend/domain/vector.hpp"
 
 #include <algorithm>
 #include <ranges>
@@ -14,20 +15,22 @@ namespace {
 template <template <typename> class Object, physics::units::IsUnitSystem Units>
 auto resolveCollisionImpl(Object<Units>& first, Object<Units>& second)
 {
-    auto firstCenter {first.getCenter()};
-    auto firstRadius {first.getRadius()};
+    using Length = typename Units::Length;
 
-    auto secondCenter {second.getCenter()};
-    auto secondRadius {second.getRadius()};
+    physics::domain::PositionVector2D<Length> firstCenter {first.getCenter()};
+    Length firstRadius {first.getRadius()};
 
-    auto distance {physics::domain::distance(firstCenter, secondCenter)};
-    auto sumRadii {firstRadius + secondRadius};
+    physics::domain::PositionVector2D<Length> secondCenter {second.getCenter()};
+    Length secondRadius {second.getRadius()};
+
+    Length distance {physics::domain::distance(firstCenter, secondCenter)};
+    Length sumRadii {firstRadius + secondRadius};
 
     if(distance < sumRadii)
     {
-        auto normal {physics::domain::normalize(firstCenter - secondCenter)};
-        auto penetration {sumRadii - distance};
-        auto correction {normal * penetration / 2.0};
+        physics::domain::PositionVector2D<Length> normal {physics::domain::normalize(firstCenter - secondCenter)};
+        Length penetration {sumRadii - distance};
+        physics::domain::PositionVector2D<Length> correction {normal * (penetration / Length(2.0))};
 
         first.setCenter(firstCenter + correction);
         second.setCenter(secondCenter - correction);
@@ -39,20 +42,21 @@ auto resolveCollisionImpl(Object<Units>& first, Object<Units>& second)
 namespace physics::usecases
 {
 
-template <std::ranges::range Range>
-auto resolveCollisions(Range&& objects)
+template <
+    template <typename...> class Container,
+    template <typename> class Object,
+    physics::units::IsUnitSystem Units>
+auto resolveCollisions(Container<Object<Units>>& particles)
 {
-    auto view = objects | std::views::transform([](auto const& p) { return std::ref(p); });
-
-    for(auto first {view.begin()}; first != view.end(); ++first)
+    for(auto first {particles.begin()}; first != particles.end(); ++first)
     {
-        for(auto second {std::next(first)}; second != view.end(); ++second)
+        for(auto second {std::next(first)}; second != particles.end(); ++second)
         {
             resolveCollisionImpl(*first, *second);
         }
     }
 
-    return view;
+    return particles;
 }
 
 } // namespace physics::usecases
