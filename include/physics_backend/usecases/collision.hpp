@@ -13,7 +13,7 @@
 namespace {
 
 template <template <typename> class Object, physics::units::IsUnitSystem Units>
-auto resolvePenetration(
+void resolvePenetration(
     Object<Units>& first,
     Object<Units>& second,
     physics::domain::PositionVector2D<typename Units::Length> const& normal,
@@ -30,7 +30,33 @@ auto resolvePenetration(
 }
 
 template <template <typename> class Object, physics::units::IsUnitSystem Units>
-auto resolveCollisionImpl(Object<Units>& first, Object<Units>& second)
+void resolveRebound(
+    Object<Units>& first,
+    Object<Units>& second,
+    physics::domain::PositionVector2D<typename Units::Length> const& normal)
+{
+    using Length = typename Units::Length;
+    using Velocity = typename Units::Velocity;
+    using Mass = typename Units::Mass;
+    using Angle = typename physics::units::angle::radians<double>;
+    using physics::units::literals::operator""_s;
+
+    static constexpr float epsilon {1.0f};  // Fully elastic collision
+
+    physics::domain::VelocityVector2D<Velocity> relativeVelocity {first.velocity - second.velocity};
+
+    float impulseMagnitude {-(1 + epsilon) * relativeVelocity.dot(normal) /
+                            (1 / first.mass + 1 / second.mass)};
+    auto impulseDirection {normal.template getAngle<Angle>()};
+
+    physics::domain::VelocityVector2D<Velocity> jn {physics::domain::Vector2D::fromPolar(impulseDirection, Velocity(impulseMagnitude))};
+
+    first.velocity = first.velocity + jn / (first.mass / Mass(1.0f));
+    second.velocity = second.velocity - jn / (second.mass / Mass(1.0f));
+}
+
+template <template <typename> class Object, physics::units::IsUnitSystem Units>
+void resolveCollisionImpl(Object<Units>& first, Object<Units>& second)
 {
     using Length = typename Units::Length;
 
@@ -42,6 +68,7 @@ auto resolveCollisionImpl(Object<Units>& first, Object<Units>& second)
         physics::domain::PositionVector2D<Length> normal {physics::domain::normalize(first.getCenter() - second.getCenter())};
         
         resolvePenetration(first, second, normal, distance, sumRadii);
+        resolveRebound(first, second, normal);
     }
 }
 
