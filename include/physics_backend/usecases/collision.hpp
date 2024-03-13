@@ -13,27 +13,35 @@
 namespace {
 
 template <template <typename> class Object, physics::units::IsUnitSystem Units>
+auto resolvePenetration(
+    Object<Units>& first,
+    Object<Units>& second,
+    physics::domain::PositionVector2D<typename Units::Length> const& normal,
+    typename Units::Length const& distance,
+    typename Units::Length const& sumRadii)
+{
+    using Length = typename Units::Length;
+
+    Length penetration {sumRadii - distance};
+    physics::domain::PositionVector2D<Length> correction {normal * (penetration / Length(2.0))};
+
+    first.setCenter(first.getCenter() + correction);
+    second.setCenter(second.getCenter() - correction);
+}
+
+template <template <typename> class Object, physics::units::IsUnitSystem Units>
 auto resolveCollisionImpl(Object<Units>& first, Object<Units>& second)
 {
     using Length = typename Units::Length;
 
-    physics::domain::PositionVector2D<Length> firstCenter {first.getCenter()};
-    Length firstRadius {first.getRadius()};
-
-    physics::domain::PositionVector2D<Length> secondCenter {second.getCenter()};
-    Length secondRadius {second.getRadius()};
-
-    Length distance {physics::domain::distance(firstCenter, secondCenter)};
-    Length sumRadii {firstRadius + secondRadius};
+    Length distance {physics::domain::distance(first.getCenter(), second.getCenter())};
+    Length sumRadii {first.getRadius() + second.getRadius()};
 
     if(distance < sumRadii)
     {
-        physics::domain::PositionVector2D<Length> normal {physics::domain::normalize(firstCenter - secondCenter)};
-        Length penetration {sumRadii - distance};
-        physics::domain::PositionVector2D<Length> correction {normal * (penetration / Length(2.0))};
-
-        first.setCenter(firstCenter + correction);
-        second.setCenter(secondCenter - correction);
+        physics::domain::PositionVector2D<Length> normal {physics::domain::normalize(first.getCenter() - second.getCenter())};
+        
+        resolvePenetration(first, second, normal, distance, sumRadii);
     }
 }
 
