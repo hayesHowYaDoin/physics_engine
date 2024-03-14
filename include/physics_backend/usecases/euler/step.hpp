@@ -22,20 +22,29 @@ auto step(
     Container<Particle<Units>> const& particles,
     physics::usecases::Polygon2D<typename Units::Length> const& constraint,
     Time time,
-    size_t substeps = 1)
+    uint32_t substeps = 1)
 {
-    auto motion = [&time](auto const& particle){ return resolveMotion(particle, time); };
-    auto constrain = [&constraint](auto const& particle){ return physics::usecases::resolveConstraint(particle, constraint); };
-
-    auto updatedParticles {physics::detail::fmaps(particles, motion, constrain)};
-    auto rewrappedParticles {Container<Particle<Units>>(updatedParticles.begin(), updatedParticles.end())};
-
-    for(size_t step {0}; step < substeps; ++step)
+    if(substeps == 0)
     {
-        physics::usecases::resolveCollisions(rewrappedParticles);
+        std::cerr << "Substeps cannot be 0. Setting substeps to default value (1)." << '\n';
+        substeps = 1;
     }
 
-    return rewrappedParticles;
+    Time subTime {time / substeps};
+    auto wrappedParticles {particles};
+
+    for(size_t substep {0}; substep < substeps; ++substep)
+    {
+        auto motion = [&time](auto const& particle){ return resolveMotion(particle, time); };
+        auto constrain = [&constraint](auto const& particle){ return physics::usecases::resolveConstraint(particle, constraint); };
+
+        auto updatedParticles {physics::detail::fmaps(wrappedParticles, motion, constrain)};
+        wrappedParticles = Container<Particle<Units>>(updatedParticles.begin(), updatedParticles.end());
+
+        physics::usecases::resolveCollisions(wrappedParticles);
+    }
+
+    return wrappedParticles;
 }
 
 } // namespace physics::euler
