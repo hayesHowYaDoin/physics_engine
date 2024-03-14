@@ -4,17 +4,11 @@
 #include "physics_backend/domain/geometry.hpp"
 #include "physics_backend/usecases/detail/ray_casting.hpp"
 #include "physics_backend/usecases/edge.hpp"
+#include "physics_backend/usecases/objects.hpp"
 #include "physics_backend/usecases/polygon.hpp"
 
 namespace 
 {
-
-template <typename T>
-concept IsCircular = requires(T t)
-{
-    {t.getRadius()};
-    {t.getCenter()};
-};
 
 template <physics::units::IsLengthUnit Length>
 physics::domain::PositionVector2D<Length> findClosestPoint(
@@ -49,13 +43,14 @@ namespace physics::usecases
 {
 
 template <IsCircular Object, physics::units::IsLengthUnit Length>
-Object resolveConstraint(Object const& object, physics::usecases::Polygon2D<Length> const& constraint)
+Object resolveConstraint(Object& object, physics::usecases::Polygon2D<Length> const& constraint)
 {
     using Angle = physics::units::angle::radians<double>;
 
-    auto updatedObject {object};
     auto center {object.template getCenter()};
     auto radius {object.template getRadius()};
+
+    auto objectCopy {object};
 
     for(auto const& edge : constraint.getEdges())
     {
@@ -67,13 +62,13 @@ Object resolveConstraint(Object const& object, physics::usecases::Polygon2D<Leng
             auto normalAngle {normal.template getAngle<Angle>()};
 
             auto correction {physics::domain::Vector2D::fromPolar(normalAngle, radius - distance)};
-            updatedObject.position = updatedObject.position + correction;
+            objectCopy.position = objectCopy.position + correction;
 
-            updatedObject.velocity = physics::domain::reflect(updatedObject.velocity, normalAngle);
+            objectCopy.velocity = physics::domain::reflect(objectCopy.velocity, normalAngle);
         }
     }
 
-    return updatedObject;
+    return objectCopy;
 }
 
 } // namespace physics::usecases

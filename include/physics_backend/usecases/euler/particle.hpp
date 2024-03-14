@@ -29,9 +29,19 @@ struct Particle
         return position;
     }
 
+    void setCenter(physics::domain::PositionVector2D<Length> const& newCenter)
+    {
+        position = newCenter;
+    }
+
     Length getRadius() const
     {
         return radius;
+    }
+
+    void setVelocity(physics::domain::VelocityVector2D<Velocity> const& newVelocity)
+    {
+        velocity = newVelocity;
     }
 };
 

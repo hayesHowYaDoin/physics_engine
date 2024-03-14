@@ -24,11 +24,22 @@ auto reflect(VelocityVector2D<Velocity> const& velocity, Angle const& normalAngl
     using namespace physics::units::literals;
     
     auto angleOfIncidence {velocity.template getAngle<Angle>()};
-    auto angleDifference {angleOfIncidence - normalAngle};
+    Angle angleDifference {angleOfIncidence - normalAngle};
 
-    auto angleOfReflected {angleOfIncidence - 2 * angleDifference + 180.0_deg};
+    Angle angleOfReflected {angleOfIncidence - 2 * angleDifference + 180.0_deg};
 
     return Vector2D::fromPolar(angleOfReflected, velocity.template getMagnitude<Velocity>());
+}
+
+template <template <typename> class Vector, physics::units::IsMagnitudeUnit Magnitude>
+[[nodiscard]] constexpr
+auto normalize(Vector<Magnitude> const& vector)
+{
+    auto magnitude {vector.template getMagnitude<Magnitude>() / Magnitude(1)};
+    Magnitude x {vector.template getX<Magnitude>() / magnitude};
+    Magnitude y {vector.template getY<Magnitude>() / magnitude};
+
+    return Vector2D::fromComponents(x, y);
 }
 
 } // namespace physics::domain

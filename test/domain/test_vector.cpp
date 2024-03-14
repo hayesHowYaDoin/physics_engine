@@ -45,9 +45,13 @@ TEST(VectorTest, ConstructFromAngleAndNegativeMagnitude)
 {
     using namespace physics::units::literals;
 
-    EXPECT_THROW(
-        physics::domain::Vector2D::fromPolar(45.0_deg, -10.0_N),
-        std::invalid_argument);
+    auto vector {physics::domain::Vector2D::fromPolar(45.0_deg, -10.0_N)};
+
+    auto angle {vector.getAngle<physics::units::angle::degrees<float>>()};
+    EXPECT_NEAR(angle.to<float>(), -135.0f, physics::test::REQUIRED_PRECISION);
+
+    auto magnitude {vector.getMagnitude<physics::units::force::newtons<float>>()};
+    EXPECT_NEAR(magnitude.to<float>(), 10.0f, physics::test::REQUIRED_PRECISION);
 }
 
 TEST(VectorTest, ConstructFromComponentsYieldsPositiveMagnitude)
