@@ -82,7 +82,7 @@ namespace physics::usecases
 {
 
 template <template <typename...> class Container, physics::units::IsUnitSystem Units>
-auto resolveCollisions(Container<Particle<Units>>& particles)
+void resolveCollisions(Container<Particle<Units>>& particles)
 {
     for(auto first {particles.begin()}; first != particles.end(); ++first)
     {
@@ -91,8 +91,6 @@ auto resolveCollisions(Container<Particle<Units>>& particles)
             resolveCollisionImpl(*first, *second);
         }
     }
-
-    return particles;
 }
 
 } // namespace physics::usecases
