@@ -8,24 +8,24 @@ function(build_test)
     find_package(GTest REQUIRED)
     enable_testing()
 
-    add_executable(test_physics_backend)
+    add_executable(test_physics_engine)
 
     add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/test)
 
-    target_include_directories(test_physics_backend
+    target_include_directories(test_physics_engine
         PRIVATE
             ${CMAKE_CURRENT_SOURCE_DIR}/test
     )
     
-    target_link_libraries(test_physics_backend
+    target_link_libraries(test_physics_engine
         PUBLIC
             GTest::GTest
             GTest::Main
         PRIVATE
-            physics_backend
+            physics_engine
     )
 
     include(GoogleTest)
-    gtest_discover_tests(test_physics_backend)
+    gtest_discover_tests(test_physics_engine)
     
 endfunction()

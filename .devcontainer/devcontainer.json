@@ -1,5 +1,5 @@
 {
-    "name": "physics_backend",
+    "name": "physics_engine",
 
     "build": {
         "dockerfile": "Dockerfile"
