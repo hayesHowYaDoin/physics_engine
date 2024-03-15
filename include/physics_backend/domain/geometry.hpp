@@ -35,7 +35,7 @@ template <template <typename> class Vector, physics::units::IsMagnitudeUnit Magn
 [[nodiscard]] constexpr
 auto normalize(Vector<Magnitude> const& vector)
 {
-    auto magnitude {vector.template getMagnitude<Magnitude>() / Magnitude(1)};
+    auto magnitude {vector.template getMagnitude<Magnitude>() / Magnitude(1.0f)};
     Magnitude x {vector.template getX<Magnitude>() / magnitude};
     Magnitude y {vector.template getY<Magnitude>() / magnitude};
 
