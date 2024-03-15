@@ -4,7 +4,6 @@
 #include "physics_backend/domain/geometry.hpp"
 #include "physics_backend/usecases/detail/ray_casting.hpp"
 #include "physics_backend/usecases/edge.hpp"
-#include "physics_backend/usecases/objects.hpp"
 #include "physics_backend/usecases/polygon.hpp"
 
 namespace 
@@ -42,33 +41,35 @@ physics::domain::PositionVector2D<Length> findClosestPoint(
 namespace physics::usecases
 {
 
-template <IsCircular Object, physics::units::IsLengthUnit Length>
-Object resolveConstraint(Object& object, physics::usecases::Polygon2D<Length> const& constraint)
+template <physics::units::IsUnitSystem Units>
+Particle<Units> resolveConstraint(
+    Particle<Units> const& particle,
+    physics::usecases::Polygon2D<typename Units::Length> const& constraint)
 {
     using Angle = physics::units::angle::radians<double>;
 
-    auto center {object.template getCenter()};
-    auto radius {object.template getRadius()};
+    auto center {particle.template getCenter()};
+    auto radius {particle.template getRadius()};
 
-    auto objectCopy {object};
+    auto particleCopy {particle};
 
     for(auto const& edge : constraint.getEdges())
     {
         auto normal {center - findClosestPoint(center, edge)};
-        auto distance {normal.template getMagnitude<Length>()};
+        auto distance {normal.template getMagnitude<typename Units::Length>()};
 
         if(distance < radius)
         {
             auto normalAngle {normal.template getAngle<Angle>()};
 
             auto correction {physics::domain::Vector2D::fromPolar(normalAngle, radius - distance)};
-            objectCopy.position = objectCopy.position + correction;
+            particleCopy.position = particleCopy.position + correction;
 
-            objectCopy.velocity = physics::domain::reflect(objectCopy.velocity, normalAngle);
+            particleCopy.velocity = physics::domain::reflect(particleCopy.velocity, normalAngle);
         }
     }
 
-    return objectCopy;
+    return particleCopy;
 }
 
 } // namespace physics::usecases

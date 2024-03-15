@@ -3,7 +3,7 @@
 
 #include "physics_backend/units.hpp"
 #include "physics_backend/domain/geometry.hpp"
-#include "physics_backend/usecases/objects.hpp"
+#include "physics_backend/usecases/particle.hpp"
 #include "physics_backend/domain/vector.hpp"
 
 #include <algorithm>
@@ -12,10 +12,10 @@
 
 namespace {
 
-template <template <typename> class Object, physics::units::IsUnitSystem Units>
+template <physics::units::IsUnitSystem Units>
 void resolvePenetration(
-    Object<Units>& first,
-    Object<Units>& second,
+    physics::usecases::Particle<Units>& first,
+    physics::usecases::Particle<Units>& second,
     physics::domain::PositionVector2D<typename Units::Length> const& normal,
     typename Units::Length const& distance,
     typename Units::Length const& sumRadii)
@@ -29,10 +29,10 @@ void resolvePenetration(
     second.setCenter(second.getCenter() - correction);
 }
 
-template <template <typename> class Object, physics::units::IsUnitSystem Units>
+template <physics::units::IsUnitSystem Units>
 void resolveRebound(
-    Object<Units>& first,
-    Object<Units>& second,
+    physics::usecases::Particle<Units>& first,
+    physics::usecases::Particle<Units>& second,
     physics::domain::PositionVector2D<typename Units::Length> const& normal)
 {
     using Length = typename Units::Length;
@@ -49,14 +49,16 @@ void resolveRebound(
                             (1 / first.mass + 1 / second.mass)};
     auto impulseDirection {normal.template getAngle<Angle>()};
 
-    physics::domain::VelocityVector2D<Velocity> jn {physics::domain::Vector2D::fromPolar(impulseDirection, Velocity(impulseMagnitude))};
+    physics::domain::VelocityVector2D<Velocity> jn {
+        physics::domain::Vector2D::fromPolar(impulseDirection, Velocity(impulseMagnitude))
+    };
 
     first.velocity = first.velocity + jn / (first.mass / Mass(1.0f));
     second.velocity = second.velocity - jn / (second.mass / Mass(1.0f));
 }
 
-template <template <typename> class Object, physics::units::IsUnitSystem Units>
-void resolveCollisionImpl(Object<Units>& first, Object<Units>& second)
+template <physics::units::IsUnitSystem Units>
+void resolveCollisionImpl(physics::usecases::Particle<Units>& first, physics::usecases::Particle<Units>& second)
 {
     using Length = typename Units::Length;
 
@@ -65,7 +67,9 @@ void resolveCollisionImpl(Object<Units>& first, Object<Units>& second)
 
     if(distance < sumRadii)
     {
-        physics::domain::PositionVector2D<Length> normal {physics::domain::normalize(first.getCenter() - second.getCenter())};
+        physics::domain::PositionVector2D<Length> normal {
+            physics::domain::normalize(first.getCenter() - second.getCenter())
+        };
         
         resolvePenetration(first, second, normal, distance, sumRadii);
         resolveRebound(first, second, normal);
@@ -77,11 +81,8 @@ void resolveCollisionImpl(Object<Units>& first, Object<Units>& second)
 namespace physics::usecases
 {
 
-template <
-    template <typename...> class Container,
-    template <typename> class Object,
-    physics::units::IsUnitSystem Units>
-auto resolveCollisions(Container<Object<Units>>& particles)
+template <template <typename...> class Container, physics::units::IsUnitSystem Units>
+auto resolveCollisions(Container<Particle<Units>>& particles)
 {
     for(auto first {particles.begin()}; first != particles.end(); ++first)
     {

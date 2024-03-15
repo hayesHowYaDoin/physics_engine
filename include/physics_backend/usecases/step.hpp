@@ -7,7 +7,7 @@
 #include "physics_backend/usecases/collision.hpp"
 #include "physics_backend/usecases/constrain.hpp"
 #include "physics_backend/usecases/polygon.hpp"
-#include "physics_backend/usecases/detail/fmaps.hpp"
+#include "physics_backend/detail/fmaps.hpp"
 #include "physics_backend/usecases/motion.hpp"
 #include "physics_backend/usecases/particle.hpp"
 
