@@ -48,8 +48,8 @@ Particle<Units> resolveConstraint(
 {
     using Angle = physics::units::angle::radians<double>;
 
-    auto center {particle.template getCenter()};
-    auto radius {particle.template getRadius()};
+    auto center {particle.template position};
+    auto radius {particle.template radius};
 
     auto particleCopy {particle};
 

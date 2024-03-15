@@ -23,26 +23,6 @@ struct Particle
     physics::domain::VelocityVector2D<Velocity> velocity;
     std::vector<physics::domain::ForceVector2D<Force>> forces;
     std::any metadata = nullptr;
-
-    physics::domain::PositionVector2D<Length> getCenter() const
-    {
-        return position;
-    }
-
-    void setCenter(physics::domain::PositionVector2D<Length> const& newCenter)
-    {
-        position = newCenter;
-    }
-
-    Length getRadius() const
-    {
-        return radius;
-    }
-
-    void setVelocity(physics::domain::VelocityVector2D<Velocity> const& newVelocity)
-    {
-        velocity = newVelocity;
-    }
 };
 
 } // namespace physics::usecases

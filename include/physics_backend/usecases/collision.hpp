@@ -25,8 +25,8 @@ void resolvePenetration(
     Length penetration {sumRadii - distance};
     physics::domain::PositionVector2D<Length> correction {normal * (penetration / Length(2.0))};
 
-    first.setCenter(first.getCenter() + correction);
-    second.setCenter(second.getCenter() - correction);
+    first.position = first.position + correction;
+    second.position = second.position - correction;
 }
 
 template <physics::units::IsUnitSystem Units>
@@ -62,13 +62,13 @@ void resolveCollisionImpl(physics::usecases::Particle<Units>& first, physics::us
 {
     using Length = typename Units::Length;
 
-    Length distance {physics::domain::distance(first.getCenter(), second.getCenter())};
-    Length sumRadii {first.getRadius() + second.getRadius()};
+    Length distance {physics::domain::distance(first.position, second.position)};
+    Length sumRadii {first.radius + second.radius};
 
     if(distance < sumRadii)
     {
         physics::domain::PositionVector2D<Length> normal {
-            physics::domain::normalize(first.getCenter() - second.getCenter())
+            physics::domain::normalize(first.position - second.position)
         };
         
         resolvePenetration(first, second, normal, distance, sumRadii);
