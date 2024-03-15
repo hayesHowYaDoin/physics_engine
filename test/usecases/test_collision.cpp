@@ -4,7 +4,7 @@
 #include "physics_backend/units.hpp"
 #include "physics_backend/domain/vector.hpp"
 #include "physics_backend/usecases/collision.hpp"
-#include "physics_backend/usecases/euler/particle.hpp"
+#include "physics_backend/usecases/particle.hpp"
 
 TEST(CollisionTest, ResolveIdentical)
 {
@@ -12,14 +12,14 @@ TEST(CollisionTest, ResolveIdentical)
     using Length = physics::units::SI::Length;
     using Velocity = physics::units::SI::Velocity;
 
-    auto particle1 {physics::euler::Particle<physics::units::SI>{
+    auto particle1 {physics::usecases::Particle<physics::units::SI>{
         .mass = 1.0_kg,
         .radius = 1.0_m,
         .position = physics::domain::PositionVector2D{0.0_m, 0.0_m},
         .velocity = physics::domain::VelocityVector2D{1.0_mps, -1.0_mps},
         .forces = {}
     }};
-    auto particle2 {physics::euler::Particle<physics::units::SI>{
+    auto particle2 {physics::usecases::Particle<physics::units::SI>{
         .mass = 1.0_kg,
         .radius = 1.0_m,
         .position = physics::domain::PositionVector2D{1.0_m, 0.0_m},
@@ -27,7 +27,7 @@ TEST(CollisionTest, ResolveIdentical)
         .forces = {}
     }};
 
-    std::vector<physics::euler::Particle<physics::units::SI>> particles {particle1, particle2};
+    std::vector<physics::usecases::Particle<physics::units::SI>> particles {particle1, particle2};
     physics::usecases::resolveCollisions(particles);
 
     EXPECT_NEAR(particles.at(0).position.getX<Length>().to<float>(), -0.5f, physics::test::REQUIRED_PRECISION);
@@ -48,14 +48,14 @@ TEST(CollisionTest, ResolveMassDifference)
     using Velocity = physics::units::SI::Velocity;
     using Angle = physics::units::angle::degrees<float>;
 
-    auto particle1 {physics::euler::Particle<physics::units::SI>{
+    auto particle1 {physics::usecases::Particle<physics::units::SI>{
         .mass = 1.0_kg,
         .radius = 1.6_m,
         .position = physics::domain::PositionVector2D{7.0_m, 9.5_m},
         .velocity = physics::domain::VelocityVector2D{2.0_mps, -2.0_mps},
         .forces = {}
     }};
-    auto particle2 {physics::euler::Particle<physics::units::SI>{
+    auto particle2 {physics::usecases::Particle<physics::units::SI>{
         .mass = 2.0_kg,
         .radius = 3.0_m,
         .position = physics::domain::PositionVector2D{10.5_m, 8.5_m},
@@ -63,7 +63,7 @@ TEST(CollisionTest, ResolveMassDifference)
         .forces = {}
     }};
 
-    std::vector<physics::euler::Particle<physics::units::SI>> particles {particle1, particle2};
+    std::vector<physics::usecases::Particle<physics::units::SI>> particles {particle1, particle2};
     physics::usecases::resolveCollisions(particles);
 
     EXPECT_NEAR(particles.at(0).position.getX<Length>().to<float>(), 6.5385f, physics::test::REQUIRED_PRECISION);

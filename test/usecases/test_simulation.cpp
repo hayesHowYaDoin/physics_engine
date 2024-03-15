@@ -1,11 +1,11 @@
 #include <gtest/gtest.h>
 
 #include "common/precision.hpp"
-#include "physics_backend/euler.hpp"
+#include "physics_backend/simulation.hpp"
 #include "physics_backend/units.hpp"
 #include "physics_backend/domain/vector.hpp"
 
-TEST(Euler, StepIntegrity)
+TEST(Simulation, StepIntegrity)
 {
     using namespace physics::units;
     using namespace physics::units::literals;
@@ -15,7 +15,7 @@ TEST(Euler, StepIntegrity)
         std::string name;
     };
 
-    physics::euler::Particle<SI> particle {
+    physics::usecases::Particle<SI> particle {
         .mass {1.0_kg},
         .radius {1.0_m},
         .position {physics::domain::PositionVector2D(0.0_m, 10.0_m)},
@@ -23,7 +23,7 @@ TEST(Euler, StepIntegrity)
         .forces {physics::domain::ForceVector2D(0.0_N, -9.81_N)},
         .metadata {Metadata{.name = "metadataString"}}
     };
-    std::vector<physics::euler::Particle<SI>> const particles {particle, particle};
+    std::vector<physics::usecases::Particle<SI>> const particles {particle, particle};
 
     physics::usecases::Polygon2D<SI::Length> constraint {
         {
@@ -33,7 +33,7 @@ TEST(Euler, StepIntegrity)
             physics::domain::PositionVector2D(10.0_m, 0.0_m)
         }
     };
-    auto const updatedParticles {physics::euler::step(particles, constraint, 1.0_s)};
+    auto const updatedParticles {physics::usecases::step(particles, constraint, 1.0_s)};
 
     EXPECT_TRUE((std::is_same<decltype(particles), decltype(updatedParticles)>::value));
     EXPECT_TRUE(particles.size() == updatedParticles.size());
@@ -42,7 +42,7 @@ TEST(Euler, StepIntegrity)
     EXPECT_TRUE(data.name == "metadataString");
 }
 
-TEST(Euler, ResolveMotion)
+TEST(Simulation, ResolveMotion)
 {
     using namespace physics::units::literals;
     using Mass = physics::units::mass::kilograms<double>;
@@ -51,7 +51,7 @@ TEST(Euler, ResolveMotion)
     using Force = physics::units::force::newtons<double>;
     using Time = physics::units::time::seconds<double>;
 
-    physics::euler::Particle<physics::units::SI> const particle {
+    physics::usecases::Particle<physics::units::SI> const particle {
         .mass {1.0_kg},
         .radius {1.0_m},
         .position {physics::domain::PositionVector2D(0.0_m, 10.0_m)},
@@ -60,7 +60,7 @@ TEST(Euler, ResolveMotion)
     };
     Time const timeStep {1};
 
-    auto const result {physics::euler::resolveMotion(particle, timeStep)};
+    auto const result {physics::usecases::resolveMotion(particle, timeStep)};
 
     EXPECT_TRUE(physics::domain::Vector2D::compare(
         result.position,

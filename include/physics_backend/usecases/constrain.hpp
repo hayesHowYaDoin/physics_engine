@@ -1,5 +1,5 @@
-#ifndef PHYSICS_BACKEND_USECASES_EULER_CONSTRAIN_HPP
-#define PHYSICS_BACKEND_USECASES_EULER_CONSTRAIN_HPP
+#ifndef PHYSICS_BACKEND_USECASES_CONSTRAIN_HPP
+#define PHYSICS_BACKEND_USECASES_CONSTRAIN_HPP
 
 #include "physics_backend/domain/geometry.hpp"
 #include "physics_backend/usecases/detail/ray_casting.hpp"
@@ -73,4 +73,4 @@ Object resolveConstraint(Object& object, physics::usecases::Polygon2D<Length> co
 
 } // namespace physics::usecases
 
-#endif // PHYSICS_BACKEND_USECASES_EULER_CONSTRAIN_HPP
+#endif // PHYSICS_BACKEND_USECASES_CONSTRAIN_HPP

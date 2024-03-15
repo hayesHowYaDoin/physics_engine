@@ -1,12 +1,12 @@
-#ifndef PHYSICS_BACKEND_USECASES_EULER_PARTICLE_HPP
-#define PHYSICS_BACKEND_USECASES_EULER_PARTICLE_HPP
+#ifndef PHYSICS_BACKEND_USECASES_PARTICLE_HPP
+#define PHYSICS_BACKEND_USECASES_PARTICLE_HPP
 
 #include <any>
 
 #include "physics_backend/units.hpp"
 #include "physics_backend/domain/vector.hpp"
 
-namespace physics::euler
+namespace physics::usecases
 {
 
 template<physics::units::IsUnitSystem Units>
@@ -45,6 +45,6 @@ struct Particle
     }
 };
 
-} // namespace physics::euler
+} // namespace physics::usecases
 
-#endif // PHYSICS_BACKEND_USECASES_EULER_PARTICLE_HPP
+#endif // PHYSICS_BACKEND_USECASES_PARTICLE_HPP

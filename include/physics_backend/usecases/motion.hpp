@@ -1,11 +1,11 @@
-#ifndef PHYSICS_BACKEND_USECASES_EULER_MOTION_HPP
-#define PHYSICS_BACKEND_USECASES_EULER_MOTION_HPP
+#ifndef PHYSICS_BACKEND_USECASES_MOTION_HPP
+#define PHYSICS_BACKEND_USECASES_MOTION_HPP
 
 #include "physics_backend/domain/motion.hpp"
-#include "physics_backend/usecases/euler/particle.hpp"
+#include "physics_backend/usecases/particle.hpp"
 #include "physics_backend/units.hpp"
 
-namespace physics::euler
+namespace physics::usecases
 {
 
 template <physics::units::IsUnitSystem Units, physics::units::IsTimeUnit Time>
@@ -30,6 +30,6 @@ auto resolveMotion(Particle<Units> const& particle, Time const& timeStep)
         .metadata = particle.metadata};
 }
 
-} // namespace physics::euler
+} // namespace physics::usecases
 
-#endif // PHYSICS_BACKEND_USECASES_EULER_MOTION_HPP
+#endif // PHYSICS_BACKEND_USECASES_MOTION_HPP

@@ -1,5 +1,5 @@
-#ifndef PHYSICS_BACKEND_USECASES_EULER_COLLISION_HPP
-#define PHYSICS_BACKEND_USECASES_EULER_COLLISION_HPP
+#ifndef PHYSICS_BACKEND_USECASES_COLLISION_HPP
+#define PHYSICS_BACKEND_USECASES_COLLISION_HPP
 
 #include "physics_backend/units.hpp"
 #include "physics_backend/domain/geometry.hpp"
@@ -96,4 +96,4 @@ auto resolveCollisions(Container<Object<Units>>& particles)
 
 } // namespace physics::usecases
 
-#endif // PHYSICS_BACKEND_USECASES_EULER_COLLISION_HPP
+#endif // PHYSICS_BACKEND_USECASES_COLLISION_HPP
