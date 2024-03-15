@@ -5,5 +5,3 @@ target_sources(test_physics_backend
         ${CMAKE_CURRENT_SOURCE_DIR}/test_polygon.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/test_simulation.cpp
 )
-
-add_subdirectory(detail)
