@@ -28,9 +28,36 @@ This repository wraps [Nic Holthaus' C++ units library][2] under the namespace
 `physics::units`. For a more detailed look at what operations are available, 
 as well as how to create new, custom units, see the project's github page.
 
+### Vectors
+
+The underlying mathematics make use of two-dimensional vectors to represent 
+position, velocity, and acceleration.
+
+It is worth noting that `physics::domain::Vector2D` and its implemented 
+mathematical operations are completely evaluable at compile time. The same is 
+true for the underlying units library.
+
 ### Creating a Particle
 
-_TODO_
+Particles are implemented as simple structs, and have no methods. Their fields 
+are constrained to one particular unit system, forcing any users to think 
+carefully about which values they mean to use. This also limits the number of 
+possible template instantiations, which could grow wildly otherwise.
+
+The following code snippet shows how a particle object can be instantiated:
+
+```cpp
+using physics::units::literals;
+
+physics::usecases::Particle<physics::units::SI> particle {
+      .mass {1.0_kg},
+      .radius {1.0_m},
+      .position {physics::domain::Vector2D::fromComponents{0.0_m, 0.0_m}},
+      .velocity {physics::domain::Vector2D::fromComponents(1.0_mps, -1.0_mps)},
+      .forces {physics::domain::Vector2D::fromComponents(0.0_N, -9.81_N)},
+      .metadata {Metadata{.radius = radius}}
+   };
+```
 
 ### Stepping the Simulation
 
