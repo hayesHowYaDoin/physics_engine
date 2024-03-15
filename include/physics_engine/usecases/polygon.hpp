@@ -3,9 +3,9 @@
 
 #include <vector>
 
-#include "physics_backend/detail/mixins.hpp"
-#include "physics_backend/units.hpp"
-#include "physics_backend/usecases/edge.hpp"
+#include "physics_engine/detail/mixins.hpp"
+#include "physics_engine/units.hpp"
+#include "physics_engine/usecases/edge.hpp"
 
 namespace physics::usecases
 {

@@ -1,4 +1,4 @@
-target_sources(test_physics_backend
+target_sources(test_physics_engine
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/test_constrain.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/test_collision.cpp

@@ -1,10 +1,10 @@
 #include <gtest/gtest.h>
 
 #include "common/precision.hpp"
-#include "physics_backend/units.hpp"
-#include "physics_backend/domain/vector.hpp"
-#include "physics_backend/usecases/collision.hpp"
-#include "physics_backend/usecases/particle.hpp"
+#include "physics_engine/units.hpp"
+#include "physics_engine/domain/vector.hpp"
+#include "physics_engine/usecases/collision.hpp"
+#include "physics_engine/usecases/particle.hpp"
 
 TEST(CollisionTest, ResolveIdentical)
 {

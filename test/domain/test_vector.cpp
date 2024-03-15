@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "physics_backend/domain/vector.hpp"
+#include "physics_engine/domain/vector.hpp"
 #include "common/precision.hpp"
 
 TEST(VectorTest, ConstructFromComponents)

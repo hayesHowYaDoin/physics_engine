@@ -1,9 +1,9 @@
 #ifndef PHYSICS_BACKEND_USECASES_MOTION_HPP
 #define PHYSICS_BACKEND_USECASES_MOTION_HPP
 
-#include "physics_backend/domain/motion.hpp"
-#include "physics_backend/usecases/particle.hpp"
-#include "physics_backend/units.hpp"
+#include "physics_engine/domain/motion.hpp"
+#include "physics_engine/usecases/particle.hpp"
+#include "physics_engine/units.hpp"
 
 namespace physics::usecases
 {

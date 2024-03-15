@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "physics_backend/domain/motion.hpp"
+#include "physics_engine/domain/motion.hpp"
 #include "common/precision.hpp"
 
 TEST(MotionTest, NextPosition)

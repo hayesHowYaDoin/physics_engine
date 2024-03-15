@@ -3,13 +3,13 @@
 
 #include <ranges>
 
-#include "physics_backend/units.hpp"
-#include "physics_backend/usecases/collision.hpp"
-#include "physics_backend/usecases/constrain.hpp"
-#include "physics_backend/usecases/polygon.hpp"
-#include "physics_backend/detail/fmaps.hpp"
-#include "physics_backend/usecases/motion.hpp"
-#include "physics_backend/usecases/particle.hpp"
+#include "physics_engine/units.hpp"
+#include "physics_engine/usecases/collision.hpp"
+#include "physics_engine/usecases/constrain.hpp"
+#include "physics_engine/usecases/polygon.hpp"
+#include "physics_engine/detail/fmaps.hpp"
+#include "physics_engine/usecases/motion.hpp"
+#include "physics_engine/usecases/particle.hpp"
 
 namespace physics::usecases
 {

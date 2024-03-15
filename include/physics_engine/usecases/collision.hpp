@@ -1,10 +1,10 @@
 #ifndef PHYSICS_BACKEND_USECASES_COLLISION_HPP
 #define PHYSICS_BACKEND_USECASES_COLLISION_HPP
 
-#include "physics_backend/units.hpp"
-#include "physics_backend/domain/geometry.hpp"
-#include "physics_backend/usecases/particle.hpp"
-#include "physics_backend/domain/vector.hpp"
+#include "physics_engine/units.hpp"
+#include "physics_engine/domain/geometry.hpp"
+#include "physics_engine/usecases/particle.hpp"
+#include "physics_engine/domain/vector.hpp"
 
 #include <algorithm>
 #include <ranges>

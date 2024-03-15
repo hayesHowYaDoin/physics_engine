@@ -1,9 +1,9 @@
 #include <gtest/gtest.h>
 
 #include "common/precision.hpp"
-#include "physics_backend/domain/vector.hpp"
-#include "physics_backend/simulation.hpp"
-#include "physics_backend/usecases/constrain.hpp"
+#include "physics_engine/domain/vector.hpp"
+#include "physics_engine/simulation.hpp"
+#include "physics_engine/usecases/constrain.hpp"
 
 TEST(ConstrainTest, CenterInPeekingOut)
 {
