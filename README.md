@@ -44,7 +44,14 @@ are constrained to one particular unit system, forcing any users to think
 carefully about which values they mean to use. This also limits the number of 
 possible template instantiations, which could grow wildly otherwise.
 
-The following code snippet shows how a particle object can be instantiated:
+In addition to the fields that the physics engine needs to run the simulation, 
+an additional `metadata` fields has been included. This field can be assigned 
+to any additional user information that should remain tied to an individual 
+particle, and is of the type `std::any`.
+
+The following code snippet shows how a particle object can be instantiated, 
+where the `metadata` field is set to a custom `Metadata` struct containing a 
+single field for color:
 
 ```cpp
 using physics::units::literals;
@@ -55,13 +62,54 @@ physics::usecases::Particle<physics::units::SI> particle {
       .position {physics::domain::Vector2D::fromComponents{0.0_m, 0.0_m}},
       .velocity {physics::domain::Vector2D::fromComponents(1.0_mps, -1.0_mps)},
       .forces {physics::domain::Vector2D::fromComponents(0.0_N, -9.81_N)},
-      .metadata {Metadata{.radius = radius}}
+      .metadata {Metadata{.color = color}}
    };
+```
+
+### Constraints
+
+To prevent particles from flying off infinitely into any given direction, 
+boundaries within which particles must exist should be defined. These 
+contraints can be formed from any non-overlapping series of points, as 
+defined by `physics::usecases::Polygon2D`. In many cases, the constraint will 
+correspond to the size of the display.
+
+The following is an example instantiation of a constraint:
+
+```cpp
+using physics::units::literals;
+
+physics::usecases::Polygon2D<Length> constraint {{
+   physics::domain::PositionVector2D(0.0_m, 0.0_m),
+   physics::domain::PositionVector2D(1.0_m, 0.0_m),
+   physics::domain::PositionVector2D(1.0_m, 1.0_m),
+   physics::domain::PositionVector2D(0.0_m, 1.0_m)
+}};
 ```
 
 ### Stepping the Simulation
 
-_TODO_
+The simulation can be stepped forward by passing a collection of particles and 
+a time period to the function `physics::usecases::step`. The argument particles 
+can be wrapped in any iterable collection, and the time period can be any time 
+unit in `physics::units`. The function returns the updated particles in the 
+same kind of collection that was passed to it, and will not directly modify the 
+original particle objects.
+
+In order to smooth the simulation and prevent particles from tunneling out of 
+simulation constraints, an optional `subStep` parameter can be set. This 
+forces the simulation to resolve motion, constraints and collisions multiple 
+times per step. This parameter introduces a performance-to-efficiency trade-off, 
+and should be tweaked on a per-application level based on user needs.
+
+The following is an example call to this function:
+
+```cpp
+// Assume particles is defined as a std::vector<Particle>
+
+physics::units::time::milliseconds<double> frameRate {33_ms};
+std::vector<Particle> updatedParticles = physics::usecases::step(particles, constraint, frameRate);
+```
 
 ## Development
 
