@@ -31,11 +31,22 @@ as well as how to create new, custom units, see the project's github page.
 ### Vectors
 
 The underlying mathematics make use of two-dimensional vectors to represent 
-position, velocity, and acceleration.
+position, velocity, and acceleration. The standard addition, subtraction, 
+multiplication and division have been implemented as operator overloads, while 
+dot and cross product have been implemented as member functions which take the 
+right hand side of the operation.
 
 It is worth noting that `physics::domain::Vector2D` and its implemented 
 mathematical operations are completely evaluable at compile time. The same is 
 true for the underlying units library.
+
+Vectors should be instantiated from the static factory method as follows:
+
+```cpp
+using physics::units::literals;
+
+auto positionVector {physics::domain::Vector2D::fromComponents{0.0_m, 0.0_m}};
+```
 
 ### Creating a Particle
 
