@@ -20,6 +20,8 @@ Mostly, though, I just wanted to learn more about how physics engines were
 implemented. There's something incredibly satisfying about watching a bunch of 
 particles fly into each other and bounce all over the place.
 
+![](https://github.com/hayesHowYaDoin/physics_engine/resource/collision.gif)
+
 ## Usage
 
 ### Units
