@@ -55,7 +55,7 @@ Particle<Units> resolveConstraint(
 
     for(auto const& edge : constraint.getEdges())
     {
-        auto normal {center - findClosestPoint(center, edge)};
+        auto normal {center - __detail::findClosestPoint(center, edge)};
         auto distance {normal.template getMagnitude<typename Units::Length>()};
 
         if(distance < radius)
