@@ -13,9 +13,9 @@ struct Vector2D
     class Impl : public physics::detail::ReprMixin<Impl<MagnitudeType>>
     {
     public:
-        constexpr Impl(MagnitudeType const& x, MagnitudeType const& y) noexcept:
-            m_x {x},
-            m_y {y}
+        constexpr Impl(MagnitudeType x, MagnitudeType y) noexcept:
+            m_x {std::move(x)},
+            m_y {std::move(y)}
         {
             // Intentionally blank.
         }
@@ -67,7 +67,7 @@ struct Vector2D
         MagnitudeType const& x,
         MagnitudeType const& y) noexcept
     {
-        return Impl<MagnitudeType> {x, y};
+        return Impl<MagnitudeType> {std::move(x), std::move(y)};
     }
 
     template <physics::units::IsMagnitudeUnit MagnitudeType, physics::units::IsAngleUnit AngleType>
@@ -86,7 +86,7 @@ struct Vector2D
         auto x {magnitude * cos(physics::units::angle::radians<double>(angle))};
         auto y {magnitude * sin(physics::units::angle::radians<double>(angle))};
 
-        return Impl<MagnitudeType> {x, y};
+        return Impl<MagnitudeType> {std::move(x), std::move(y)};
     }
 
     template <physics::units::IsMagnitudeUnit MagnitudeType>

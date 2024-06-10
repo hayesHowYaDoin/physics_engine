@@ -5,7 +5,11 @@
 #include "physics_engine/usecases/edge.hpp"
 #include "physics_engine/usecases/polygon.hpp"
 
-namespace 
+
+namespace physics::usecases
+{
+
+namespace __detail
 {
 
 template <physics::units::IsLengthUnit Length>
@@ -35,10 +39,7 @@ physics::domain::PositionVector2D<Length> findClosestPoint(
     return physics::domain::PositionVector2D<Length>{edgeFirstX + u * dx, edgeFirstY + u * dy};
 }
 
-} // namespace
-
-namespace physics::usecases
-{
+} // namespace __detail
 
 template <physics::units::IsUnitSystem Units>
 Particle<Units> resolveConstraint(

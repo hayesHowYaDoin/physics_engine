@@ -10,7 +10,11 @@
 #include <ranges>
 #include <functional>
 
-namespace {
+namespace physics::usecases
+{
+
+namespace __detail 
+{
 
 template <physics::units::IsUnitSystem Units>
 void resolvePenetration(
@@ -76,10 +80,7 @@ void resolveCollisionImpl(physics::usecases::Particle<Units>& first, physics::us
     }
 }
 
-} // namespace
-
-namespace physics::usecases
-{
+} // namespace __detail
 
 template <template <typename...> class Container, physics::units::IsUnitSystem Units>
 void resolveCollisions(Container<Particle<Units>>& particles)
@@ -88,7 +89,7 @@ void resolveCollisions(Container<Particle<Units>>& particles)
     {
         for(auto second {std::next(first)}; second != particles.end(); ++second)
         {
-            resolveCollisionImpl(*first, *second);
+            __detail::resolveCollisionImpl(*first, *second);
         }
     }
 }
