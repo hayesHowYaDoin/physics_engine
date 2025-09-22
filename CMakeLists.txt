@@ -1,3 +1,4 @@
+include(cmake/CPM.cmake)
 include(cmake/library.cmake)
 include(cmake/test.cmake)
 
@@ -19,5 +20,6 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 build_physics_engine()
 
 if(BUILD_TESTING AND ${MAIN_PROJECT})
+    enable_testing()
     build_test()
 endif()
