@@ -14,6 +14,14 @@
     enable = true;
   };
 
+  languages.javascript = {
+    enable = true;
+    yarn = {
+      enable = true;
+      install.enable = true;
+    };
+  };
+
   pre-commit.hooks = {
     clang-format.enable = true;
   };
