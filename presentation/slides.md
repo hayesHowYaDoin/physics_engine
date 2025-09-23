@@ -413,6 +413,100 @@ struct SI
 
 ---
 
+# Constrain
+
+## Tunneling
+
+<div class="flex justify-center items-center h-full">
+  <video controls width="400" height="300" muted autoplay loop>
+    <source src="./assets/tunneling_demo.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+</div>
+
+---
+
+# Constrain
+
+## Substepping
+
+<div class="flex justify-center items-center h-full">
+  <video controls width="400" height="300" muted autoplay loop>
+    <source src="./assets/random_demo.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+</div>
+
+---
+
+# Collision
+
+## Detection
+
+1. Calculate the distance between the two particles
+2. If distance is is less than the sum of the radii, we have a collision!
+
+---
+
+# Collision
+
+## Response
+
+### Penetration
+
+### Rebound
+
+---
+
+# Step
+
+````md magic-move
+```cpp {*|16}
+template<template <typename...> class Container, physics::units::IsUnitSystem Units, physics::units::IsTimeUnit Time>
+auto step(
+    Container<Particle<Units>> const& particles,
+    Polygon2D<typename Units::Length> const& constraint,
+    Time time,
+    uint32_t substeps = 1)
+{
+    Time subTime {time / substeps};
+    auto wrappedParticles {particles};
+
+    for(size_t substep {0}; substep < substeps; ++substep)
+    {
+        auto motion = [&time](auto const& particle){ return resolveMotion(particle, time); };
+        auto constrain = [&constraint](auto const& particle){ return resolveConstraint(particle, constraint); };
+
+        auto updatedParticles {physics::detail::fmaps(wrappedParticles, motion, constrain)};
+        wrappedParticles = Container<Particle<Units>>(updatedParticles.begin(), updatedParticles.end());
+
+        resolveCollisions(wrappedParticles);
+    }
+
+    return wrappedParticles;
+}
+```
+
+```cpp {all}
+template <std::ranges::range Range, typename... Function>
+auto fmaps(Range&& objects, Function&&... func)
+{
+    return (std::forward<Range>(objects) | ... | std::views::transform(func));
+}
+```
+````
+
+---
+
+<div class="flex justify-center items-center h-full">
+  <video controls width="400" height="300" muted autoplay loop>
+    <source src="./assets/gravity_and_color.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+</div>
+
+---
+
 # Future Improvements
 
 <v-switch>
