@@ -135,7 +135,11 @@ E_Resolution --> E_Particle
 
 # Vector2D
 
+<br>
+
 *Goal: Create a highly generic representation of a 2D vector*
+
+<br>
 
 ```cpp
 template<typename UnitType>
@@ -235,15 +239,7 @@ PositionVector2D<Length> nextPosition(
 template <IsVelocityUnit Velocity, IsAccelerationUnit Acceleration, IsTimeUnit Time>
 [[nodiscard]] constexpr
 VelocityVector2D<Velocity> nextVelocity(
-    Veloci
-struct SI
-{
-    using Mass = mass::kilograms<double>;
-    using Length = length::meters<double>;
-    using Velocity = velocity::meters_per_second<double>;
-    using Acceleration = acceleration::meters_per_second_squared<double>;
-    using Force = force::newtons<double>;
-};tyVector2D<Velocity> const& velocity,
+    VelocityVector2D<Velocity> const& velocity,
     AccelerationVector2D<Acceleration> const& acceleration,
     Time const& dt) noexcept
 {
@@ -330,8 +326,6 @@ struct SI
 <div class="grid grid-cols-2 gap-2 h-4/5 items-center mt-4">
 
 <div class="flex flex-col justify-center space-y-3">
-
-## Ray Casting
 
 <div v-click="1">1. Find the closest point on the edge to particle center</div>
 <div v-click="2">2. Calculate the distance through the magnitude of the normal</div>
@@ -446,55 +440,97 @@ struct SI
 1. Calculate the distance between the two particles
 2. If distance is is less than the sum of the radii, we have a collision!
 
+*All particles are compared against all other particles in this method*
+
 ---
 
 # Collision
 
-## Response
+## Response: Penetration
 
-### Penetration
 
-### Rebound
+<div class="grid grid-cols-5 gap-2 h-4/5 items-center mt-4">
+
+<div class="col-span-2 flex flex-col justify-center">
+
+$$
+\begin{gathered}
+\text{penetration} = r_1 + r_2 - d \\
+\vec{c} = \hat{n} \cdot \frac{\text{penetration}}{2} \\
+\vec{p_1'} = \vec{p_1} + \vec{c} \\
+\vec{p_2'} = \vec{p_2} - \vec{c}
+\end{gathered}
+$$
+
+</div>
+
+<div class="col-span-3 flex flex-col justify-center">
+
+- $r_1, r_2$ = radii of the first and second particles
+- $d$ = distance between particle centers  
+- $\hat{n}$ = unit normal vector from second particle to first particle
+- $\vec{c}$ = correction vector
+- $\vec{p_1}, \vec{p_2}$ = original positions of particles 1 and 2
+- $\vec{p_1'}, \vec{p_2'}$ = corrected positions of particles 1 and 2
+
+</div>
+
+</div>
 
 ---
 
-# Step
+# Collision
 
-````md magic-move
-```cpp {*|16}
-template<template <typename...> class Container, physics::units::IsUnitSystem Units, physics::units::IsTimeUnit Time>
-auto step(
-    Container<Particle<Units>> const& particles,
-    Polygon2D<typename Units::Length> const& constraint,
-    Time time,
-    uint32_t substeps = 1)
-{
-    Time subTime {time / substeps};
-    auto wrappedParticles {particles};
+## Response: Rebound
 
-    for(size_t substep {0}; substep < substeps; ++substep)
-    {
-        auto motion = [&time](auto const& particle){ return resolveMotion(particle, time); };
-        auto constrain = [&constraint](auto const& particle){ return resolveConstraint(particle, constraint); };
+<div class="grid grid-cols-5 gap-2 h-4/5 items-center mt-4">
 
-        auto updatedParticles {physics::detail::fmaps(wrappedParticles, motion, constrain)};
-        wrappedParticles = Container<Particle<Units>>(updatedParticles.begin(), updatedParticles.end());
+<div class="col-span-2 flex flex-col justify-center">
 
-        resolveCollisions(wrappedParticles);
-    }
+$$
+\begin{gathered}
+\vec{v_{rel}} = \vec{v_1} - \vec{v_2} \\
+\\
+j = -\frac{(1 + \epsilon) \cdot \vec{v_{rel}} \cdot \hat{n}}{\frac{1}{m_1} + \frac{1}{m_2}} \\
+\\
+\vec{J} = j \cdot \hat{n} \\
+\\
+\vec{v_1'} = \vec{v_1} + \frac{\vec{J}}{m_1} \\
+\\
+\vec{v_2'} = \vec{v_2} - \frac{\vec{J}}{m_2}
+\end{gathered}
+$$
 
-    return wrappedParticles;
-}
-```
+</div>
 
-```cpp {all}
+<div class="col-span-3 flex flex-col justify-center">
+
+- $\vec{v_1}, \vec{v_2}$ = velocities of particles 1 and 2 before collision
+- $\vec{v_1'}, \vec{v_2'}$ = velocities of particles 1 and 2 after collision
+- $\vec{v_{rel}}$ = relative velocity between particles
+- $\hat{n}$ = unit normal vector from particle 2 to particle 1
+- $\epsilon$ = coefficient of restitution (1.0 for fully elastic collision)
+- $j$ = impulse magnitude
+- $\vec{J}$ = impulse vector
+- $m_1, m_2$ = masses of particles 1 and 2
+
+</div>
+
+</div>
+
+---
+
+# Utility
+
+<br>
+
+```cpp
 template <std::ranges::range Range, typename... Function>
 auto fmaps(Range&& objects, Function&&... func)
 {
     return (std::forward<Range>(objects) | ... | std::views::transform(func));
 }
 ```
-````
 
 ---
 
