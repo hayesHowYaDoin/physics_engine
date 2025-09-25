@@ -1,6 +1,6 @@
 ---
 theme: seriph
-background: https://cover.sli.dev
+background: ./assets/slideBackground.JPEG
 title: C++ Physics Engine
 info: Jordan Hayes
 class: text-center
@@ -626,7 +626,7 @@ $$
 
 <div v-click="1">1. Calculate the relative velocity</div>
 <div v-click="2">2. Calculate the "push" force (impulse)</div>
-<div v-click="3">2. Apply impulse evenly to both particles</div>
+<div v-click="3">2. Apply impulse to both particles relative to mass</div>
 
   </div>
   <div class="col-span-2 flex flex-col justify-center">
