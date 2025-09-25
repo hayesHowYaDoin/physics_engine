@@ -29,11 +29,26 @@ transition: fade-out
 
 # About Me
 
-TODO
+
+<div class="grid grid-cols-4 gap-2 h-4/5 items-center mt-4">
+  <div class="col-span-2 flex flex-col justify-center">
+    <ul>
+      <li>North Carolina State University</li>
+      <li>MS in Computer Engineering, 2022</li>
+      <li>Software Engineer at Plexus Corp.</li>
+    </ul>
+  </div>
+  <div class="col-span-2 flex flex-col justify-center">
+    <CircleBox src="./assets/me.jpg" alt="A circular image" borderWidth="3px" class="w-96 h-96"/>
+  </div>
+</div>
 
 ---
-transition: slide-up
-level: 2
+
+<div class="flex items-center justify-center h-full">
+  <div class="text-6xl font-bold">Background</div>
+</div>
+
 ---
 
 # Project Goals
@@ -133,6 +148,12 @@ E_Resolution --> E_Particle
 
 ---
 
+<div class="flex items-center justify-center h-full">
+  <div class="text-6xl font-bold">Domain</div>
+</div>
+
+---
+
 # Vector2D
 
 <br>
@@ -218,7 +239,53 @@ concept IsVelocityVector2D = requires(T t)
 
 ---
 
-# Apply Motion: Domain
+# Particle
+
+<br>
+
+````md magic-move
+```cpp {all|1,4-7}
+template<physics::units::IsUnitSystem Units>
+struct Particle
+{
+    using Mass = typename Units::Mass;
+    using Length = typename Units::Length;
+    using Velocity = typename Units::Velocity;
+    using Force = typename Units::Force;
+
+    Mass mass;
+    Length radius;
+    physics::domain::PositionVector2D<Length> position;
+    physics::domain::VelocityVector2D<Velocity> velocity;
+    std::vector<physics::domain::ForceVector2D<Force>> forces;
+};
+```
+
+```cpp {all}
+template <typename T>
+concept IsUnitSystem = requires
+{
+    typename T::Mass;
+    typename T::Length;
+    typename T::Velocity;
+    typename T::Acceleration;
+    typename T::Force;
+};
+
+struct SI
+{
+    using Mass = mass::kilograms<double>;
+    using Length = length::meters<double>;
+    using Velocity = velocity::meters_per_second<double>;
+    using Acceleration = acceleration::meters_per_second_squared<double>;
+    using Force = force::newtons<double>;
+};
+```
+````
+
+---
+
+# Motion Equations
 
 <br>
 
@@ -264,59 +331,23 @@ auto acceleration(
 
 ---
 
-# Apply Motion: Particle
-
-<br>
-
-````md magic-move
-```cpp {all|1,4-7}
-template<physics::units::IsUnitSystem Units>
-struct Particle
-{
-    using Mass = typename Units::Mass;
-    using Length = typename Units::Length;
-    using Velocity = typename Units::Velocity;
-    using Force = typename Units::Force;
-
-    Mass mass;
-    Length radius;
-    physics::domain::PositionVec tor2D<Length> position;
-    physics::domain::VelocityVector2D<Velocity> velocity;
-    std::vector<physics::domain::ForceVector2D<Force>> forces;
-};
-```
-
-```cpp {all}
-template <typename T>
-concept IsUnitSystem = requires
-{
-    typename T::Mass;
-    typename T::Length;
-    typename T::Velocity;
-    typename T::Acceleration;
-    typename T::Force;
-};
-
-struct SI
-{
-    using Mass = mass::kilograms<double>;
-    using Length = length::meters<double>;
-    using Velocity = velocity::meters_per_second<double>;
-    using Acceleration = acceleration::meters_per_second_squared<double>;
-    using Force = force::newtons<double>;
-};
-```
-````
+<div class="flex items-center justify-center h-full">
+  <div class="text-6xl font-bold">Apply Motion</div>
+</div>
 
 ---
-
-# Apply Motion
 
 <div class="flex justify-center items-center h-full">
   <video controls width="400" height="300" muted autoplay loop>
     <source src="./assets/motion_demo.mp4" type="video/mp4">
     Your browser does not support the video tag.
   </video>
+</div>
+
+---
+
+<div class="flex items-center justify-center h-full">
+  <div class="text-6xl font-bold">Constrain</div>
 </div>
 
 ---
@@ -353,7 +384,7 @@ struct SI
   <g v-show="$slidev.nav.clicks === 0">
     <circle cx="258" cy="196" r="50" fill="#3b82f6" fill-opacity="0.7" stroke="#1d4ed8" stroke-width="2"/>
     <line x1="258" y1="196" x2="312" y2="223" stroke="#dc2626" stroke-width="2" marker-end="url(#arrowhead)"/>
-    <text x="317" y="228" font-size="4" fill="#dc2626">v</text>
+    <text x="317" y="228" font-size="4" fill="#dc2626">v⃗</text>
   </g>
   
   <!-- Step 1: Show closest point -->
@@ -362,7 +393,7 @@ struct SI
     <circle cx="265" cy="207" r="3" fill="#dc2626"/>
     <line x1="258" y1="196" x2="265" y2="207" stroke="#dc2626" stroke-width="2" stroke-dasharray="5,5"/>
     <line x1="258" y1="196" x2="312" y2="223" stroke="#dc2626" stroke-width="2" marker-end="url(#arrowhead)"/>
-    <text x="317" y="228" font-size="4" fill="#dc2626">v</text>
+    <text x="317" y="228" font-size="4" fill="#dc2626">v⃗</text>
   </g>
   
   <!-- Step 2: Show normal vector -->
@@ -371,7 +402,7 @@ struct SI
     <circle cx="265" cy="207" r="3" fill="#dc2626"/>
     <line x1="258" y1="196" x2="265" y2="207" stroke="#dc2626" stroke-width="3"/>
     <line x1="258" y1="196" x2="312" y2="223" stroke="#dc2626" stroke-width="2" marker-end="url(#arrowhead)"/>
-    <text x="317" y="228" font-size="4" fill="#dc2626">v</text>
+    <text x="317" y="228" font-size="4" fill="#dc2626">v⃗</text>
   </g>
   
   <!-- Step 3: Check distance < radius -->
@@ -380,7 +411,7 @@ struct SI
     <circle cx="265" cy="207" r="3" fill="#dc2626"/>
     <line x1="258" y1="196" x2="265" y2="207" stroke="#dc2626" stroke-width="3"/>
     <line x1="258" y1="196" x2="312" y2="223" stroke="#dc2626" stroke-width="2" marker-end="url(#arrowhead)"/>
-    <text x="317" y="228" font-size="4" fill="#dc2626">v</text>
+    <text x="317" y="228" font-size="4" fill="#dc2626">v⃗</text>
   </g>
   
   <!-- Step 4: Corrected position -->
@@ -389,7 +420,7 @@ struct SI
     <circle cx="258" cy="196" r="3" fill="#f59e0b"/>
     <line x1="238" y1="165" x2="258" y2="196" stroke="#f59e0b" stroke-width="2" stroke-dasharray="3,3"/>
     <line x1="238" y1="165" x2="292" y2="192" stroke="#dc2626" stroke-width="2" marker-end="url(#arrowhead)"/>
-    <text x="297" y="197" font-size="4" fill="#dc2626">v</text>
+    <text x="297" y="197" font-size="4" fill="#dc2626">v⃗</text>
   </g>
 
   <!-- Step 5: Reflected velocity -->
@@ -407,9 +438,7 @@ struct SI
 
 ---
 
-# Constrain
-
-## Tunneling
+# Tunneling
 
 <div class="flex justify-center items-center h-full">
   <video controls width="400" height="300" muted autoplay loop>
@@ -420,9 +449,7 @@ struct SI
 
 ---
 
-# Constrain
-
-## Substepping
+# Substepping
 
 <div class="flex justify-center items-center h-full">
   <video controls width="400" height="300" muted autoplay loop>
@@ -433,21 +460,131 @@ struct SI
 
 ---
 
-# Collision
-
-## Detection
-
-1. Calculate the distance between the two particles
-2. If distance is is less than the sum of the radii, we have a collision!
-
-*All particles are compared against all other particles in this method*
+<div class="flex items-center justify-center h-full">
+  <div class="text-6xl font-bold">Collision</div>
+</div>
 
 ---
 
-# Collision
+# Detection
 
-## Response: Penetration
+<div class="grid grid-cols-4 gap-2 h-4/5 items-center mt-4">
+  <div class="col-span-2 flex flex-col justify-center">
 
+*For each pair of particles...*
+
+<div v-click="1">1. Calculate the distance between the two particles</div>
+<div v-click="2">2. If distance is is less than the sum of the radii, we have a collision!</div>
+
+  </div>
+  <div class="col-span-2 flex flex-col justify-center">
+  <svg width="400" height="300" viewBox="0 0 400 300">
+
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="currentColor"/>
+    </marker>
+  </defs>
+
+  <!-- Initial particle (penetrating) - always visible -->
+  <g v-show="$slidev.nav.clicks === 0">
+    <circle cx="240" cy="180" r="50" fill="#3b82f6" fill-opacity="0.7" stroke="#1d4ed8" stroke-width="2"/>
+    <line x1="240" y1="180" x2="312" y2="140" stroke="#dc2626" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <text x="300" y="120" font-size="4" fill="#dc2626">v⃗₁</text>
+    <circle cx="300" cy="210" r="50" fill="#3b82f6" fill-opacity="0.7" stroke="#1d4ed8" stroke-width="2"/>
+    <line x1="300" y1="210" x2="312" y2="275" stroke="#dc2626" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <text x="325" y="280" font-size="4" fill="#dc2626">v⃗₂</text>
+  </g>
+
+  <!-- Calculate distance between centerpoints -->
+  <g v-show="$slidev.nav.clicks === 1">
+    <circle cx="240" cy="180" r="50" fill="#3b82f6" fill-opacity="0.7" stroke="#1d4ed8" stroke-width="2"/>
+    <line x1="240" y1="180" x2="312" y2="140" stroke="#dc2626" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <text x="300" y="120" font-size="4" fill="#dc2626">v⃗₁</text>
+    <circle cx="300" cy="210" r="50" fill="#3b82f6" fill-opacity="0.7" stroke="#1d4ed8" stroke-width="2"/>
+    <line x1="300" y1="210" x2="312" y2="275" stroke="#dc2626" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <text x="325" y="280" font-size="4" fill="#dc2626">v⃗₂</text>
+    <line x1="240" y1="180" x2="300" y2="210" stroke="#f59e0b" stroke-width="2" stroke-dasharray="3,3"/>
+  </g>
+
+  <!-- Calculate distance between centerpoints -->
+  <g v-show="$slidev.nav.clicks === 2">
+    <circle cx="240" cy="180" r="50" fill="#3b82f6" fill-opacity="0.7" stroke="#1d4ed8" stroke-width="2"/>
+    <line x1="240" y1="180" x2="312" y2="140" stroke="#dc2626" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <text x="300" y="120" font-size="4" fill="#dc2626">v⃗₁</text>
+    <circle cx="300" cy="210" r="50" fill="#3b82f6" fill-opacity="0.7" stroke="#1d4ed8" stroke-width="2"/>
+    <line x1="300" y1="210" x2="312" y2="275" stroke="#dc2626" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <text x="325" y="280" font-size="4" fill="#dc2626">v⃗₂</text>
+    <line x1="240" y1="180" x2="300" y2="210" stroke="#f59e0b" stroke-width="2" stroke-dasharray="3,3"/>
+    <text x="200" y="115" font-size="4" fill="#ffffff">d &lt; (r₁ + r₂)</text>
+  </g>
+
+  </svg>
+  </div>
+</div>
+
+---
+
+# Response: Penetration
+
+<div class="grid grid-cols-4 gap-2 h-4/5 items-center mt-4">
+  <div class="col-span-2 flex flex-col justify-center">
+
+*For each pair of penetrating particles...*
+
+<div v-click="1">1. Calculate the penetration distance</div>
+<div v-click="2">2. Translate each 1/2 the penetration distance</div>
+
+  </div>
+  <div class="col-span-2 flex flex-col justify-center">
+  <svg width="400" height="300" viewBox="0 0 400 300">
+
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="currentColor"/>
+    </marker>
+  </defs>
+
+  <!-- Initial particle (penetrating) - always visible -->
+  <g v-show="$slidev.nav.clicks === 0">
+    <circle cx="240" cy="180" r="50" fill="#3b82f6" fill-opacity="0.7" stroke="#1d4ed8" stroke-width="2"/>
+    <line x1="240" y1="180" x2="312" y2="140" stroke="#dc2626" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <text x="300" y="120" font-size="4" fill="#dc2626">v⃗₁</text>
+    <circle cx="300" cy="210" r="50" fill="#3b82f6" fill-opacity="0.7" stroke="#1d4ed8" stroke-width="2"/>
+    <line x1="300" y1="210" x2="312" y2="275" stroke="#dc2626" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <text x="325" y="280" font-size="4" fill="#dc2626">v⃗₂</text>
+  </g>
+
+  <!-- Penetration distance -->
+  <g v-show="$slidev.nav.clicks === 1">
+    <circle cx="240" cy="180" r="50" fill="#3b82f6" fill-opacity="0.7" stroke="#1d4ed8" stroke-width="2"/>
+    <line x1="240" y1="180" x2="312" y2="140" stroke="#dc2626" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <text x="300" y="120" font-size="4" fill="#dc2626">v⃗₁</text>
+    <circle cx="300" cy="210" r="50" fill="#3b82f6" fill-opacity="0.7" stroke="#1d4ed8" stroke-width="2"/>
+    <line x1="300" y1="210" x2="312" y2="275" stroke="#dc2626" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <text x="325" y="280" font-size="4" fill="#dc2626">v⃗₂</text>
+    <line x1="255" y1="187" x2="285" y2="203" stroke="#f59e0b" stroke-width="2" stroke-dasharray="3,3"/>
+  </g>
+
+  <!-- Translation -->
+  <g v-show="$slidev.nav.clicks === 2">
+    <circle cx="225" cy="173" r="50" fill="#22c55e" fill-opacity="0.7" stroke="#16a34a" stroke-width="2"/>
+    <line x1="225" y1="173" x2="297" y2="133" stroke="#dc2626" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <text x="300" y="120" font-size="4" fill="#dc2626">v⃗₁</text>
+    <circle cx="315" cy="217" r="50" fill="#22c55e" fill-opacity="0.7" stroke="#16a34a" stroke-width="2"/>
+    <line x1="315" y1="217" x2="327" y2="282" stroke="#dc2626" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <text x="340" y="285" font-size="4" fill="#dc2626">v⃗₂</text>
+  </g>
+
+  </svg>
+  </div>
+</div>
+
+---
+
+# Response: Penetration
 
 <div class="grid grid-cols-5 gap-2 h-4/5 items-center mt-4">
 
@@ -477,11 +614,79 @@ $$
 
 </div>
 
+
 ---
 
-# Collision
+# Response: Rebound
 
-## Response: Rebound
+<div class="grid grid-cols-4 gap-2 h-4/5 items-center mt-4">
+  <div class="col-span-2 flex flex-col justify-center">
+
+*For each pair of penetrating particles...*
+
+<div v-click="1">1. Calculate the relative velocity</div>
+<div v-click="2">2. Calculate the "push" force (impulse)</div>
+<div v-click="3">2. Apply impulse evenly to both particles</div>
+
+  </div>
+  <div class="col-span-2 flex flex-col justify-center">
+  <svg width="400" height="300" viewBox="0 0 400 300">
+
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="currentColor"/>
+    </marker>
+  </defs>
+
+  <!-- Initial particle (penetrating) - always visible -->
+  <g v-show="$slidev.nav.clicks === 0">
+    <circle cx="225" cy="173" r="50" fill="#3b82f6" fill-opacity="0.7" stroke="#1d4ed8" stroke-width="2"/>
+    <line x1="225" y1="173" x2="297" y2="133" stroke="#dc2626" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <text x="300" y="120" font-size="4" fill="#dc2626">v⃗₁</text>
+    <circle cx="315" cy="217" r="50" fill="#3b82f6" fill-opacity="0.7" stroke="#1d4ed8" stroke-width="2"/>
+    <line x1="315" y1="217" x2="327" y2="282" stroke="#dc2626" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <text x="335" y="280" font-size="4" fill="#dc2626">v⃗₂</text>
+  </g>
+
+  <!-- Relative velocity -->
+  <g v-show="$slidev.nav.clicks === 1">
+    <circle cx="225" cy="173" r="50" fill="#3b82f6" fill-opacity="0.7" stroke="#1d4ed8" stroke-width="2"/>
+    <line x1="225" y1="173" x2="297" y2="133" stroke="#dc2626" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <text x="300" y="120" font-size="4" fill="#dc2626">v⃗₁</text>
+    <circle cx="315" cy="217" r="50" fill="#3b82f6" fill-opacity="0.7" stroke="#1d4ed8" stroke-width="2"/>
+    <line x1="315" y1="217" x2="327" y2="282" stroke="#dc2626" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <text x="335" y="280" font-size="4" fill="#dc2626">v⃗₂</text>>
+    <text x="180" y="115" font-size="4" fill="#ffffff">v⃗ᵣₑₗ = v⃗₁ - v⃗₂</text>
+  </g>
+
+  <!-- Impulse -->
+  <g v-show="$slidev.nav.clicks === 2">
+    <circle cx="225" cy="173" r="50" fill="#3b82f6" fill-opacity="0.7" stroke="#1d4ed8" stroke-width="2"/>
+    <line x1="225" y1="173" x2="297" y2="133" stroke="#dc2626" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <text x="300" y="120" font-size="4" fill="#dc2626">v⃗₁</text>
+    <circle cx="315" cy="217" r="50" fill="#3b82f6" fill-opacity="0.7" stroke="#1d4ed8" stroke-width="2"/>
+    <line x1="315" y1="217" x2="327" y2="282" stroke="#dc2626" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <text x="335" y="280" font-size="4" fill="#dc2626">v⃗₂</text>>
+  </g>
+
+  <!-- Apply push to both particles -->
+  <g v-show="$slidev.nav.clicks === 3">
+    <circle cx="225" cy="173" r="50" fill="#3b82f6" fill-opacity="0.7" stroke="#1d4ed8" stroke-width="2"/>
+    <line x1="225" y1="173" x2="280" y2="115" stroke="#22c55e" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <text x="260" y="100" font-size="4" fill="#22c55e">v⃗₁'</text>
+    <circle cx="315" cy="217" r="50" fill="#3b82f6" fill-opacity="0.7" stroke="#1d4ed8" stroke-width="2"/>
+    <line x1="315" y1="217" x2="340" y2="285" stroke="#22c55e" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <text x="345" y="280" font-size="4" fill="#22c55e">v⃗₂'</text>>
+  </g>
+
+  </svg>
+  </div>
+</div>
+
+---
+
+# Response: Rebound
 
 <div class="grid grid-cols-5 gap-2 h-4/5 items-center mt-4">
 
@@ -558,7 +763,6 @@ auto fmaps(Range&& objects, Function&&... func)
 **Optimization Strategies**:
 - Spatial Hash Grid: O(n) average case
 - Quadtree: O(n log n) with adaptive partitioning
-- Broad/Narrow Phase: SAP + detailed collision detection
 
 </template>
 
@@ -567,14 +771,20 @@ auto fmaps(Range&& objects, Function&&... func)
 ## Data-Oriented Design
 
 **Current State**: Object-oriented particle representation
-- Individual particle objects with methods
+- Array of Structures (AoS): Individual particle objects with methods
 - Cache-unfriendly memory layout for bulk operations
 
 **Optimization Strategies**:
 - Structure of Arrays (SoA): Separate position, velocity, mass arrays
-- SIMD-friendly operations: Process multiple particles simultaneously
-- Memory locality: Improved cache performance for physics updates
+- Exploit parallelism: Parallelize operations where possible (collision detection)
+- Smaller data types: Consider swapping from double to float
 
 </template>
 
 </v-switch>
+
+---
+
+<div class="flex items-center justify-center h-full">
+  <div class="text-8xl font-bold">FIN</div>
+</div>
