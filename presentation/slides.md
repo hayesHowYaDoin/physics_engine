@@ -1,6 +1,6 @@
 ---
 theme: seriph
-background: /physics_engine/slideBackground.JPEG
+background: /slideBackground.JPEG
 title: C++ Physics Engine
 info: Jordan Hayes
 class: text-center
@@ -39,7 +39,7 @@ transition: fade-out
     </ul>
   </div>
   <div class="col-span-2 flex flex-col justify-center">
-    <CircleBox src="/physics_engine/me.jpg" alt="A circular image" borderWidth="3px" class="w-96 h-96"/>
+    <CircleBox src="/me.jpg" alt="A circular image" borderWidth="3px" class="w-96 h-96"/>
   </div>
 </div>
 
@@ -339,7 +339,7 @@ auto acceleration(
 
 <div class="flex justify-center items-center h-full">
   <video controls width="400" height="300" muted autoplay loop>
-    <source src="/physics_engine/motion_demo.mp4" type="video/mp4">
+    <source src="/motion_demo.mp4" type="video/mp4">
     Your browser does not support the video tag.
   </video>
 </div>
@@ -442,7 +442,7 @@ auto acceleration(
 
 <div class="flex justify-center items-center h-full">
   <video controls width="400" height="300" muted autoplay loop>
-    <source src="/physics_engine/tunneling_demo.mp4" type="video/mp4">
+    <source src="/tunneling_demo.mp4" type="video/mp4">
     Your browser does not support the video tag.
   </video>
 </div>
@@ -453,7 +453,7 @@ auto acceleration(
 
 <div class="flex justify-center items-center h-full">
   <video controls width="400" height="300" muted autoplay loop>
-    <source src="/physics_engine/random_demo.mp4" type="video/mp4">
+    <source src="/random_demo.mp4" type="video/mp4">
     Your browser does not support the video tag.
   </video>
 </div>
@@ -741,7 +741,7 @@ auto fmaps(Range&& objects, Function&&... func)
 
 <div class="flex justify-center items-center h-full">
   <video controls width="400" height="300" muted autoplay loop>
-    <source src="/physics_engine/gravity_and_color.mp4" type="video/mp4">
+    <source src="/gravity_and_color.mp4" type="video/mp4">
     Your browser does not support the video tag.
   </video>
 </div>
