@@ -9,15 +9,13 @@ jobs:
         with:
           node-version: '18'
       - name: Install dependencies
-        run: npm install
-      - name: Install slidev
-        run:  npm i -g @slidev/cli
+        run: npm install --prefix presentation
+      # - name: Install slidev
+      #   run:  npm i -g @slidev/cli
       - name: Install for PDF
         run: npm i -D playwright-chromium
       - name: Build
-        run: cd presentation && slidev build slides.md --base /physics_engine/
-      - run: ls 
-      - run: ls presentation
+        run: slidev build presentation/slides.md --base /physics_engine/
       - name: Deploy pages
         uses: crazy-max/ghaction-github-pages@v2
         with:
