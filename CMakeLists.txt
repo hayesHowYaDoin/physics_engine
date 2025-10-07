@@ -1,6 +1,7 @@
 include(cmake/CPM.cmake)
 include(cmake/library.cmake)
 include(cmake/test.cmake)
+include(cmake/benchmark.cmake)
 
 cmake_minimum_required(VERSION 3.26 FATAL_ERROR)
 
@@ -12,6 +13,7 @@ if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
 endif()
 
 option(BUILD_TESTING "Build tests" ON)
+option(BUILD_BENCHMARKS "Build benchmarks" OFF)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -22,4 +24,8 @@ build_physics_engine()
 if(BUILD_TESTING AND ${MAIN_PROJECT})
     enable_testing()
     build_test()
+endif()
+
+if(BUILD_BENCHMARKS AND ${MAIN_PROJECT})
+    build_benchmark()
 endif()
