@@ -39,7 +39,7 @@ transition: fade-out
     </ul>
   </div>
   <div class="col-span-2 flex flex-col justify-center">
-    <CircleBox src="/me.jpg" alt="A circular image" borderWidth="3px" class="w-96 h-96"/>
+    <img src="/me.jpg" alt="A circular image" class="w-96 h-96 rounded-full border-4 border-white shadow-lg"/>
   </div>
 </div>
 
