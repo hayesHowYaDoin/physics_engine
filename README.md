@@ -147,6 +147,26 @@ the command "Dev Containers: Open Folder In Container..."
 
 And... that's it!
 
+### Available Commands
+
+A Makefile is provided to simplify common development tasks. All commands should be run from the project root directory.
+
+#### Building and Testing
+- **`make build`** - Build the project with tests enabled
+- **`make test`** - Build and run all unit tests (27 tests covering motion, vectors, collisions, constraints, polygons, and simulation)
+- **`make clean`** - Clean the build directory
+
+#### Benchmarking
+The project includes Google Benchmark integration for performance testing:
+
+- **`make benchmark-all`** - Run all performance benchmarks
+- **`make benchmark-collision`** - Run collision detection benchmarks with varying particle counts
+- **`make benchmark-collision-analysis`** - Run collision benchmarks with O(n²) complexity analysis  
+- **`make benchmark-single-collision`** - Benchmark individual collision resolution performance
+
+#### Getting Help
+- **`make help`** - Display all available commands with descriptions
+
 ### Future Plans
 
 If I find the time to do so, there are quite a bit of features I would like to 
