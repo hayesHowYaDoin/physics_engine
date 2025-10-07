@@ -16,6 +16,8 @@ jobs:
         run: npm i -D playwright-chromium
       - name: Build
         run: slidev build presentation/slides.md --base /physics_engine/ # Change this line
+      - run: ls 
+      - run: ls presentation
       - name: Deploy pages
         uses: crazy-max/ghaction-github-pages@v2
         with:
