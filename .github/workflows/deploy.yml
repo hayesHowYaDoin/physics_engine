@@ -10,8 +10,8 @@ jobs:
           node-version: '18'
       - name: Install dependencies
         run: npm install --prefix presentation
-      # - name: Install slidev
-      #   run:  npm i -g @slidev/cli
+      - name: Install slidev
+        run:  npm i -g @slidev/cli
       - name: Install for PDF
         run: npm i -D playwright-chromium
       - name: Build
