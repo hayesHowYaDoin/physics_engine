@@ -1,7 +1,7 @@
 # Physics Engine Command Runner
 # This Makefile provides convenient commands for building and running benchmarks
 
-.PHONY: help build build-benchmarks clean test benchmark-all benchmark-collision benchmark-collision-analysis benchmark-single-collision
+.PHONY: help build build-benchmarks clean test benchmark-all benchmark-collision benchmark-collision-analysis benchmark-single-collision benchmark-step
 
 # Default target - show help
 help:
@@ -17,6 +17,7 @@ help:
 	@echo "  make benchmark-collision      - Run all collision detection benchmarks"
 	@echo "  make benchmark-collision-analysis - Run collision benchmarks with complexity analysis"
 	@echo "  make benchmark-single-collision - Run single collision resolution benchmark"
+	@echo "  make benchmark-step           - Run step function benchmarks"
 	@echo ""
 
 # Build targets
@@ -67,3 +68,8 @@ benchmark-single-collision: build-benchmarks
 	@echo "Running single collision resolution benchmark..."
 	@echo "This measures the performance of resolving a collision between two particles"
 	@cd build && ./benchmark_physics_engine --benchmark_filter="BM_SingleCollisionResolution" --benchmark_time_unit=ns
+
+benchmark-step: build-benchmarks
+	@echo "Running step function benchmarks..."
+	@echo "This measures the performance of the complete simulation step with varying particle counts"
+	@cd build && ./benchmark_physics_engine --benchmark_filter="BM_StepFunction" --benchmark_time_unit=ns
