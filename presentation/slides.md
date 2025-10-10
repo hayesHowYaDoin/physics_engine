@@ -331,6 +331,20 @@ auto acceleration(
 
 ---
 
+# Utility
+
+<br>
+
+```cpp
+template <std::ranges::range Range, typename... Function>
+auto fmaps(Range&& objects, Function&&... func)
+{
+    return (std::forward<Range>(objects) | ... | std::views::transform(func));
+}
+```
+
+---
+
 <div class="flex items-center justify-center h-full">
   <div class="text-6xl font-bold">Apply Motion</div>
 </div>
@@ -725,20 +739,6 @@ $$
 
 ---
 
-# Utility
-
-<br>
-
-```cpp
-template <std::ranges::range Range, typename... Function>
-auto fmaps(Range&& objects, Function&&... func)
-{
-    return (std::forward<Range>(objects) | ... | std::views::transform(func));
-}
-```
-
----
-
 <div class="flex justify-center items-center h-full">
   <video controls width="400" height="300" muted autoplay loop>
     <source src="/gravity_and_color.mp4" type="video/mp4">
@@ -763,6 +763,7 @@ auto fmaps(Range&& objects, Function&&... func)
 **Optimization Strategies**:
 - Spatial Hash Grid: O(n) average case
 - Quadtree: O(n log n) with adaptive partitioning
+- Exploit parallelism: Parallelize operations where possible (collision detection)
 
 </template>
 
@@ -776,7 +777,6 @@ auto fmaps(Range&& objects, Function&&... func)
 
 **Optimization Strategies**:
 - Structure of Arrays (SoA): Separate position, velocity, mass arrays
-- Exploit parallelism: Parallelize operations where possible (collision detection)
 - Smaller data types: Consider swapping from double to float
 
 </template>
